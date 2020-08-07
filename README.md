@@ -2,14 +2,26 @@
 
 This project contains multiple KPI anomaly detection algorithms.
 
-[TOC]
+- [Anomaly Detection for Time-series (PyADT)](#anomaly-detection-for-time-series--pyadt-)
+  * [Basic Usage](#basic-usage)
+    + [Fetch dataset](#fetch-dataset)
+    + [Visualization](#visualization)
+    + [Evaluation](#evaluation)
+  * [Implemented Algorithms](#implemented-algorithms)
+    + [Supervised Algorithms](#supervised-algorithms)
+    + [Unsupervised Algorithms](#unsupervised-algorithms)
+      - [Machine Learning Models](#machine-learning-models)
+      - [Deep Models](#deep-models)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Basic Usage
 
 ### Fetch dataset
 
 ```python
-from torchts.dataset.repository import get_kpi_dataset, KPIDataset
+from pyadt.dataset.repository import get_kpi_dataset, KPIDataset
 
 kpi_series = get_kpi_dataset(index=0, download=True, method='wget')
 kpi_dataset = KPIDataset(kpi_series=kpi_series, window_size=100)
@@ -19,7 +31,7 @@ kpi_dataset = KPIDataset(kpi_series=kpi_series, window_size=100)
 ### Visualization
 
 ```python
-from torchts.dataset.repository import get_kpi_dataset, KPIDataset
+from pyadt.dataset.repository import get_kpi_dataset, KPIDataset
 
 kpi_series = get_kpi_dataset(index=0, download=True, method='wget')
 kpi_series.plot()
@@ -30,7 +42,7 @@ kpi_series.plot()
 ```python
 import numpy as np
 
-from torchts.evaluation.metrics import best_f1_with_delay, pr_auc_with_delay, roc_auc_with_delay
+from pyadt.evaluation.metrics import best_f1_with_delay, pr_auc_with_delay, roc_auc_with_delay
 
 # Pseudo results
 y_true = np.random.randint(low=0, high=1, size=100)
