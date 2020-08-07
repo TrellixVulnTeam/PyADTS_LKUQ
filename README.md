@@ -1,4 +1,4 @@
-# KPI Anomaly Detection
+# Anomaly Detection for Time-series (PyADT)
 
 ## Introduction
 
