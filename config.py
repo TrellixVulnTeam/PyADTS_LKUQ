@@ -1,0 +1,2 @@
+# DNN
+DNN_NUM_FEATURE = 92
