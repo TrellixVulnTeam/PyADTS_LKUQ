@@ -13,10 +13,11 @@ This project contains multiple KPI anomaly detection algorithms.
       - [Machine Learning Models](#machine-learning-models)
       - [Deep Models](#deep-models)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+## Installation
 
 
-## Basic Usage
+
+## User Guide
 
 ### Fetch dataset
 
