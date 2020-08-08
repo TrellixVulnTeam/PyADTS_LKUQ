@@ -14,28 +14,31 @@ This project contains multiple KPI anomaly detection algorithms.
       - [Deep Models](#deep-models)
 
 ## Installation
+To install the package locally, run:
 
-
+```bash
+cd <pyadt_dir>
+pip install .
+```
 
 ## User Guide
 
 ### Fetch dataset
 
 ```python
-from pyadt.dataset.repository import get_kpi_dataset, KPIDataset
+from pyadt.datasets.series import Series
+from pyadt.datasets.repository.nab import get_nab_nyc_taxi
 
-kpi_series = get_kpi_dataset(index=0, download=True, method='wget')
-kpi_dataset = KPIDataset(kpi_series=kpi_series, window_size=100)
-
+series = get_nab_nyc_taxi('./data/nab')
 ```
 
 ### Visualization
 
 ```python
-from pyadt.dataset.repository import get_kpi_dataset, KPIDataset
+from pyadt.utils.visualization import plot
 
-kpi_series = get_kpi_dataset(index=0, download=True, method='wget')
-kpi_series.plot()
+fig = plot(series.feature, series.label, series.timestamp)
+fig.show()
 ```
 
 ### Evaluation
@@ -43,7 +46,7 @@ kpi_series.plot()
 ```python
 import numpy as np
 
-from pyadt.evaluation.metrics import best_f1_with_delay, pr_auc_with_delay, roc_auc_with_delay
+from pyadt.metrics import best_f1_with_delay, pr_auc_with_delay, roc_auc_with_delay
 
 # Pseudo results
 y_true = np.random.randint(low=0, high=1, size=100)
