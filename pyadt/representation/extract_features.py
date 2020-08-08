@@ -1,15 +1,11 @@
 import os
-import pdb
 
-import pywt
 import numpy as np
 import pandas as pd
-
-from tqdm import tqdm
-
-from statsmodels.tsa.api import SARIMAX, ExponentialSmoothing, SimpleExpSmoothing, Holt
-
+import pywt
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from statsmodels.tsa.api import SARIMAX, ExponentialSmoothing, SimpleExpSmoothing, Holt
+from tqdm import tqdm
 
 
 class FeatureExtractor(object):
@@ -31,7 +27,7 @@ class FeatureExtractor(object):
 
     def extract(self, time_series):
         if self.scaler is not None:
-            time_series = self.scaler.fit_transform(time_series.reshape(-1,1)).reshape(-1)
+            time_series = self.scaler.fit_transform(time_series.reshape(-1, 1)).reshape(-1)
 
         # feature_log = self.__get_feature_logs(time_series) # Delete log features
         feature_wavelet = self.__get_feature_wavelet(time_series, ['db2'])
@@ -44,14 +40,16 @@ class FeatureExtractor(object):
 
         feature_window_length = feature_window.shape[0]
         # feature_log = feature_log[-feature_window_length:].reshape(-1, 1)
-        feature_wavelet = feature_wavelet[-feature_window_length:,:]
+        feature_wavelet = feature_wavelet[-feature_window_length:, :]
         feature_SARIMA_residuals = feature_SARIMA_residuals[-feature_window_length:].reshape(-1, 1)
         feature_AddES_residuals = feature_AddES_residuals[-feature_window_length:].reshape(-1, 1)
         feature_SimpleES_residuals = feature_SimpleES_residuals[-feature_window_length:].reshape(-1, 1)
         feature_Holt_residuals = feature_Holt_residuals[-feature_window_length:].reshape(-1, 1)
         feature_spectral_residual = feature_spectral_residual[-feature_window_length:].reshape(-1, 1)
 
-        features = np.concatenate((feature_wavelet, feature_SARIMA_residuals, feature_AddES_residuals, feature_SimpleES_residuals, feature_Holt_residuals, feature_window, feature_spectral_residual), axis=1)
+        features = np.concatenate((feature_wavelet, feature_SARIMA_residuals, feature_AddES_residuals,
+                                   feature_SimpleES_residuals, feature_Holt_residuals, feature_window,
+                                   feature_spectral_residual), axis=1)
 
         return features
 
@@ -76,43 +74,43 @@ class FeatureExtractor(object):
         return time_series - predict.fittedvalues
 
     def __get_feature_window(self, time_series, window_size_list):
-        start_point = 2*max(window_size_list)
+        start_point = 2 * max(window_size_list)
         start_accum = 0
         data = []
 
-        for i in tqdm(np.arange(start_point, len(time_series)), desc='SLIDING_WINDOW'):        
+        for i in tqdm(np.arange(start_point, len(time_series)), desc='SLIDING_WINDOW'):
             # the datum to put into the data pool
             datum = []
 
             # fill the datum with f01-f09
-            diff_plain = time_series[i] - time_series[i-1]
+            diff_plain = time_series[i] - time_series[i - 1]
             start_accum = start_accum + time_series[i]
-            mean_accum = (start_accum)/(i-start_point+1)
+            mean_accum = (start_accum) / (i - start_point + 1)
 
             # f06: diff
             datum.append(diff_plain)
             # f07: diff percentage
-            datum.append(diff_plain/(time_series[i-1] + 1e-10))  # to avoid 0, plus 1e-10
+            datum.append(diff_plain / (time_series[i - 1] + 1e-10))  # to avoid 0, plus 1e-10
             # f08: diff of diff - derivative
-            datum.append(diff_plain - (time_series[i-1] - time_series[i-2]))
+            datum.append(diff_plain - (time_series[i - 1] - time_series[i - 2]))
             # f09: diff of accumulated mean and current value
             datum.append(time_series[i] - mean_accum)
 
             # fill the datum with features related to windows
             # loop over different windows size to fill the datum
             for k in window_size_list:
-                mean_w = np.mean(time_series[i-k:i+1])
-                var_w = np.mean((np.asarray(time_series[i-k:i+1]) - mean_w)**2)
-                #var_w = np.var(time_series[i-k:i+1])
+                mean_w = np.mean(time_series[i - k:i + 1])
+                var_w = np.mean((np.asarray(time_series[i - k:i + 1]) - mean_w) ** 2)
+                # var_w = np.var(time_series[i-k:i+1])
 
-                mean_w_and_1 = mean_w + (time_series[i-k-1]-time_series[i])/(k+1)
-                var_w_and_1 = np.mean((np.asarray(time_series[i-k-1:i]) - mean_w_and_1)**2)
-                #mean_w_and_1 = np.mean(time_series[i-k-1:i])
-                #var_w_and_1 = np.var(time_series[i-k-1:i])
+                mean_w_and_1 = mean_w + (time_series[i - k - 1] - time_series[i]) / (k + 1)
+                var_w_and_1 = np.mean((np.asarray(time_series[i - k - 1:i]) - mean_w_and_1) ** 2)
+                # mean_w_and_1 = np.mean(time_series[i-k-1:i])
+                # var_w_and_1 = np.var(time_series[i-k-1:i])
 
-                mean_2w = np.mean(time_series[i-2*k:i-k+1])
-                var_2w = np.mean((np.asarray(time_series[i-2*k:i-k+1]) - mean_2w)**2)
-                #var_2w = np.var(time_series[i-2*k:i-k+1])
+                mean_2w = np.mean(time_series[i - 2 * k:i - k + 1])
+                var_2w = np.mean((np.asarray(time_series[i - 2 * k:i - k + 1]) - mean_2w) ** 2)
+                # var_2w = np.var(time_series[i-2*k:i-k+1])
 
                 # diff of sliding windows
                 diff_mean_1 = mean_w - mean_w_and_1
@@ -129,19 +127,19 @@ class FeatureExtractor(object):
                 # f3
                 datum.append(diff_mean_1)
                 # f4
-                datum.append(diff_mean_1/(mean_w_and_1 + 1e-10))
+                datum.append(diff_mean_1 / (mean_w_and_1 + 1e-10))
                 # f5
                 datum.append(diff_var_1)
                 # f6
-                datum.append(diff_var_1/(var_w_and_1 + 1e-10))
+                datum.append(diff_var_1 / (var_w_and_1 + 1e-10))
                 # f7
                 datum.append(diff_mean_w)
                 # f8
-                datum.append(diff_mean_w/(mean_2w + 1e-10))
+                datum.append(diff_mean_w / (mean_2w + 1e-10))
                 # f9
                 datum.append(diff_var_w)
                 # f10
-                datum.append(diff_var_w/(var_2w + 1e-10))
+                datum.append(diff_var_w / (var_2w + 1e-10))
 
                 # diff of sliding/jumping windows and current value
                 # f11
@@ -215,7 +213,7 @@ class FeatureExtractor(object):
         mode = pywt.Modes.smooth
         a = data
         ca = []
-        cd = [] 
+        cd = []
         for i in range(level):
             (a, d) = pywt.dwt(a, w, mode)
             ca.append(a)
@@ -225,8 +223,8 @@ class FeatureExtractor(object):
         rec_d = []
 
         for i in range(level):
-            rec_a.append(pywt.upcoef('a', ca[i], w, level=i+1, take=data.shape[0]))
-            rec_d.append(pywt.upcoef('d', cd[i], w, level=i+1, take=data.shape[0]))
+            rec_a.append(pywt.upcoef('a', ca[i], w, level=i + 1, take=data.shape[0]))
+            rec_d.append(pywt.upcoef('d', cd[i], w, level=i + 1, take=data.shape[0]))
 
         return np.transpose(np.concatenate((np.array(rec_a), np.array(rec_d)), axis=0))
 
@@ -234,13 +232,14 @@ class FeatureExtractor(object):
         wavelet_features = []
         for w in wavelet_names:
             wavelet_features.append(self.__wavelet_decomposition(time_series, w))
-        
+
         return np.concatenate(wavelet_features, axis=1)
+
 
 if __name__ == '__main__':
     NORMALIZE = 'z_score'
 
-    print('\033[0;34m%s\033[0m'%'Extracting features for the training dataset...')
+    print('\033[0;34m%s\033[0m' % 'Extracting features for the training dataset...')
     with open('../data/phase2_train.csv', 'r', encoding='utf8') as f:
         df_train = pd.read_csv(f)
 
@@ -250,11 +249,14 @@ if __name__ == '__main__':
     feature_extractor = FeatureExtractor([2, 5, 10, 25, 50, 100], normalize=NORMALIZE)
     for name, data in tqdm(df_train.groupby('KPI ID'), desc='KPI_ID'):
         features = feature_extractor.extract(data['value'].values)
-        features = pd.DataFrame(np.concatenate((data['value'].values[-features.shape[0]:].reshape(-1, 1), features, data['label'].values[-features.shape[0]:].reshape(-1, 1)), axis=1), columns=['feature_raw']+['feature%d'%i for i in range(features.shape[1])]+['label'])
+        features = pd.DataFrame(np.concatenate((data['value'].values[-features.shape[0]:].reshape(-1, 1), features,
+                                                data['label'].values[-features.shape[0]:].reshape(-1, 1)), axis=1),
+                                columns=['feature_raw'] + ['feature%d' % i for i in range(features.shape[1])] + [
+                                    'label'])
 
-        features.to_csv('../data/train/ID_'+name+'.csv', index=False)
+        features.to_csv('../data/train/ID_' + name + '.csv', index=False)
 
-    print('\033[0;34m%s\033[0m'%'Extracting features for the testing dataset...')
+    print('\033[0;34m%s\033[0m' % 'Extracting features for the testing dataset...')
     df_test = pd.read_hdf('../data/phase2_ground_truth.hdf')
 
     if not os.path.exists('../data/test'):
@@ -263,6 +265,9 @@ if __name__ == '__main__':
     feature_extractor = FeatureExtractor([2, 5, 10, 25, 50, 100], normalize=NORMALIZE)
     for name, data in tqdm(df_test.groupby('KPI ID'), desc='KPI_ID'):
         features = feature_extractor.extract(data['value'].values)
-        features = pd.DataFrame(np.concatenate((data['value'].values[-features.shape[0]:].reshape(-1, 1), features, data['label'].values[-features.shape[0]:].reshape(-1, 1)), axis=1), columns=['feature_raw']+['feature%d'%i for i in range(features.shape[1])]+['label'])
+        features = pd.DataFrame(np.concatenate((data['value'].values[-features.shape[0]:].reshape(-1, 1), features,
+                                                data['label'].values[-features.shape[0]:].reshape(-1, 1)), axis=1),
+                                columns=['feature_raw'] + ['feature%d' % i for i in range(features.shape[1])] + [
+                                    'label'])
 
-        features.to_csv('../data/test/ID_'+str(name)+'.csv', index=False)
+        features.to_csv('../data/test/ID_' + str(name) + '.csv', index=False)

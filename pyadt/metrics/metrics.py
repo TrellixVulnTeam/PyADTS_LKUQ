@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 from sklearn.metrics import precision_score, recall_score, f1_score
 
@@ -15,7 +14,7 @@ def reconstruct_predict(y_pred, y_true, delay=7):
 
     for point in change_points:
         if is_anomaly:
-            if 1 in y_pred[current_pos: min(current_pos+delay+1, point)]:
+            if 1 in y_pred[current_pos: min(current_pos + delay + 1, point)]:
                 modified_y_pred[current_pos:point] = 1
             else:
                 modified_y_pred[current_pos:point] = 0
@@ -26,7 +25,7 @@ def reconstruct_predict(y_pred, y_true, delay=7):
     point = len(y_true)
 
     if is_anomaly:
-        if 1 in y_pred[current_pos: min(current_pos+delay+1, point)]:
+        if 1 in y_pred[current_pos: min(current_pos + delay + 1, point)]:
             modified_y_pred[current_pos:point] = 1
         else:
             modified_y_pred[current_pos:point] = 0
@@ -64,7 +63,7 @@ def get_modified_predict_label(y_preds, y_trues, delay=7):
         timestamp: 
         delay: 
     """
-    assert(type(y_preds)==type(y_trues))
+    assert (type(y_preds) == type(y_trues))
     if type(y_preds) is not list:
         y_pred = reconstruct_predict(y_preds, y_trues, delay)
         y_true = y_trues
@@ -85,7 +84,6 @@ def modified_precision(y_pred, y_true, delay=7):
     y_pred, y_true = get_modified_predict_label(y_pred, y_true, delay)
 
     return precision_score(y_true, y_pred)
-
 
 
 def modified_recall(y_pred, y_true, timestamp, delay=7):
