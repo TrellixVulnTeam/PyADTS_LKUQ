@@ -25,7 +25,7 @@ def get_nab_nyc_taxi(root_path):
     df = pd.read_csv(os.path.join(root_path, DATA_NAMES['nyc_taxi']))
     with open(os.path.join(root_path, LABEL_NAME)) as f:
         label_windows = json.load(f)['realKnownCause/nyc_taxi.csv']
-    feature = df['value'].values
+    value = df['value'].values
     timestamp = pd.to_datetime(df['timestamp'])
     label = np.zeros(len(df))
 
@@ -35,4 +35,4 @@ def get_nab_nyc_taxi(root_path):
 
         label[(timestamp >= t1).values & (timestamp <= t2).values] = 1
 
-    return Series(feature=feature, label=label, timestamp=timestamp)
+    return Series(value=value, label=label, timestamp=timestamp)
