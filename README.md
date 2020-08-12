@@ -1,6 +1,6 @@
 # Anomaly Detection for Time-series (PyADT)
 
-`PyADT` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc.
+`PyADT` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADT` can help you to write less boilerplate on following parts:
 
 - Preparing dataset & pre-processing
 - Feature extraction (Optional)
