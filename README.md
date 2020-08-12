@@ -80,8 +80,6 @@ pip install .
 
 - Random Forest
 - SVM
-- XGBoost
-- LightGBM
 - Deep Neural Network
 
 ### Unsupervised Approaches
@@ -110,4 +108,5 @@ pip install .
 ## TODO
 
 - Fix bugs and reformat code
-
+- Incorporating Numba
+- Implement the pipeline

@@ -1,5 +1,6 @@
 # common requirements
 numpy
+numba
 pandas
 pywt
 tqdm

@@ -5,7 +5,7 @@ from sklearn.metrics import auc, roc_auc_score, precision_recall_curve
 from sklearn.utils import deprecated
 
 
-def __reconstruct_prediction(score: np.ndarray, label: np.ndarray, delay=None, inplace=False) -> np.ndarray:
+def __adjust_predictions(score: np.ndarray, label: np.ndarray, delay=None, inplace=False) -> np.ndarray:
     assert np.shape(score) == np.shape(label)
     if delay is None:
         delay = len(score)
@@ -38,7 +38,7 @@ def __ignore_missing(*args, missing):
 @deprecated('Using precision to evaluate anomaly detection algorithms is not recommended.')
 def best_precision(score: np.ndarray, label: np.ndarray, delay: int=None):
     if delay is not None:
-        score = __reconstruct_prediction(score, label, delay=delay, inplace=False)
+        score = __adjust_predictions(score, label, delay=delay, inplace=False)
 
     ps, rs, ts = precision_recall_curve(label, score)
     fs = 2 * ps * rs / np.clip(ps + rs, a_min=1e-8, a_max=None)
@@ -49,7 +49,7 @@ def best_precision(score: np.ndarray, label: np.ndarray, delay: int=None):
 @deprecated('Using recall to evaluate anomaly detection algorithms is not recommended.')
 def best_recall(score: np.ndarray, label: np.ndarray, delay: int=None):
     if delay is not None:
-        score = __reconstruct_prediction(score, label, delay=delay, inplace=False)
+        score = __adjust_predictions(score, label, delay=delay, inplace=False)
 
     ps, rs, ts = precision_recall_curve(label, score)
     fs = 2 * ps * rs / np.clip(ps + rs, a_min=1e-8, a_max=None)
@@ -60,7 +60,7 @@ def best_recall(score: np.ndarray, label: np.ndarray, delay: int=None):
 @deprecated('Using F1-score to evaluate anomaly detection algorithms is not recommended.')
 def best_f1(score: np.ndarray, label: np.ndarray, delay: int=None):
     if delay is not None:
-        score = __reconstruct_prediction(score, label, delay=delay, inplace=False)
+        score = __adjust_predictions(score, label, delay=delay, inplace=False)
 
     ps, rs, ts = precision_recall_curve(label, score)
     fs = 2 * ps * rs / np.clip(ps + rs, a_min=1e-8, a_max=None)
@@ -70,14 +70,14 @@ def best_f1(score: np.ndarray, label: np.ndarray, delay: int=None):
 
 def roc_auc(score: np.ndarray, label: np.ndarray, delay: int=None):
     if delay is not None:
-        score = __reconstruct_prediction(score, label, delay=delay, inplace=False)
+        score = __adjust_predictions(score, label, delay=delay, inplace=False)
 
     return roc_auc_score(label, score)
 
 
 def pr_auc(score: np.ndarray, label: np.ndarray, delay: int=None):
     if delay is not None:
-        score = __reconstruct_prediction(score, label, delay=delay, inplace=False)
+        score = __adjust_predictions(score, label, delay=delay, inplace=False)
 
     ps, rs, _ = precision_recall_curve(label, score)
     ids = np.argsort(rs)

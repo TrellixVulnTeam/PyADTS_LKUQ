@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from torch.utils.data import Dataset, TensorDataset
+
 from datetime import datetime
 
 
@@ -57,6 +59,10 @@ def label_sampling():
 
 def sliding_window():
     # TODO
+    pass
+
+
+def to_tensor_dataset(X: np.ndarray, y: np.ndarray=None) -> Dataset:
     pass
 
 
