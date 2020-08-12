@@ -8,6 +8,26 @@
 - Ensemble (Optional)
 - Evaluation
 
+- [Anomaly Detection for Time-series (PyADT)](#anomaly-detection-for-time-series--pyadt-)
+  * [Installation](#installation)
+  * [Quick Start](#quick-start)
+    + [Fetch the dataset](#fetch-the-dataset)
+    + [Pre-processing](#pre-processing)
+    + [Feature extraction](#feature-extraction)
+    + [Train the model](#train-the-model)
+    + [Ensemble](#ensemble)
+    + [Evaluation](#evaluation)
+    + [The pipeline](#the-pipeline)
+  * [Other Utilities](#other-utilities)
+    + [Visualization](#visualization)
+  * [Implemented Algorithms](#implemented-algorithms)
+    + [Supervised Approaches](#supervised-approaches)
+    + [Unsupervised Approaches](#unsupervised-approaches)
+      - [Non-parametric](#non-parametric)
+      - [Statistic-based](#statistic-based)
+      - [Machine learning-based](#machine-learning-based)
+      - [Deep-based](#deep-based)
+
 ## Installation
 To install the package locally, run:
 
@@ -56,18 +76,17 @@ pip install .
 
 ### Supervised Approaches
 
-- Random Forest[^1]
-
-- SVM[^2]
-- XGBoost[^3]
-- LightGBM[^4]
-- Deep Neural Network[^5]
+- Random Forest
+- SVM
+- XGBoost
+- LightGBM
+- Deep Neural Network
 
 ### Unsupervised Approaches
 
 #### Non-parametric
 
-- SR[^6]
+- SR
 - Threshold
 
 #### Statistic-based
@@ -85,10 +104,3 @@ pip install .
 
 - Autoencoder
 - Donut
-
-[^1]: Breiman L. Random forests[J]. Machine learning, 2001, 45(1): 5-32.
-[^2]: Cortes C, Vapnik V. Support-vector networks[J]. Machine learning, 1995, 20(3): 273-297.
-[^3]: Chen T, He T, Benesty M, et al. Xgboost: extreme gradient boosting[J]. R package version 0.4-2, 2015: 1-4.
-[^4]: Ke G, Meng Q, Finley T, et al. Lightgbm: A highly efficient gradient boosting decision tree[C]. Advances in neural information processing systems. 2017: 3146-3154.
-[^5]: Goodfellow I, Bengio Y, Courville A, et al. Deep learning[M]. Cambridge: MIT press, 2016.
-[^6]: Ren H, Xu B, Wang Y, et al. Time-Series Anomaly Detection Service at Microsoft[C]. Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining. 2019: 3009-3017.
