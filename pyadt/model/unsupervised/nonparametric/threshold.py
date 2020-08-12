@@ -20,9 +20,7 @@ class ThresholdDetector(BaseModel):
         pass
 
     def predict_score(self, X: np.ndarray):
-        warnings.warn('`predict_score` is not needed for ThresholdDetector, return None.')
-
-        return None
+        return np.abs(X - (self.__low + self.__high)/2)
 
     def predict(self, X: np.ndarray):
         assert self.__check_fitted()
@@ -32,8 +30,3 @@ class ThresholdDetector(BaseModel):
         predictions[X <= self.__low] = 1
 
         return predictions.astype(np.int)
-
-    def predict_prob(self, X: np.ndarray):
-        warnings.warn('`predict_prob` is not needed for ThresholdDetector, return None.')
-
-        return None

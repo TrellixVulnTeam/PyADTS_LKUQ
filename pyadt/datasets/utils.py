@@ -66,19 +66,25 @@ def to_tensor_dataset(X: np.ndarray, y: np.ndarray=None) -> Dataset:
     pass
 
 
-def plot_figure(value: np.ndarray, label: np.ndarray=None, datetime: Union[pd.DatetimeIndex, pd.Series] = None, plot_vline=True):
+def plot_series(value: np.ndarray, label: np.ndarray=None, datetime: Union[pd.DatetimeIndex, pd.Series] = None, title: str = None, plot_vline:bool=True):
     if datetime is None:
         datetime = np.arange(len(value))
 
-    with plt.style.context(['ggplot']):
+    with plt.style.context(['seaborn-whitegrid']):
         fig, ax = plt.subplots(figsize=(12, 4))
-        ax.plot_figure(datetime, value, color='black', linewidth=0.5)
+        ax.plot(datetime, value, color='black', linewidth=0.5, label='series')
 
         # Plot anomalies
         if label is not None:
             if plot_vline:
                 for xv in datetime[label == 1]:
                     ax.axvline(xv, color='orange', lw=1, alpha=0.1)
-            ax.plot_figure(datetime[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
-        fig.legend(loc=0, prop={'size': 18})
+            ax.plot(datetime[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
+
+        if title is not None:
+            fig.suptitle(title, fontsize=18)
+
+        legend = fig.legend(loc=0, prop={'size': 16})
+        legend.get_frame().set_edgecolor('grey')
+        legend.get_frame().set_linewidth(2.0)
     return fig

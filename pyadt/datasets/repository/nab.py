@@ -4,7 +4,6 @@ import json
 import numpy as np
 import pandas as pd
 
-from ..series import Series
 from ..utils import datetime_to_timestamp
 
 

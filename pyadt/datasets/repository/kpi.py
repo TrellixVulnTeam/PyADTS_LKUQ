@@ -2,7 +2,6 @@ import os
 
 import pandas as pd
 
-from ..series import Series
 from ..utils import timestamp_to_datetime
 
 

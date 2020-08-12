@@ -49,3 +49,18 @@ class BaseModel(abc.ABC):
         prob = scaler.transform(test_score.reshape(-1, 1)).ravel().clip(0, 1).reshape(-1)
 
         return prob
+
+    def fit_predict(self, X: np.ndarray, y: np.ndarray=None):
+        self.fit(X, y)
+
+        return self.predict(X)
+
+    def fit_predict_score(self, X: np.ndarray, y: np.ndarray = None):
+        self.fit(X, y)
+
+        return self.predict_score(X)
+
+    def fit_predict_prob(self, X: np.ndarray, y: np.ndarray = None):
+        self.fit(X, y)
+
+        return self.predict_prob(X)
