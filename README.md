@@ -117,7 +117,7 @@ roc = roc_auc(pred_y, train_y, delay=7)
 
 In real-world applications, the delay of anomaly alerts is acceptable. So `PyADT` offered the `delay` argument for all metrics.
 
-<img src="https://i.loli.net/2020/08/12/shGMx2QqjcP8tTe.png" style="zoom:67%;" />
+<img src="https://i.loli.net/2020/08/12/shGMx2QqjcP8tTe.png" style="zoom: 50%;" />
 
 ### The pipeline
 
@@ -138,7 +138,7 @@ fig.show()
 
 The example visualization:
 
-<img src="https://i.loli.net/2020/08/12/j78NoQsZHtR5lnv.png" style="zoom:80%;" />
+<img src="https://i.loli.net/2020/08/12/j78NoQsZHtR5lnv.png" style="zoom: 67%;" />
 
 ### Generate synthetic data
 
