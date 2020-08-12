@@ -88,11 +88,14 @@ pip install .
 
 - SR
 - Threshold
+- Quantile
+- $K$-Sigma
 
 #### Statistic-based
 
 - SPOT
 - DSPOT
+- Autoregression
 
 #### Machine learning-based
 
@@ -110,3 +113,4 @@ pip install .
 - Fix bugs and reformat code
 - Incorporating Numba
 - Implement the pipeline
+- Synthetic data generator
