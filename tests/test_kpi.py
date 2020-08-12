@@ -10,4 +10,4 @@ from pyadt.utils.visualization import plot
 
 def test_get_kpi():
     series = get_kpi('./data/kpi', id=0)
-    series.plot()
+    series.plot_figure()

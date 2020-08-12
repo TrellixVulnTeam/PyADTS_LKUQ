@@ -10,4 +10,4 @@ from pyadt.utils.visualization import plot
 
 def test_get_nab_nyc_taxi():
     series = get_nab_nyc_taxi('./data/nab')
-    series.plot()
+    series.plot_figure()

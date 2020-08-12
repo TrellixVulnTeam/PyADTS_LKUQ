@@ -45,19 +45,34 @@ def dataset_statics(missing: np.ndarray, label: np.ndarray):
             'Anomaly num': __anomaly_num(label), 'Anomaly rate': __anomaly_rate(label)}
 
 
-def plot(series: np.ndarray, label: np.ndarray=None, timestamp: pd.DatetimeIndex = None, plot_vline=True):
-    if timestamp is None:
-        timestamp = np.arange(len(series))
+def train_test_split():
+    # TODO
+    pass
+
+
+def label_sampling():
+    # TODO
+    pass
+
+
+def sliding_window():
+    # TODO
+    pass
+
+
+def plot_figure(value: np.ndarray, label: np.ndarray=None, datetime: Union[pd.DatetimeIndex, pd.Series] = None, plot_vline=True):
+    if datetime is None:
+        datetime = np.arange(len(value))
 
     with plt.style.context(['ggplot']):
         fig, ax = plt.subplots(figsize=(12, 4))
-        ax.plot(timestamp, series, color='black', linewidth=0.5)
+        ax.plot_figure(datetime, value, color='black', linewidth=0.5)
 
         # Plot anomalies
         if label is not None:
             if plot_vline:
-                for xv in timestamp[label==1]:
+                for xv in datetime[label == 1]:
                     ax.axvline(xv, color='orange', lw=1, alpha=0.1)
-            ax.plot(timestamp[label == 1], series[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
+            ax.plot_figure(datetime[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
         fig.legend(loc=0, prop={'size': 18})
     return fig

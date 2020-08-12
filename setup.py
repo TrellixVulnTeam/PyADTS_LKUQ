@@ -61,28 +61,28 @@ def __parse_requirements(file_name):
     return requirements
 
 
-def install_styles():
-    # Find all style files
-    stylefiles = glob.glob('style/*.mplstyle', recursive=True)
+# def install_styles():
+#     # Find all style files
+#     stylefiles = glob.glob('style/*.mplstyle', recursive=True)
+#
+#     # Find stylelib directory (where the *.mplstyle files go)
+#     mpl_stylelib_dir = os.path.join(matplotlib.get_configdir(), "stylelib")
+#     if not os.path.exists(mpl_stylelib_dir):
+#         os.makedirs(mpl_stylelib_dir)
+#
+#     # Copy files over
+#     print("Installing styles into", mpl_stylelib_dir)
+#     for stylefile in stylefiles:
+#         print(os.path.basename(stylefile))
+#         shutil.copy(
+#             stylefile,
+#             os.path.join(mpl_stylelib_dir, os.path.basename(stylefile)))
 
-    # Find stylelib directory (where the *.mplstyle files go)
-    mpl_stylelib_dir = os.path.join(matplotlib.get_configdir(), "stylelib")
-    if not os.path.exists(mpl_stylelib_dir):
-        os.makedirs(mpl_stylelib_dir)
 
-    # Copy files over
-    print("Installing styles into", mpl_stylelib_dir)
-    for stylefile in stylefiles:
-        print(os.path.basename(stylefile))
-        shutil.copy(
-            stylefile,
-            os.path.join(mpl_stylelib_dir, os.path.basename(stylefile)))
-
-
-class __PostInstallMoveFile(install):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        atexit.register(install_styles)
+# class __PostInstallMoveFile(install):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         atexit.register(install_styles)
 
 
 setup(
@@ -95,7 +95,7 @@ setup(
     packages=[],
     scripts=[],
     install_requirements=__parse_requirements('requirements.txt'),
-    cmdclass={'install': __PostInstallMoveFile},
+    # cmdclass={'install': __PostInstallMoveFile},
     url='https://github.com/larryshaw0079/PyADT',
     license='GPL-3.0 License'
 )

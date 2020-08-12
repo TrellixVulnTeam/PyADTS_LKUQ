@@ -106,3 +106,8 @@ pip install .
 
 - Autoencoder
 - Donut
+
+## TODO
+
+- Fix bugs and reformat code
+
