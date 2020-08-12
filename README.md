@@ -138,7 +138,7 @@ fig.show()
 
 The example visualization:
 
-![](https://i.loli.net/2020/08/12/j78NoQsZHtR5lnv.png)
+<img src="https://i.loli.net/2020/08/12/j78NoQsZHtR5lnv.png" style="zoom:80%;" />
 
 ### Generate synthetic data
 
@@ -159,7 +159,7 @@ TODO
 - SR
 - Threshold
 - Quantile
-- $K$-Sigma
+- K​-Sigma
 
 #### Statistic-based
 
