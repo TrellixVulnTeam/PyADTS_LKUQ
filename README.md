@@ -56,17 +56,18 @@ pip install .
 
 ### Supervised Approaches
 
-- [^Random Forest]
-- SVM
-- XGBoost
-- LightGBM
-- Deep Neural Network
+- Random Forest[^1]
+
+- SVM[^2]
+- XGBoost[^3]
+- LightGBM[^4]
+- Deep Neural Network[^5]
 
 ### Unsupervised Approaches
 
 #### Non-parametric
 
-- SR
+- SR[^6]
 - Threshold
 
 #### Statistic-based
@@ -85,4 +86,9 @@ pip install .
 - Autoencoder
 - Donut
 
-[^Random Forest]: Breiman L. Random forests[J]. Machine learning, 2001, 45(1): 5-32.
+[^1]: Breiman L. Random forests[J]. Machine learning, 2001, 45(1): 5-32.
+[^2]: Cortes C, Vapnik V. Support-vector networks[J]. Machine learning, 1995, 20(3): 273-297.
+[^3]: Chen T, He T, Benesty M, et al. Xgboost: extreme gradient boosting[J]. R package version 0.4-2, 2015: 1-4.
+[^4]: Ke G, Meng Q, Finley T, et al. Lightgbm: A highly efficient gradient boosting decision tree[C]. Advances in neural information processing systems. 2017: 3146-3154.
+[^5]: Goodfellow I, Bengio Y, Courville A, et al. Deep learning[M]. Cambridge: MIT press, 2016.
+[^6]: Ren H, Xu B, Wang Y, et al. Time-Series Anomaly Detection Service at Microsoft[C]. Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining. 2019: 3009-3017.
