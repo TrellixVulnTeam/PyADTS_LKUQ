@@ -1,17 +1,12 @@
 # Anomaly Detection for Time-series (PyADT)
 
-This project contains multiple KPI anomaly detection algorithms.
+`PyADT` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc.
 
-- [Anomaly Detection for Time-series (PyADT)](#anomaly-detection-for-time-series--pyadt-)
-  * [Basic Usage](#basic-usage)
-    + [Fetch dataset](#fetch-dataset)
-    + [Visualization](#visualization)
-    + [Evaluation](#evaluation)
-  * [Implemented Algorithms](#implemented-algorithms)
-    + [Supervised Algorithms](#supervised-algorithms)
-    + [Unsupervised Algorithms](#unsupervised-algorithms)
-      - [Machine Learning Models](#machine-learning-models)
-      - [Deep Models](#deep-models)
+- Preparing dataset & pre-processing
+- Feature extraction (Optional)
+- Model training
+- Ensemble (Optional)
+- Evaluation
 
 ## Installation
 To install the package locally, run:
@@ -21,64 +16,71 @@ cd <pyadt_dir>
 pip install .
 ```
 
-## User Guide
+## Quick Start
 
-### Fetch dataset
+### Fetch the dataset
 
-```python
-from pyadt.datasets.series import Series
-from pyadt.datasets.repository.nab import get_nab_nyc_taxi
 
-series = get_nab_nyc_taxi('./data/nab')
-```
 
-### Visualization
+### Pre-processing
 
-```python
-from pyadt.utils.visualization import plot
 
-fig = plot(series.feature, series.label, series.timestamp)
-fig.show()
-```
+
+### Feature extraction
+
+
+
+### Train the model
+
+
+
+### Ensemble
+
+
 
 ### Evaluation
 
-```python
-import numpy as np
 
-from pyadt.metrics import best_f1_with_delay, pr_auc_with_delay, roc_auc_with_delay
 
-# Pseudo results
-y_true = np.random.randint(low=0, high=1, size=100)
-y_score = np.clip(np.abs(np.random.randn(y_true.shape[0]).astype(np.float32)), a_min=0.0, a_max=1.0)
+### The pipeline
 
-f1 = best_f1_with_delay(y_score, y_true, delay=7)
-pr_auc = pr_auc_with_delay(y_score, y_true, delay=7)
-roc_auc = roc_auc_with_delay(y_score, y_true, delay=7)
 
-print(f1, pr_auc, roc_auc)
-```
+
+## Other Utilities
+
+### Visualization
+
+
 
 ## Implemented Algorithms
 
-### Supervised Algorithms
+### Supervised Approaches
 
 - Random Forest
+- SVM
 - XGBoost
 - LightGBM
 - Deep Neural Network
 
-### Unsupervised Algorithms
+### Unsupervised Approaches
 
-#### Machine Learning Models
+#### Non-parametric
 
-- LOF
-- Isolation Forest
 - SR
+- Threshold
+
+#### Statistic-based
+
 - SPOT
 - DSPOT
 
-#### Deep Models
+#### Machine learning-based
+
+- LOF
+- Isolation Forest
+- OCSVM
+
+#### Deep-based
 
 - Autoencoder
 - Donut

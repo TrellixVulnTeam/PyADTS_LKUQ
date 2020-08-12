@@ -59,6 +59,7 @@ def get_kpi(root_path, id=0):
 
     value = selected_df['value'].values
     label = selected_df['label'].values
-    timestamp = pd.to_datetime(selected_df['timestamp'].apply(timestamp_to_datetime))
+    timestamp = selected_df['timestamp'].values
+    datetime = pd.to_datetime(selected_df['timestamp'].apply(timestamp_to_datetime))
 
-    return Series(value=value, label=label, timestamp=timestamp)
+    return {'value': value, 'label': label, 'timestamp': timestamp, 'datetime': datetime}

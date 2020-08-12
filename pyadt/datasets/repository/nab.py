@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 
 from ..series import Series
+from ..utils import datetime_to_timestamp
 
 
 DATA_NAMES = {
@@ -26,7 +27,8 @@ def get_nab_nyc_taxi(root_path):
     with open(os.path.join(root_path, LABEL_NAME)) as f:
         label_windows = json.load(f)['realKnownCause/nyc_taxi.csv']
     value = df['value'].values
-    timestamp = pd.to_datetime(df['timestamp'])
+    datetime = pd.to_datetime(df['timestamp'])
+    timestamp = datetime.apply(datetime_to_timestamp).values
     label = np.zeros(len(df))
 
     for window in label_windows:
@@ -35,4 +37,4 @@ def get_nab_nyc_taxi(root_path):
 
         label[(timestamp >= t1).values & (timestamp <= t2).values] = 1
 
-    return Series(value=value, label=label, timestamp=timestamp)
+    return {'value': value, 'label': label, 'timestamp': timestamp, 'datetime': datetime}

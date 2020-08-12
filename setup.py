@@ -2,6 +2,9 @@ import os
 import atexit
 import glob
 import shutil
+import platform
+import subprocess
+import warnings
 
 import matplotlib
 from setuptools import setup
@@ -14,10 +17,48 @@ with open(os.path.join(root, 'README.md'), 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 
-def parse_requirements(file_name):
+def __pytorch_cpu():
+    return 'torch>=1.2.0+cpu'
+
+def __pytorch_gpu(cuda_version):
+    if cuda_version == '10.2':
+        return 'torch>=1.2.0'
+    elif cuda_version == '10.1':
+        return 'torch>=1.2.0+cu101'
+    elif cuda_version == '9.2':
+        return 'torch>=1.2.0+cu92'
+    else:
+        raise ValueError('')
+
+def __check_pytorch():
+    system = platform.system()
+    cuda_file = '/usr/local/cuda/version.txt'
+    if system == 'Linux':
+        if os.path.exists(cuda_file):
+            res = str(subprocess.check_output(['cat', f'{cuda_file}'])).split(' ')[-1]
+            if res.startswith('10.2'):
+                return __pytorch_gpu('10.2')
+            elif res.startswith('10.1'):
+                return __pytorch_gpu('10.1')
+            elif res.startswith('9.2'):
+                return __pytorch_gpu('9.2')
+            else:
+                warnings.warn()
+                return __pytorch_cpu()
+        else:
+            warnings.warn()
+            return __pytorch_cpu()
+    else:
+        warnings.warn()
+        return __pytorch_cpu()
+
+
+def __parse_requirements(file_name):
     with open(file_name, 'r') as f:
         line_striped = (line.strip() for line in f.readlines())
-    return [line for line in line_striped if line and not line.startswith('#')]
+    requirements = [line for line in line_striped if line and not line.startswith('#')]
+    requirements.append(__check_pytorch())
+    return requirements
 
 
 def install_styles():
@@ -38,7 +79,7 @@ def install_styles():
             os.path.join(mpl_stylelib_dir, os.path.basename(stylefile)))
 
 
-class PostInstallMoveFile(install):
+class __PostInstallMoveFile(install):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         atexit.register(install_styles)
@@ -53,8 +94,8 @@ setup(
     version='0.1',
     packages=[],
     scripts=[],
-    install_requirements=parse_requirements('requirements.txt'),
-    cmdclass={'install': PostInstallMoveFile},
+    install_requirements=__parse_requirements('requirements.txt'),
+    cmdclass={'install': __PostInstallMoveFile},
     url='https://github.com/larryshaw0079/PyADT',
     license='GPL-3.0 License'
 )
