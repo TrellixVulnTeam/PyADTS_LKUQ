@@ -56,7 +56,7 @@ pip install .
 
 ### Supervised Approaches
 
-- Random Forest
+- [^Random Forest]
 - SVM
 - XGBoost
 - LightGBM
@@ -84,3 +84,5 @@ pip install .
 
 - Autoencoder
 - Donut
+
+[^Random Forest]: Breiman L. Random forests[J]. Machine learning, 2001, 45(1): 5-32.
