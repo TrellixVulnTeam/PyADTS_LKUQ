@@ -1,13 +1,20 @@
 import sys
 
+import matplotlib.pyplot as plt
+
 sys.path.append('..')
 
 from pyadt.datasets.repository.kpi import get_kpi
 
-from pyadt.datasets.utils import plot_series
+from pyadt.utils.visualization import plot_series, plot_lag
 
 
 def test_get_kpi():
-    data = get_kpi('./data/kpi', id=0)
-    fig = plot_series(value=data['value'], label=data['label'], datetime=data['datetime'])
-    fig.show()
+    data_df, meta_df = get_kpi('./data/kpi', id=0)
+    print(data_df)
+    print(meta_df)
+    fig = plot_series(data_df, meta_df, title='Vis')
+    plt.show()
+
+    plot_lag(data_df, 'test')
+    plt.show()

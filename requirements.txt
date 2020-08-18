@@ -7,5 +7,6 @@ tqdm
 scipy>=0.14.0
 scikit-learn>=0.19.1
 matplotlib
+seaborn
 statsmodels
 git+https://github.com/bmorris3/interp-acf

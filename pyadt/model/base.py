@@ -6,6 +6,8 @@ from sklearn.preprocessing import MinMaxScaler
 
 from pyadt.model.utils.__auto_threshold import auto_threshold
 
+cla
+
 
 class BaseModel(abc.ABC):
     def __init__(self):
@@ -25,6 +27,12 @@ class BaseModel(abc.ABC):
     @abc.abstractmethod
     def predict_score(self, X: np.ndarray):
         pass
+
+    def set_params(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+    def get_params(self):
+        return self.__dict__
 
     def predict(self, X: np.ndarray):
         assert self.__check_fitted()

@@ -61,4 +61,7 @@ def get_kpi(root_path, id=0):
     timestamp = selected_df['timestamp'].values
     datetime = pd.to_datetime(selected_df['timestamp'].apply(timestamp_to_datetime))
 
-    return {'value': value, 'label': label, 'timestamp': timestamp, 'datetime': datetime}
+    data_df = pd.DataFrame({'value': value}, index=datetime)
+    meta_df = pd.DataFrame({'label': label, 'timestamp': timestamp}, index=datetime)
+
+    return data_df, meta_df
