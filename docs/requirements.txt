@@ -3,7 +3,7 @@ recommonmark
 sphinx_markdown_tables
 sphinx_rtd_theme
 docutils==0.14
-guzzle_sphinx_theme
+pydata_sphinx_theme
 sphinxcontrib-bibtex
 
 numpy

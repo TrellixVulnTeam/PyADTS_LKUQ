@@ -58,21 +58,35 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #
 # html_theme = 'alabaster'
 
-import guzzle_sphinx_theme
+# import guzzle_sphinx_theme
+#
+# # Adds an HTML table visitor to apply Bootstrap table classes
+# html_translator_class = 'guzzle_sphinx_theme.HTMLTranslator'
+# html_theme_path = guzzle_sphinx_theme.html_theme_path()
+# html_theme = 'guzzle_sphinx_theme'
+#
+# # Register the theme as an extension to generate a sitemap.xml
+# extensions.append("guzzle_sphinx_theme")
+#
+# # Guzzle theme options (see theme.conf for more information)
+# html_theme_options = {
+#     # Set the name of the project to appear in the sidebar
+#     "project_nav_name": "PyADT",
+#     "base_url": "",
+# }
 
-# Adds an HTML table visitor to apply Bootstrap table classes
-html_translator_class = 'guzzle_sphinx_theme.HTMLTranslator'
-html_theme_path = guzzle_sphinx_theme.html_theme_path()
-html_theme = 'guzzle_sphinx_theme'
+html_theme = 'pydata_sphinx_theme'
 
-# Register the theme as an extension to generate a sitemap.xml
-extensions.append("guzzle_sphinx_theme")
-
-# Guzzle theme options (see theme.conf for more information)
+# Theme options are theme-specific and customize the look and feel of a theme
+# further.  For a list of options available for each theme, see the
+# documentation.
 html_theme_options = {
-    # Set the name of the project to appear in the sidebar
-    "project_nav_name": "PyADT",
-    "base_url": "",
+    "github_url": "https://github.com/larryshaw0079/PyADT",
+    # "show_prev_next": False,
+    # "external_links": [
+    #     {"name": "Webpage", "url": "https://scikit-multiflow.github.io/"},
+    # ],
+    # "use_edit_page_button": False,
 }
 
 # import sphinx_minoo_theme
