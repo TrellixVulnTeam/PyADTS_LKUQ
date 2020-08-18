@@ -5,3 +5,13 @@ sphinx_rtd_theme
 docutils==0.14
 guzzle_sphinx_theme
 sphinxcontrib-bibtex
+
+numpy
+numba
+pandas
+tqdm
+scipy>=0.14.0
+scikit-learn>=0.19.1
+matplotlib
+seaborn
+statsmodels
