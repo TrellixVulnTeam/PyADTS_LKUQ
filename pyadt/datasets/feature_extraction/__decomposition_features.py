@@ -3,7 +3,7 @@ from typing import Union
 import numpy as np
 
 from statsmodels.tsa.seasonal import STL
-from interpacf import interpolated_acf, dominant_period
+from .__interpacf import interpolated_acf, dominant_period
 
 
 def __auto_period(value: np.ndarray):
