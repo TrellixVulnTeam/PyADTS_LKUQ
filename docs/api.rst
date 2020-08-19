@@ -46,16 +46,11 @@ Model
 Ensemble
 ========
 
-.. automodule:: pyadt.datasets
-    :no-members:
-    :no-inherited-members:
-
-.. currentmodule:: pyadt
-
-.. autosummary::
-    :nosignatures:
-    :template: class.rst
-    :toctree: generated
+.. automodule:: pyadt.ensemble.score_comb
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
 
 Evaluation
