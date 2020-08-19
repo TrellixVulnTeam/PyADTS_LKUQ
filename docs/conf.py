@@ -102,11 +102,14 @@ html_static_path = ['_static']
 
 # -- Other Custom Options -------------------------------------------------
 
-from recommonmark.parser import CommonMarkParser
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-source_suffix = ['.rst', '.md']
+# from recommonmark.parser import CommonMarkParser
+# source_parsers = {
+#     '.md': CommonMarkParser,
+# }
+
+source_suffix = ['.rst']
+
+master_doc = 'index'
 
 autodoc_typehints = "description"
 # The name of the Pygments (syntax highlighting) style to use.
