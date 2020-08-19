@@ -40,6 +40,8 @@ pip install .
 
 ## Quick Start
 
+[Documentation](https://pyadt.readthedocs.io/en/latest/)
+
 ### Fetch the dataset
 
 `PyADT` contains various built-in datasets. To utilize them:
