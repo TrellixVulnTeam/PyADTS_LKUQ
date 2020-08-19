@@ -1,11 +1,8 @@
-sphinx
-recommonmark
-sphinx_markdown_tables
-sphinx_rtd_theme
-docutils==0.14
+# Docs
 pydata_sphinx_theme
 sphinxcontrib-bibtex
 
+# Common
 numpy
 numba
 joblib

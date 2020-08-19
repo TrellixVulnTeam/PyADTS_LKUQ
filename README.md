@@ -1,5 +1,13 @@
 # Anomaly Detection for Time-series (PyADT)
 
+[![Build Status](https://travis-ci.com/larryshaw0079/PyADT.svg?branch=master)](https://travis-ci.com/larryshaw0079/PyADT)
+[![Documentation Status](https://readthedocs.org/projects/pyadt/badge/?version=latest)](https://pyadt.readthedocs.io/en/latest/)
+[![Coverage Status](https://coveralls.io/repos/github/larryshaw0079/PyADT/badge.svg?branch=master&service=github)](https://coveralls.io/github/larryshaw0079/PyADT?branch=master)
+[![PyPI](https://img.shields.io/pypi/v/adtk)](https://pypi.org/project/PyADT/)
+[![Downloads](https://pepy.tech/badge/pyadt)](https://pepy.tech/project/PyADT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/larryshaw0079/PyADT/master?filepath=notebooks%2Fdemo.ipynb)
+
 `PyADT` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADT` can help you to write less boilerplate on following parts:
 
 - Preparing dataset & pre-processing
@@ -8,27 +16,13 @@
 - Ensemble (Optional)
 - Evaluation
 
-Contents here:
+**Table of Contents**:
 
 - [Anomaly Detection for Time-series (PyADT)](#anomaly-detection-for-time-series--pyadt-)
   * [Installation](#installation)
   * [Quick Start](#quick-start)
-    + [Fetch the dataset](#fetch-the-dataset)
-    + [Pre-processing](#pre-processing)
-    + [Feature extraction](#feature-extraction)
-    + [Train the model](#train-the-model)
-    + [Ensemble](#ensemble)
-    + [Evaluation](#evaluation)
-    + [The pipeline](#the-pipeline)
   * [Other Utilities](#other-utilities)
-    + [Visualization](#visualization)
   * [Implemented Algorithms](#implemented-algorithms)
-    + [Supervised Approaches](#supervised-approaches)
-    + [Unsupervised Approaches](#unsupervised-approaches)
-      - [Non-parametric](#non-parametric)
-      - [Statistic-based](#statistic-based)
-      - [Machine learning-based](#machine-learning-based)
-      - [Deep-based](#deep-based)
 
 ## Installation
 To install the package locally, run:
@@ -40,7 +34,7 @@ pip install .
 
 ## Quick Start
 
-[Documentation](https://pyadt.readthedocs.io/en/latest/)
+You can find the [Documentation](https://pyadt.readthedocs.io/en/latest/) here.
 
 ### Fetch the dataset
 
