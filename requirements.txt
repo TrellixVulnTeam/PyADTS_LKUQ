@@ -1,6 +1,7 @@
 # common requirements
 numpy
 numba
+joblib
 pandas
 PyWavelets
 tqdm
