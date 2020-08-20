@@ -1,0 +1,12 @@
+package:
+  name: pyadts
+  version: 0.0.1
+
+build:
+  number: 3
+
+requirements:
+  run:
+    - python
+about:
+  summary: A python package for time series anomaly detection
