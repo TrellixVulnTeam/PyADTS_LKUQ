@@ -32,28 +32,45 @@ Data
     :show-inheritance:
     :inherited-members:
 
+.. automodule:: pyadts.data.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
+
 
 Model
 =======
 
-.. automodule:: pyadts.model
-    :no-members:
-    :no-inherited-members:
+.. automodule:: pyadts.model.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
-.. currentmodule:: pyadts
+.. automodule:: pyadts.model.supervised
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
-.. autosummary::
-    :nosignatures:
-    :template: class.rst
-    :toctree: generated
+.. automodule:: pyadts.model.unsupervised
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
-    model.base.BaseModel
+.. automodule:: pyadts.model.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
 
 Ensemble
 ========
 
-.. automodule:: pyadts.ensemble.score_comb
+.. automodule:: pyadts.ensemble
     :members:
     :undoc-members:
     :show-inheritance:
@@ -63,7 +80,7 @@ Ensemble
 Evaluation
 ==========
 
-.. automodule:: pyadts.evaluation.metrics
+.. automodule:: pyadts.evaluation
     :members:
     :undoc-members:
     :show-inheritance:
@@ -73,6 +90,18 @@ Evaluation
 Pipeline
 =========
 
+.. automodule:: pyadts.pipeline
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
+
 
 Utilities
 ==========
+
+.. automodule:: pyadts.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:

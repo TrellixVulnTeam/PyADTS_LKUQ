@@ -22,7 +22,7 @@ You can find the complete [documentation](https://pyadt.readthedocs.io/en/latest
 
 **Table of Contents**:
 
-- [Anomaly Detection for Time-series (PyADT)](#anomaly-detection-for-time-series--pyadt-)
+- [Anomaly Detection for Time-series (PyADTS)](#anomaly-detection-for-time-series--pyadt-)
   * [Installation](#installation)
   * [Quick Start](#quick-start)
   * [Other Utilities](#other-utilities)
@@ -189,6 +189,7 @@ TODO
 ## TODO
 
 - Fix bugs and reformat code
+- Multi-variate time series support
 - Complete the models
 - Incorporating Numba
 - Implement the pipeline

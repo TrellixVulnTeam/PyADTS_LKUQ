@@ -4,38 +4,34 @@ import numpy as np
 import pandas as pd
 
 
-def __filling_zeros(value: np.ndarray, missing: np.ndarray):
-    new_value = np.zeros_like(value)
-    new_value[missing == 0] = value
+def series_impute(data_df: pd.DataFrame, meta_df: pd.DataFrame, method: str = 'zero'):
+    """ Impute the series according given method. The `missing` attribute in `meta_df` is needed.
 
-    return new_value
+    Parameters
+    ----------
+    data_df : pd.DataFrame
+        The data DataFrame
+    meta_df : pd.DataFrame
+        The meta DataFrame
+    method : str
+        The imputation method, can be one of `['zero', 'linear`]`.
+        - `zero`: Simply filling missing values with zeros.
+        - `linear`:
+    Returns
+    -------
 
+    """
+    assert 'missing' in meta_df.columns, 'The `missing` attribute is not found. ' \
+                                         'Please run `pyadts.data.preprocessing.series_rearrange` ' \
+                                         'before invoking this function.'
 
-def __filling_linear(value: np.ndarray, missing: np.ndarray):
-    new_value = pd.Series(value)
-    new_value = new_value.interpolate(method='linear')
-
-    return new_value.values
-
-
-# def filling_pad(value: np.ndarray, missing: np.ndarray):
-#     new_value = pd.Series(value)
-#     new_value = new_value.interpolate(method='pad')
-#
-#     return new_value.values
-
-
-def series_impute(value: np.ndarray, missing: np.ndarray, method: str = 'zero'):
-    assert value is not None
-    assert missing is not None
-
-    if np.count_nonzero(missing) == 0:
+    if np.count_nonzero(meta_df['missing'].values) == 0:
         warnings.warn('The series contains no missing values, skipped.')
-        return value
+        return
 
     if method == 'zero':
-        return __filling_zeros(value, missing)
+        data_df['value'].fillna(0, inplace=True)
     elif method == 'linear':
-        return __filling_linear(value, missing)
+        data_df['value'].interpolate(method='linear', inplace=True)
     else:
         raise ValueError('Invalid imputation method!')

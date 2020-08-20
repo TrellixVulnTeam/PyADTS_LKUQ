@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyADT'
+project = 'PyADTS'
 copyright = '2020, Xiao Qinfeng'
 author = 'Xiao Qinfeng'
 
@@ -71,7 +71,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # # Guzzle theme options (see theme.conf for more information)
 # html_theme_options = {
 #     # Set the name of the project to appear in the sidebar
-#     "project_nav_name": "PyADT",
+#     "project_nav_name": "PyADTS",
 #     "base_url": "",
 # }
 
