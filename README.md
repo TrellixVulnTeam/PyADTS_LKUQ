@@ -4,9 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/larryshaw0079/PyADTS/badge.svg?branch=master)](https://coveralls.io/github/larryshaw0079/PyADTS?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/pyadts/badge/?version=latest)](https://pyadts.readthedocs.io/en/latest/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/pyadts)](https://pypi.org/project/pyadts/)
-[![Anaconda](https://anaconda.org/larryshaw0079/pyadts/badges/version.svg
-)](https://anaconda.org/larryshaw0079/pyadts)
-[![Downloads](https://pepy.tech/badge/pyadts)](https://pepy.tech/project/pyadts)
+[![Anaconda](https://anaconda.org/larryshaw0079/pyadts/badges/version.svg)](https://anaconda.org/larryshaw0079/pyadts)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/larryshaw0079/PyADTS/master?filepath=notebooks%2Fdemo.ipynb)
 ---

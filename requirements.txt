@@ -1,13 +1,23 @@
-# common requirements
+# Basic
 numpy
+pandas
+scipy>=0.14.0
+matplotlib
+
+# Optimization
 numba
 joblib
-pandas
+
+# Scientific
 PyWavelets
-tqdm
-scipy>=0.14.0
-scikit-learn>=0.19.1
-matplotlib
-seaborn
 statsmodels
+
+# ML/DL
+scikit-learn>=0.19.1
 torch>=1.2
+
+# Utilities
+tqdm
+
+# Other third-party libs
+combo
