@@ -8,23 +8,29 @@ This is the API documentation for ``PyADT``.
 Data
 =======
 
-.. automodule:: pyadt.data
-    :no-members:
-    :no-inherited-members:
+.. automodule:: pyadt.data.repository
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
-.. currentmodule:: pyadt
+.. automodule:: pyadt.data.preprocessing
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
-.. autosummary::
-    :nosignatures:
-    :template: class.rst
-    :toctree: generated
+.. automodule:: pyadt.data.synthetic
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
-    data.feature_extraction.FeatureExtractor
-    data.preprocessing
-    data.repository.get_kpi
-    data.repository.get_nab_nyc_taxi
-    data.synthetic.generator
-    data.utils
+.. automodule:: pyadt.data.feature
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
 
 
 Model

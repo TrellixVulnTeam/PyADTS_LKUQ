@@ -40,13 +40,13 @@ KPI_IDS = ['05f10d3a-239c-3bef-9bdc-a2feeb0037aa',
            'ffb82d38-5f00-37db-abc0-5d2e4e4cb6aa']
 
 
-def __check_dataset(root_path):
+def __check_dataset(root_path: str):
     if (not os.path.exists(os.path.join(root_path, DATA_NAMES['first']))) or (
-    not os.path.exists(os.path.join(root_path, DATA_NAMES['second']))):
+            not os.path.exists(os.path.join(root_path, DATA_NAMES['second']))):
         raise FileNotFoundError('The dataset is not found in path %s' % root_path)
 
 
-def get_kpi(root_path, id=0):
+def get_kpi(root_path: str, id: int = 0):
     __check_dataset(root_path)
 
     first_df = pd.read_csv(os.path.join(root_path, DATA_NAMES['first']))

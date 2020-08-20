@@ -81,7 +81,7 @@ Extracting manual features is essential for some anomaly detection approaches. `
 - Regression features: SARIMA regression residual, Exponential Smoothing residual, ...
 
 ```python
-from pyadt.data.feature_extraction import FeatureExtractor
+from pyadt.data.feature import FeatureExtractor
 
 feature_extractor = FeatureExtractor()
 ```
