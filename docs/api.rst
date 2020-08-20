@@ -5,7 +5,7 @@ API Reference
 This is the API documentation for ``PyADT``.
 
 
-Dataset
+Data
 =======
 
 .. automodule:: pyadt.data
@@ -23,7 +23,7 @@ Dataset
     data.preprocessing
     data.repository.get_kpi
     data.repository.get_nab_nyc_taxi
-    data.synthetic
+    data.synthetic.generator
     data.utils
 
 

@@ -18,7 +18,7 @@
 - Ensemble (Optional)
 - Evaluation
 
-You can find the complete [Documentation](https://pyadt.readthedocs.io/en/latest/) here.
+You can find the complete [documentation](https://pyadt.readthedocs.io/en/latest/) here.
 
 **Table of Contents**:
 

@@ -34,12 +34,17 @@ class WaveformGenerator(SyntheticGenerator):
         Parameters
         ----------
         sin_coefs : list or tuple
-
+            The coefficients of sine waves.
         cos_coefs : list or tuple
-        anomaly_ratio :
-        missing_ratio :
-        anomaly_types :
-        noisy :
+            The coefficients of cosine waves.
+        anomaly_ratio : float
+            The ratio of anomalies in generated series.
+        missing_ratio : float
+            The ratio of missing values in generated series.
+        anomaly_types : list[str]
+            The types of generated anomalies
+        noisy : bool
+            Add gaussian noise or not.
         """
         super(WaveformGenerator, self).__init__()
 
