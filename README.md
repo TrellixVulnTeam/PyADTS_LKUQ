@@ -1,6 +1,6 @@
 # Anomaly Detection for Time-series (PyADTS)
 
-[![Build Status](https://travis-ci.com/larryshaw0079/PyADT.svg?branch=master)](https://travis-ci.com/larryshaw0079/PyADT)
+[![Build Status](https://travis-ci.org/larryshaw0079/PyADTS.svg?branch=master)](https://travis-ci.org/larryshaw0079/PyADTS)
 [![Documentation Status](https://readthedocs.org/projects/pyadts/badge/?version=latest)](https://pyadts.readthedocs.io/en/latest/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/adtk)](https://pypi.org/project/PyADT/)
 [![Downloads](https://pepy.tech/badge/pyadt)](https://pepy.tech/project/PyADT)
@@ -16,7 +16,7 @@
 - Ensemble (Optional)
 - Evaluation
 
-You can find the complete [documentation](https://pyadt.readthedocs.io/en/latest/) here.
+You can find the complete [documentation](https://pyadts.readthedocs.io/en/latest/) here.
 
 **Table of Contents**:
 
