@@ -1,5 +1,3 @@
-from sklearn.ensemble import IsolationForest
-
 from ...base import BaseModel
 
 

@@ -1,10 +1,9 @@
 import abc
 
 import numpy as np
-
 from sklearn.preprocessing import MinMaxScaler
 
-from pyadt.model.utils.__auto_threshold import auto_threshold
+from pyadts.model.utils.__auto_threshold import auto_threshold
 
 
 class BaseModel(abc.ABC):

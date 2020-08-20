@@ -1,5 +1,4 @@
 import numpy as np
-
 from sklearn.svm import SVC, LinearSVC
 
 from ..base import BaseModel

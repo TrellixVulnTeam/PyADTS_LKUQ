@@ -1,5 +1,3 @@
-from sklearn.svm import OneClassSVM
-
 from ...base import BaseModel
 
 

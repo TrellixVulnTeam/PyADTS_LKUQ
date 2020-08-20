@@ -1,10 +1,6 @@
-from typing import Union
-
-import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
 from pandas import plotting
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame=None, title: str = None, plot_vline:bool=True):

@@ -1,15 +1,6 @@
 import os
-import atexit
-import glob
-import shutil
-import platform
-import subprocess
-import warnings
 
-import matplotlib
 from setuptools import setup
-from setuptools.command.install import install
-
 
 # Get description from README
 root = os.path.abspath(os.path.dirname(__file__))
@@ -86,16 +77,17 @@ def __parse_requirements(file_name):
 
 
 setup(
-    name='pyadt',
+    name='pyadts',
     author='Xiao Qinfeng',
     description='A python package for time series anomaly detection',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version='0.1',
+    version='0.0.1',
     packages=[],
     scripts=[],
     install_requirements=__parse_requirements('requirements.txt'),
     # cmdclass={'install': __PostInstallMoveFile},
     url='https://github.com/larryshaw0079/PyADT',
+    python_requires=">=3.5",
     license='GPL-3.0 License'
 )

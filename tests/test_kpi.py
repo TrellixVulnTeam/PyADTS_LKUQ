@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 
 sys.path.append('..')
 
-from pyadt.data.repository.kpi import get_kpi
+from pyadts.data import get_kpi
 
-from pyadt.utils.visualization import plot_series, plot_lag
+from pyadts import plot_series, plot_lag
 
 
 def test_get_kpi():

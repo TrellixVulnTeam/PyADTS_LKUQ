@@ -14,19 +14,19 @@ Data
     :show-inheritance:
     :inherited-members:
 
-.. automodule:: pyadt.data.preprocessing
+.. automodule:: pyadts.data.preprocessing
     :members:
     :undoc-members:
     :show-inheritance:
     :inherited-members:
 
-.. automodule:: pyadt.data.synthetic
+.. automodule:: pyadts.data.synthetic
     :members:
     :undoc-members:
     :show-inheritance:
     :inherited-members:
 
-.. automodule:: pyadt.data.feature
+.. automodule:: pyadts.data.feature
     :members:
     :undoc-members:
     :show-inheritance:
@@ -36,11 +36,11 @@ Data
 Model
 =======
 
-.. automodule:: pyadt.model
+.. automodule:: pyadts.model
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: pyadt
+.. currentmodule:: pyadts
 
 .. autosummary::
     :nosignatures:
@@ -53,7 +53,7 @@ Model
 Ensemble
 ========
 
-.. automodule:: pyadt.ensemble.score_comb
+.. automodule:: pyadts.ensemble.score_comb
     :members:
     :undoc-members:
     :show-inheritance:
@@ -63,7 +63,7 @@ Ensemble
 Evaluation
 ==========
 
-.. automodule:: pyadt.evaluation.metrics
+.. automodule:: pyadts.evaluation.metrics
     :members:
     :undoc-members:
     :show-inheritance:

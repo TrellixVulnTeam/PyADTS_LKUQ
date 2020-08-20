@@ -1,4 +1,4 @@
-# Anomaly Detection for Time-series (PyADT)
+# Anomaly Detection for Time-series (PyADTS)
 
 [![Build Status](https://travis-ci.com/larryshaw0079/PyADT.svg?branch=master)](https://travis-ci.com/larryshaw0079/PyADT)
 [![Documentation Status](https://readthedocs.org/projects/pyadt/badge/?version=latest)](https://pyadt.readthedocs.io/en/latest/)
@@ -10,7 +10,7 @@
 
 ---
 
-`PyADT` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADT` can help you to write less boilerplate on following parts:
+`PyADTS` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADTS` can help you to write less boilerplate on following parts:
 
 - Preparing dataset & pre-processing
 - Feature extraction (Optional)
@@ -32,18 +32,24 @@ You can find the complete [documentation](https://pyadt.readthedocs.io/en/latest
 To install the package locally, run:
 
 ```bash
-cd <pyadt_dir>
-pip install .
+>> cd <pyadts_dir>
+>> pip install .
+```
+
+To install the package from PyPi, run:
+
+```bash
+>> pip install pyadts
 ```
 
 ## Quick Start
 
 ### Fetch the dataset
 
-`PyADT` contains various built-in datasets. To utilize them:
+`PyADTS` contains various built-in datasets. To utilize them:
 
 ```python
-from pyadt.data.repository import get_nab_nyc_taxi
+from pyadts.data import get_nab_nyc_taxi
 
 data = get_nab_nyc_taxi(root_path='<the_path_of_nab_dataset>')
 ```
@@ -54,14 +60,14 @@ All components of the dataset are organized as a dict:
 
 ### Pre-processing
 
-It's important to pre-process the time series before training. `PyADT` offered three types of pre-processing methods including:
+It's important to pre-process the time series before training. `PyADTS` offered three types of pre-processing methods including:
 
 - Rearrangement: Sort the values along with the timestamp and reconstruct the timestamp to discover missing values. (return a dict and append an attribute `missing`)
 - Normalization: Normalize the time series
 - Imputation: Impute the time series.
 
 ```python
-from pyadt.data.preprocessing import series_impute, series_normalize, series_rearrange
+from pyadts.data import series_impute, series_normalize, series_rearrange
 
 data_processed = series_rearrange(**data)
 
@@ -81,7 +87,7 @@ Extracting manual features is essential for some anomaly detection approaches. `
 - Regression features: SARIMA regression residual, Exponential Smoothing residual, ...
 
 ```python
-from pyadt.data.feature import FeatureExtractor
+from pyadts.data import FeatureExtractor
 
 feature_extractor = FeatureExtractor()
 ```
@@ -91,7 +97,7 @@ feature_extractor = FeatureExtractor()
 Different anomaly detection algorithms should be utilized to tackle different scenarios. `PyADT` contains various algorithms including supervised-, unsupervised-, nonparametric-methods (you can refer the full list of [implemented algorithms](#implemented-algorithms)).
 
 ```python
-from pyadt.model import ThresholdDetector
+from pyadts import ThresholdDetector
 
 train_x = data['value']
 detector = ThresholdDetector()
@@ -107,7 +113,7 @@ TODO
 It's easy to evaluate your algorithms using `PyADT`'s built-in metrics:
 
 ```python
-from pyadt.evaluation.metrics import roc_auc
+from pyadts import roc_auc
 
 train_y = data['label']
 roc = roc_auc(pred_y, train_y, delay=7)
@@ -128,7 +134,7 @@ TODO
 You can visualize your data with a single line of code:
 
 ```python
-from pyadt.data.utils import plot_series
+from pyadts.data import plot_series
 
 fig = plot_series(value=data['value'], label=data['label'], datetime=data['datetime'], plot_vline=True)
 fig.show()

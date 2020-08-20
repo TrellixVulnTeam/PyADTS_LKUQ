@@ -1,5 +1,3 @@
-from sklearn.neighbors import LocalOutlierFactor
-
 from ...base import BaseModel
 
 

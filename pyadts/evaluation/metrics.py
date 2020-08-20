@@ -1,6 +1,5 @@
 import numpy as np
 
-from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.metrics import auc, roc_auc_score, precision_recall_curve
 from sklearn.utils import deprecated
 
