@@ -8,6 +8,8 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/larryshaw0079/PyADT/master?filepath=notebooks%2Fdemo.ipynb)
 
+---
+
 `PyADT` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADT` can help you to write less boilerplate on following parts:
 
 - Preparing dataset & pre-processing
@@ -15,6 +17,8 @@
 - Model training
 - Ensemble (Optional)
 - Evaluation
+
+You can find the complete [Documentation](https://pyadt.readthedocs.io/en/latest/) here.
 
 **Table of Contents**:
 
@@ -34,14 +38,12 @@ pip install .
 
 ## Quick Start
 
-You can find the [Documentation](https://pyadt.readthedocs.io/en/latest/) here.
-
 ### Fetch the dataset
 
 `PyADT` contains various built-in datasets. To utilize them:
 
 ```python
-from pyadt.datasets.repository import get_nab_nyc_taxi
+from pyadt.data.repository import get_nab_nyc_taxi
 
 data = get_nab_nyc_taxi(root_path='<the_path_of_nab_dataset>')
 ```
@@ -59,7 +61,7 @@ It's important to pre-process the time series before training. `PyADT` offered t
 - Imputation: Impute the time series.
 
 ```python
-from pyadt.datasets.preprocessing import series_impute, series_normalize, series_rearrange
+from pyadt.data.preprocessing import series_impute, series_normalize, series_rearrange
 
 data_processed = series_rearrange(**data)
 
@@ -79,7 +81,7 @@ Extracting manual features is essential for some anomaly detection approaches. `
 - Regression features: SARIMA regression residual, Exponential Smoothing residual, ...
 
 ```python
-from pyadt.datasets.feature_extraction import FeatureExtractor
+from pyadt.data.feature_extraction import FeatureExtractor
 
 feature_extractor = FeatureExtractor()
 ```
@@ -126,7 +128,7 @@ TODO
 You can visualize your data with a single line of code:
 
 ```python
-from pyadt.datasets.utils import plot_series
+from pyadt.data.utils import plot_series
 
 fig = plot_series(value=data['value'], label=data['label'], datetime=data['datetime'], plot_vline=True)
 fig.show()
@@ -134,7 +136,7 @@ fig.show()
 
 The example visualization:
 
-<img src="https://i.loli.net/2020/08/12/j78NoQsZHtR5lnv.png" style="zoom: 67%;" />
+<img src="https://i.loli.net/2020/08/12/j78NoQsZHtR5lnv.png" style="zoom: 50%;" />
 
 ### Generate synthetic data
 

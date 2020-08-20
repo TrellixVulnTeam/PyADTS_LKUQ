@@ -2,7 +2,6 @@ from typing import List
 
 import numpy as np
 
-
 EPS=1e-8
 MAG_WINDOW=3
 

@@ -1,8 +1,8 @@
 from typing import Union
 
 import numpy as np
-
 from statsmodels.tsa.seasonal import STL
+
 from .__interpacf import interpolated_acf, dominant_period
 
 

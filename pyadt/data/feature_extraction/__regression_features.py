@@ -1,5 +1,3 @@
-import numpy as np
-
 from statsmodels.tsa.api import SARIMAX, ExponentialSmoothing, SimpleExpSmoothing, Holt
 
 

@@ -4,10 +4,11 @@ missing data.
 """
 from __future__ import print_function, absolute_import, division
 
-import numpy as np
-from scipy.ndimage import gaussian_filter
-from scipy import signal
 import warnings
+
+import numpy as np
+from scipy import signal
+from scipy.ndimage import gaussian_filter
 
 __all__ = ["interpolated_acf", "autocorrelation", "interpolate_missing_data",
            "dominant_period"]

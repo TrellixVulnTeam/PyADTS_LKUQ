@@ -1,14 +1,11 @@
-import warnings
-
 import numpy as np
-from tqdm import tqdm
-
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 from ..base import BaseModel
-from ...datasets.utils import to_tensor_dataset
+from ...data.utils import to_tensor_dataset
 
 
 class MLP(nn.Module):

@@ -2,10 +2,7 @@ import sys
 
 sys.path.append('..')
 
-from pyadt.datasets.series import Series
-from pyadt.datasets.repository.nab import get_nab_nyc_taxi
-
-from pyadt.utils.visualization import plot
+from pyadt.data.repository.nab import get_nab_nyc_taxi
 
 
 def test_get_nab_nyc_taxi():

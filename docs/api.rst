@@ -8,7 +8,7 @@ This is the API documentation for ``PyADT``.
 Dataset
 =======
 
-.. automodule:: pyadt.datasets
+.. automodule:: pyadt.data
     :no-members:
     :no-inherited-members:
 
@@ -19,11 +19,12 @@ Dataset
     :template: class.rst
     :toctree: generated
 
-    datasets.feature_extraction.FeatureExtractor
-    datasets.preprocessing
-    datasets.repository.get_kpi
-    datasets.repository.get_nab_nyc_taxi
-    datasets.utils
+    data.feature_extraction.FeatureExtractor
+    data.preprocessing
+    data.repository.get_kpi
+    data.repository.get_nab_nyc_taxi
+    data.synthetic
+    data.utils
 
 
 Model

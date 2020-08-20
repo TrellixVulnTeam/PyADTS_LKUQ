@@ -1,11 +1,9 @@
 import warnings
+from datetime import datetime
 from typing import Union
 
 import numpy as np
-
-from torch.utils.data import Dataset, TensorDataset
-
-from datetime import datetime
+from torch.utils.data import Dataset
 
 
 def timestamp_to_datetime(ts: Union[int, float]) -> datetime:

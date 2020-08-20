@@ -4,7 +4,6 @@ import pandas as pd
 
 from ..utils import timestamp_to_datetime
 
-
 DATA_NAMES = {
     'first': 'phase2_train.csv',
     'second': 'phase2_ground_truth.hdf'

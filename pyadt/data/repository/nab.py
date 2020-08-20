@@ -1,11 +1,10 @@
-import os
 import json
+import os
 
 import numpy as np
 import pandas as pd
 
 from ..utils import datetime_to_timestamp
-
 
 DATA_NAMES = {
     'nyc_taxi': 'data/realKnownCause/nyc_taxi.csv'
