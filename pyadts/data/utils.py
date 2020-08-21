@@ -26,7 +26,7 @@ def __anomaly_num(label):
 
 
 def __anomaly_rate(label):
-    return np.count_nonzero(label)/label.shape[0]
+    return np.count_nonzero(label) / label.shape[0]
 
 
 def dataset_statics(missing: np.ndarray, label: np.ndarray):
@@ -49,5 +49,5 @@ def sliding_window():
     pass
 
 
-def to_tensor_dataset(X: np.ndarray, y: np.ndarray=None) -> Dataset:
+def to_tensor_dataset(X: np.ndarray, y: np.ndarray = None) -> Dataset:
     pass

@@ -58,14 +58,14 @@ def interpolate_missing_data(times, fluxes, cadences=None):
         dt = np.median(np.diff(times))
         # Approximate the patchy grid of integer cadence indices,
         # i.e.: (0, 1, 3, 4, 5, 8, ...)
-        cadence_indices = np.rint((times - first_time)/dt)
+        cadence_indices = np.rint((times - first_time) / dt)
 
     # Find missing cadence indices if that grid were complete
     expected_cadence_indices = set(np.arange(cadence_indices.min(),
                                              cadence_indices.max()))
     missing_cadence_indices = expected_cadence_indices.difference(set(cadence_indices))
     # Convert the missing cadences to times
-    missing_times = first_time + np.array(list(missing_cadence_indices))*dt
+    missing_times = first_time + np.array(list(missing_cadence_indices)) * dt
 
     # Interpolate to find fluxes at missing times
     interp_fluxes = np.interp(missing_times, times, fluxes)
@@ -86,7 +86,7 @@ def autocorrelation(x):
     Calculate the autocorrelation function of array ``x``.
     """
     result = np.correlate(x, x, mode='full')
-    return result[result.size//2:]
+    return result[result.size // 2:]
 
 
 def interpolated_acf(times, fluxes, cadences=None):
@@ -113,7 +113,7 @@ def interpolated_acf(times, fluxes, cadences=None):
     if not np.all(np.sort(times) == times):
         raise ValueError("Arrays must be in chronological order to compute ACF")
 
-    if not np.abs(np.median(fluxes)/np.max(fluxes) < 0.01):
+    if not np.abs(np.median(fluxes) / np.max(fluxes) < 0.01):
         warnmessage = ("Have you normalized your fluxes so that their median is"
                        " near zero?")
         warnings.warn(warnmessage, NonzeroMedianWarning)
@@ -124,7 +124,7 @@ def interpolated_acf(times, fluxes, cadences=None):
                                                                        cadences)
     # Calculate the grid of "lags" in units of ``times``
     dt = np.median(np.diff(interpolated_times))
-    lag = dt*np.arange(len(interpolated_fluxes))
+    lag = dt * np.arange(len(interpolated_fluxes))
 
     # Compute the autocorrelation function on interpolated fluxes
     acf = autocorrelation(interpolated_fluxes)
@@ -183,8 +183,8 @@ def dominant_period(lag, acf, min=None, max=None, fwhm=18, window=56,
         lag_limited = lag_limited[(lag_limited < max) & (lag_limited > min)]
 
     # Convert fwhm -> sigma, convolve with gaussian kernel
-    sigma = fwhm/2.355
-    truncate = window/sigma
+    sigma = fwhm / 2.355
+    truncate = window / sigma
     smooth_acf = gaussian_filter(acf_limited, sigma, truncate=truncate)
 
     # Detect peaks
@@ -203,8 +203,8 @@ def dominant_period(lag, acf, min=None, max=None, fwhm=18, window=56,
     if plot:
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots()
-        ax.plot(lag, acf/np.max(acf), label='ACF', color='k', lw=2)
-        ax.plot(lag_limited, smooth_acf/np.max(smooth_acf),
+        ax.plot(lag, acf / np.max(acf), label='ACF', color='k', lw=2)
+        ax.plot(lag_limited, smooth_acf / np.max(smooth_acf),
                 label='Smoothed ACF', ls='--', color='r')
         ax.axvline(acf_period, ls='--', color='DodgerBlue',
                    label='Primary period')

@@ -13,20 +13,20 @@ class SVM(BaseModel):
         else:
             self.model = SVC(kernel=kernel)
 
-    def fit(self, X: np.ndarray, y: np.ndarray=None):
-        self.__store_train_data(X, y)
+    def fit(self, x: np.ndarray, y: np.ndarray = None):
+        self.store_train_data(x, y)
 
-        self.model.fit(X, y)
+        self.model.fit(x, y)
 
-    def predict_score(self, X: np.ndarray):
-        self.__check_fitted()
+    def predict_score(self, x: np.ndarray):
+        self.check_fitted()
 
-        scores = self.model.decision_function(X)
+        scores = self.model.decision_function(x)
 
         # TODO
-        return scores[:,1].reshape(-1)
+        return scores[:, 1].reshape(-1)
 
-    def predict(self, X: np.ndarray):
-        assert self.__check_fitted()
+    def predict(self, x: np.ndarray):
+        assert self.check_fitted()
 
-        return self.model.predict(X)
+        return self.model.predict(x)

@@ -13,7 +13,8 @@ def __auto_period(value: np.ndarray):
     return int(period)
 
 
-def get_stl_feature(value: np.ndarray, period: Union[int, str]='auto', seasonal: int=7, robust: bool=True) -> np.ndarray:
+def get_stl_feature(value: np.ndarray, period: Union[int, str] = 'auto', seasonal: int = 7,
+                    robust: bool = True) -> np.ndarray:
     if isinstance(period, str):
         assert period == 'auto'
 

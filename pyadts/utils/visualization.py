@@ -2,26 +2,26 @@ import warnings
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from pandas import plotting
-
 
 MAX_PLOT_NUM = 4
 
 
-def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame=None, title: str = None, plot_vline:bool=True):
+def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame = None, title: str = None, plot_vline: bool = True):
     num_plot = data_df.shape[1]
     if num_plot > MAX_PLOT_NUM:
-        warnings.warn('The number of series exceeds the maximum plotting number limit! Only first %d series processed!'%(MAX_PLOT_NUM))
+        warnings.warn(
+            'The number of series exceeds the maximum plotting number limit! Only first %d series processed!' % (
+                MAX_PLOT_NUM))
         num_plot = MAX_PLOT_NUM
 
     with plt.style.context(['seaborn-whitegrid']):
         # fig, axes = plt.subplots(nrows=num_plot, ncols=1, figsize=(12, 4*num_plot), sharex='all')
-        fig = plt.figure(figsize=(12, 4*num_plot), tight_layout=True)
+        fig = plt.figure(figsize=(12, 4 * num_plot), tight_layout=True)
 
         ax_prev = None
         for i in range(num_plot):
             # axes[i].plot(data_df.index, data_df['value'], color='black', linewidth=0.5, label='series')
-            ax = fig.add_subplot(num_plot, 1, i+1, sharex=ax_prev)
+            ax = fig.add_subplot(num_plot, 1, i + 1, sharex=ax_prev)
             ax_prev = ax
             ax.plot(data_df.index, data_df.iloc[:, i], color='black', linewidth=0.5, label=data_df.columns[i])
 
@@ -35,7 +35,8 @@ def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame=None, title: str = 
                         # axes[i].axvline(xv, color='orange', lw=1, alpha=0.1)
                         ax.axvline(xv, color='orange', lw=1, alpha=0.1)
                 # axes[i].plot(date_index[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
-                ax.plot(date_index[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
+                ax.plot(date_index[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5,
+                        label='anomalies')
 
             # legend = axes[i].legend(loc=0, prop={'size': 16})
             legend = ax.legend(loc=0, prop={'size': 16})

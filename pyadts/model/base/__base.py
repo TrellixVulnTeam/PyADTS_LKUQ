@@ -10,35 +10,36 @@ class BaseModel(abc.ABC):
     """
     The base model of anomaly detectors.
     """
+
     def __init__(self):
         pass
 
-    def __store_train_data(self, X:np.ndarray, y: np.ndarray=None):
-        self.__train_x = X
+    def store_train_data(self, x: np.ndarray, y: np.ndarray = None):
+        self.__train_x = x
         self.__train_y = y
 
-    def __check_fitted(self):
+    def check_fitted(self):
         return hasattr(self, '__train_x')
 
     @abc.abstractmethod
-    def fit(self, X: np.ndarray, y: np.ndarray=None):
+    def fit(self, x: np.ndarray, y: np.ndarray = None):
         """
 
 
         Parameters
         ----------
-        X :
+        x :
         y :
         """
         pass
 
     @abc.abstractmethod
-    def predict_score(self, X: np.ndarray):
+    def predict_score(self, x: np.ndarray):
         """
 
         Parameters
         ----------
-        X :
+        x :
         """
         pass
 
@@ -60,21 +61,21 @@ class BaseModel(abc.ABC):
         """
         return self.__dict__
 
-    def predict(self, X: np.ndarray):
+    def predict(self, x: np.ndarray):
         """
 
         Parameters
         ----------
-        X :
+        x :
 
         Returns
         -------
 
         """
-        assert self.__check_fitted()
+        assert self.check_fitted()
 
         train_score = self.predict_score(self.__train_x)
-        test_score = self.predict_score(X)
+        test_score = self.predict_score(x)
 
         th = auto_threshold(train_score, test_score)
 
@@ -83,71 +84,71 @@ class BaseModel(abc.ABC):
 
         return predictions.astype(np.int)
 
-    def predict_prob(self, X: np.ndarray):
+    def predict_prob(self, x: np.ndarray):
         """
 
         Parameters
         ----------
-        X :
+        x :
 
         Returns
         -------
 
         """
-        assert self.__check_fitted()
+        assert self.check_fitted()
 
         train_score = self.predict_score(self.__train_x)
-        test_score = self.predict_score(X)
+        test_score = self.predict_score(x)
 
         scaler = MinMaxScaler().fit(train_score.reshape(-1, 1))
         prob = scaler.transform(test_score.reshape(-1, 1)).ravel().clip(0, 1).reshape(-1)
 
         return prob
 
-    def fit_predict(self, X: np.ndarray, y: np.ndarray=None):
+    def fit_predict(self, x: np.ndarray, y: np.ndarray = None):
         """
 
         Parameters
         ----------
-        X :
+        x :
         y :
 
         Returns
         -------
 
         """
-        self.fit(X, y)
+        self.fit(x, y)
 
-        return self.predict(X)
+        return self.predict(x)
 
-    def fit_predict_score(self, X: np.ndarray, y: np.ndarray = None):
+    def fit_predict_score(self, x: np.ndarray, y: np.ndarray = None):
         """
 
         Parameters
         ----------
-        X :
+        x :
         y :
 
         Returns
         -------
 
         """
-        self.fit(X, y)
+        self.fit(x, y)
 
-        return self.predict_score(X)
+        return self.predict_score(x)
 
-    def fit_predict_prob(self, X: np.ndarray, y: np.ndarray = None):
+    def fit_predict_prob(self, x: np.ndarray, y: np.ndarray = None):
         """
 
         Parameters
         ----------
-        X :
+        x :
         y :
 
         Returns
         -------
 
         """
-        self.fit(X, y)
+        self.fit(x, y)
 
-        return self.predict_prob(X)
+        return self.predict_prob(x)

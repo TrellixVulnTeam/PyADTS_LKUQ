@@ -11,4 +11,3 @@ def get_diff_feature(value: np.ndarray) -> np.ndarray:
 
 def get_diff2_feature(value: np.ndarray) -> np.ndarray:
     return np.diff(np.diff(value, prepend=0), prepend=0)
-

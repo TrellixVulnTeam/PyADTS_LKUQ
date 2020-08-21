@@ -187,10 +187,11 @@ TODO
 
 ## TODO
 
-- [] Fix bugs and reformat code
-- [] Multi-variate time series support
-- [] Complete the models
-- [] Incorporating Numba
-- [] Implement the pipeline
-- [] Synthetic data generator
-- [] Allow both inplace and non-inplace operations
+- [ ] Fix bugs and reformat code
+- [ ] Multi-variate time series support
+- [ ] Complete the models
+- [ ] Incorporating Numba
+- [ ] Implement the pipeline
+- [ ] Synthetic data generator
+- [ ] Allow both inplace and non-inplace operations
+- [ ] Add streaming support
