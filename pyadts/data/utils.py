@@ -1,4 +1,3 @@
-import warnings
 from datetime import datetime
 from typing import Union
 
@@ -12,14 +11,6 @@ def timestamp_to_datetime(ts: Union[int, float]) -> datetime:
 
 def datetime_to_timestamp(dt: datetime) -> int:
     return int(dt.timestamp())
-
-
-def handle_zeros(value):
-    EPS = 1e-6
-    if value < EPS:
-        warnings.warn(f'Zero denominator detected. Replace it by {EPS}.')
-        return EPS
-    return value
 
 
 def __missing_num(missing):
