@@ -59,6 +59,15 @@ def __rearrange_index(value: np.ndarray=None, label: np.ndarray=None, timestamp:
             'timestamp': reconstructed_timestamp, 'datetime': reconstructed_datetime, 'missing': missing}
 
 
+def __rearrange_index(data_df: pd.DataFrame, meta_df: pd.DataFrame):
+    assert (data_df.index == meta_df.index).all(), 'The indexes of `data_df` and `meta_df` dose not match!'
+
+    data_df.sort_index(inplace=True)
+    meta_df.sort_index(inplace=True)
+
+    data_df.index.to_series()
+
+
 def series_rearrange(value: np.ndarray=None, label: np.ndarray=None, timestamp: np.ndarray=None, datetime: pd.Series=None):
     assert value is not None
     assert timestamp is not None

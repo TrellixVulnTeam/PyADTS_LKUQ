@@ -45,11 +45,3 @@ def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame=None, title: str = 
         if title is not None:
             fig.suptitle(title, fontsize=18)
     return fig
-
-
-def plot_lag(data_df: pd.DataFrame, lag:int = 1, title: str=None):
-    with plt.style.context(['seaborn-whitegrid']):
-        ax = plotting.lag_plot(data_df['value'], lag=lag)
-
-        if title is not None:
-            ax.set_title(title)
