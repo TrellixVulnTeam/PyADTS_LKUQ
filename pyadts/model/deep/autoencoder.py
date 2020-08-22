@@ -1,7 +1,7 @@
-from ...base import BaseModel
+from pyadts.model.base import BaseModel
 
 
-class Donut(BaseModel):
+class Autoencoder(BaseModel):
     def __init__(self):
         super().__init__()
         raise NotImplementedError

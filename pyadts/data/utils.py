@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Union
 
 import numpy as np
+import pandas as pd
 from torch.utils.data import Dataset
 
 
@@ -34,9 +35,9 @@ def dataset_statics(missing: np.ndarray, label: np.ndarray):
             'Anomaly num': __anomaly_num(label), 'Anomaly rate': __anomaly_rate(label)}
 
 
-def train_test_split():
-    # TODO
-    pass
+def train_test_split(data_df: pd.DataFrame, meta_df: pd.DataFrame, train_ratio: float):
+    train_num = int(data_df.shape[0]*train_ratio)
+    return data_df.iloc[:train_num, :], meta_df.iloc[:train_num, :], data_df.iloc[train_num:, :], meta_df.iloc[train_num:, :]
 
 
 def label_sampling():

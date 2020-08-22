@@ -15,11 +15,11 @@ class BaseModel(abc.ABC):
         pass
 
     def store_train_data(self, x: np.ndarray, y: np.ndarray = None):
-        self.__train_x = x
-        self.__train_y = y
+        self.train_x = x
+        self.train_y = y
 
     def check_fitted(self):
-        return hasattr(self, '__train_x')
+        return hasattr(self, 'train_x')
 
     @abc.abstractmethod
     def fit(self, x: np.ndarray, y: np.ndarray = None):

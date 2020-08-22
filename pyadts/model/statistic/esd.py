@@ -2,7 +2,7 @@ import numpy as np
 import scipy.stats as stats
 from statsmodels.tsa.seasonal import STL
 
-from ...base import BaseModel
+from pyadts.model.base import BaseModel
 
 
 def calculate_test_statistic(ts, hybrid=False):

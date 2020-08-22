@@ -1,4 +1,4 @@
-from ...base import BaseModel
+from pyadts.model.base import BaseModel
 
 
 class OCSVM(BaseModel):

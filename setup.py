@@ -79,10 +79,11 @@ def __parse_requirements(file_name):
 setup(
     name='pyadts',
     author='Xiao Qinfeng',
+    author_email='larryshaw0079@live.com',
     description='A python package for time series anomaly detection',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version='0.0.1',
+    version='0.0.1b',
     packages=[],
     scripts=[],
     install_requirements=__parse_requirements('requirements.txt'),
