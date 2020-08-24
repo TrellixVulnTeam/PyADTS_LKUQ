@@ -1,6 +1,7 @@
 from .k_sigma import KSigmaDetector
 from .quantile import QuantileDetector
-from. spot import SPOT
+from .spot import SPOT
+from .sr import SpectralResidual
 from .threshold import ThresholdDetector
 
 

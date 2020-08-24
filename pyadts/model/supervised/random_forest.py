@@ -27,4 +27,4 @@ class RandomForest(BaseModel):
     def predict_prob(self, x: np.ndarray):
         assert self.check_fitted()
 
-        return self.model.predict_proba(x)
+        return self.model.predict_proba(x)[:, 1].reshape(-1)

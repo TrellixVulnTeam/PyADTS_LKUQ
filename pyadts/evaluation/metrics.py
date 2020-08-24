@@ -57,11 +57,11 @@ def best_recall(score: np.ndarray, label: np.ndarray, delay: int = None):
 
 
 @deprecated('Using F1-score to evaluate anomaly detection algorithms is not recommended.')
-def best_f1(score: np.ndarray, label: np.ndarray, delay: int = None):
+def best_f1(prediction: np.ndarray, label: np.ndarray, delay: int = None):
     if delay is not None:
-        score = __adjust_predictions(score, label, delay=delay, inplace=False)
+        prediction = __adjust_predictions(prediction, label, delay=delay, inplace=False)
 
-    ps, rs, ts = precision_recall_curve(label, score)
+    ps, rs, ts = precision_recall_curve(label, prediction)
     fs = 2 * ps * rs / np.clip(ps + rs, a_min=1e-8, a_max=None)
 
     return np.max(fs[np.isfinite((fs))])

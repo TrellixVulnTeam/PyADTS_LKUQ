@@ -2,7 +2,7 @@ import numpy as np
 from tqdm.std import tqdm
 
 
-def get_window_feature(self, value: np.ndarray, window_size: int, verbose: bool = True):
+def get_window_feature(value: np.ndarray, window_size: int, verbose: bool = True):
     assert window_size * 2 <= value.shape[0]
 
     start_point = 2 * window_size

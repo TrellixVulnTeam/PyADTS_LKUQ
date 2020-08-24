@@ -17,7 +17,7 @@ class SpectralResidual(BaseModel):
     def predict_score(self, x: np.ndarray):
         self.check_fitted()
 
-        mags = spectral_residual_transform(np.concatenate([self.__train_x, x]))
+        mags = spectral_residual_transform(np.concatenate([self.train_x, x]))
         score = generate_spectral_score(mags)
 
         return score[-x.shape[0]:]

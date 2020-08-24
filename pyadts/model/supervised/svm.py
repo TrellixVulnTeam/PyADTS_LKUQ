@@ -24,7 +24,7 @@ class SVM(BaseModel):
         scores = self.model.decision_function(x)
 
         # TODO
-        return scores[:, 1].reshape(-1)
+        return scores.reshape(-1)
 
     def predict(self, x: np.ndarray):
         assert self.check_fitted()

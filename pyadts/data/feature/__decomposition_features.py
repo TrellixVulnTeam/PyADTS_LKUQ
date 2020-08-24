@@ -19,6 +19,7 @@ def get_stl_feature(value: np.ndarray, period: Union[int, str] = 'auto', seasona
         assert period == 'auto'
 
     if period == 'auto':
+        print('[INFO] Finding period automatically...')
         period = __auto_period(value)
         if np.isnan(period):
             raise ValueError('No period found!')

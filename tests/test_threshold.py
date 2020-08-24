@@ -1,15 +1,13 @@
 import sys
-from datetime import datetime
-
-import numpy as np
-import pandas as pd
 
 sys.path.append('..')
 
 from pyadts.data.repository.kpi import get_kpi
-from pyadts.data.preprocessing import series_rearrange, series_normalize, series_impute
 from pyadts.data.utils import train_test_split
 from pyadts.model.streaming import ThresholdDetector
+from pyadts.data.preprocessing import (
+    series_rearrange, series_impute
+)
 
 
 def test_fit():
