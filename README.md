@@ -1,6 +1,7 @@
 # Anomaly Detection for Time-series (PyADTS)
 
-
+[![Build Status](https://travis-ci.org/larryshaw0079/PyADTS.svg?branch=master)](https://travis-ci.org/larryshaw0079/PyADTS)
+[![Coverage Status](https://coveralls.io/repos/github/larryshaw0079/PyADTS/badge.svg?branch=master)](https://coveralls.io/github/larryshaw0079/PyADTS?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/pyadts/badge/?version=latest)](https://pyadts.readthedocs.io/en/latest/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/pyadts)](https://pypi.org/project/pyadts/)
 [![Anaconda](https://anaconda.org/larryshaw0079/pyadts/badges/version.svg)](https://anaconda.org/larryshaw0079/pyadts)
@@ -8,13 +9,15 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/larryshaw0079/PyADTS/master?filepath=notebooks%2Fdemo.ipynb)
 ---
 
-`PyADTS` is aimed at accelerating the workflow of time series anomaly detection for researchers. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADTS` can help you to write less boilerplate on following parts:
+`PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADTS` can help you to write less boilerplate on following parts:
 
 - Preparing dataset & pre-processing
 - Feature extraction (Optional)
 - Model training
 - Ensemble (Optional)
 - Evaluation
+
+With `PyADTS`, you can run baselines rapidly.
 
 You can find the complete [documentation](https://pyadts.readthedocs.io/en/latest/) here.
 

@@ -23,7 +23,7 @@ setup(
     description='A python package for time series anomaly detection',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version='0.0.1b',
+    version='0.0.2a',
     packages=[],
     scripts=[],
     install_requirements=__parse_requirements('requirements.txt'),
