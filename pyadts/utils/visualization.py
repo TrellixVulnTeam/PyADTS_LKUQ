@@ -3,13 +3,13 @@ import warnings
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
 from sklearn.metrics import roc_curve, auc
 
 MAX_PLOT_NUM = 4
 
 
-def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame = None, predictions: pd.DataFrame = None, title: str = None):
+def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame = None, predictions: pd.DataFrame = None,
+                title: str = None, anomaly_color_depth: float = 0.2):
     num_plot = data_df.shape[1]
     if num_plot > MAX_PLOT_NUM:
         warnings.warn(
@@ -38,7 +38,7 @@ def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame = None, predictions
                 value = data_df.iloc[:, i]
                 for xv in date_index[label == 1]:
                     # axes[i].axvline(xv, color='orange', lw=1, alpha=0.1)
-                    ax.axvline(xv, color='orange', lw=1, alpha=0.1)
+                    ax.axvline(xv, color='orange', lw=1, alpha=anomaly_color_depth)
                 # axes[i].plot(date_index[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
 
             if predictions is not None:
