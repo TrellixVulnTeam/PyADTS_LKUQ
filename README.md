@@ -6,8 +6,12 @@
 [![PyPI](https://img.shields.io/pypi/v/pyadts)](https://pypi.org/project/pyadts/)
 [![Anaconda](https://anaconda.org/larryshaw0079/pyadts/badges/version.svg)](https://anaconda.org/larryshaw0079/pyadts)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/larryshaw0079/PyADTS/master?filepath=notebooks%2Fdemo.ipynb)
----
+
+
+
+<img src="https://i.loli.net/2020/09/16/jlALoQ18vnXDPCU.png" style="zoom:67%;" />
 
 `PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADTS` can help you to write less boilerplate on following parts:
 
