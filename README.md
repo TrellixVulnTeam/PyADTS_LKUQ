@@ -1,4 +1,4 @@
-# Anomaly Detection for Time-series (PyADTS)
+# PyADTS: A Python Toolkit for Time-series Anomaly Detection
 
 [![Build Status](https://travis-ci.org/larryshaw0079/PyADTS.svg?branch=master)](https://travis-ci.org/larryshaw0079/PyADTS)
 [![Coverage Status](https://coveralls.io/repos/github/larryshaw0079/PyADTS/badge.svg?branch=master)](https://coveralls.io/github/larryshaw0079/PyADTS?branch=master)
@@ -11,7 +11,7 @@
 
 
 
-<img src="https://i.loli.net/2020/09/16/jlALoQ18vnXDPCU.png" style="zoom:67%;" />
+<div align=center><img src="https://i.loli.net/2020/09/16/jlALoQ18vnXDPCU.png" width=45% height=45% /></div >
 
 `PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADTS` can help you to write less boilerplate on following parts:
 
@@ -185,19 +185,26 @@ TODO
 - Isolation Forest
 - OCSVM
 
-#### Deep-based
+#### Deep learning-based
 
 - Autoencoder
 - RNN Autoencoder
 - Donut
 
-## TODO
+### Datasets
 
-- [ ] Fix bugs and reformat code
-- [ ] Multi-variate time series support
-- [ ] Complete the models
-- [ ] Incorporating Numba
-- [ ] Implement the pipeline
-- [ ] Synthetic data generator
-- [ ] Allow both inplace and non-inplace operations
-- [ ] Add streaming support
+#### Univariate
+
+- [**KPI**]([https://github.com/NetManAIOps/KPI-Anomaly-Detection)
+- [**NAB**](https://github.com/numenta/NAB)
+- [**Yahoo**](https://webscope.sandbox.yahoo.com/catalog.php?datatype=s&did=70)
+
+#### Multivariate
+
+- [**SMAP**](https://github.com/khundman/telemanom)
+- [**MSL**](https://github.com/khundman/telemanom)
+- [**SMD**](https://github.com/NetManAIOps/OmniAnomaly)
+- [**SKAB**](https://github.com/waico/SkAB)
+
+## Reference
+
