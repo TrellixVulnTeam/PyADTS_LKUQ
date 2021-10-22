@@ -4,3 +4,8 @@
 @Software: PyCharm
 @Desc    : 
 """
+import numpy as np
+
+
+def get_smd_dataset(root: str, download: bool):
+    pass

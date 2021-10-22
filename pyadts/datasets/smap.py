@@ -4,10 +4,8 @@
 @Software: PyCharm
 @Desc    : 
 """
+import numpy as np
 
-from pyadts.common import Data
 
-
-class SMAPData(Data):
-    def __init__(self):
-        pass
+def get_smap_dataset(root: str, download: bool):
+    pass

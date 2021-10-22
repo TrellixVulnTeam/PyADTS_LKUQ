@@ -4,3 +4,8 @@
 @Software: PyCharm
 @Desc    : 
 """
+import numpy as np
+
+
+def get_swat_dataset(root: str, download: bool):
+    pass

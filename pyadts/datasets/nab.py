@@ -35,3 +35,7 @@ def get_nab_nyc_taxi(root_path):
         label[(timestamp >= t1).values & (timestamp <= t2).values] = 1
 
     return {'value': value, 'label': label, 'timestamp': timestamp, 'datetime': datetime}
+
+
+def get_nab_dataset(root: str, download: str, subset: str):
+    pass

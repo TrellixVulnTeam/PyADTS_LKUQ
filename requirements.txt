@@ -24,7 +24,3 @@ torch-geometric
 # Utilities
 tqdm
 pyts>=0.11.0
-
-# Other third-party libs
-combo
-pyod

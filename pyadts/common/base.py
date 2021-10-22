@@ -5,22 +5,9 @@
 @Desc    : 
 """
 import abc
-from typing import Union
+from typing import Union, IO
 
 import numpy as np
-
-
-class Data(abc.ABC):
-    def __init__(self):
-        pass
-
-    @abc.abstractmethod
-    def __getitem(self, item):
-        pass
-
-    @abc.abstractmethod
-    def __len__(self):
-        pass
 
 
 class Function(abc.ABC):
@@ -28,15 +15,15 @@ class Function(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def fit(self, x: Union[np.ndarray, Data]):
+    def fit(self, x: np.ndarray):
         pass
 
     @abc.abstractmethod
-    def transform(self, x: Union[np.ndarray, Data]):
+    def transform(self, x: np.ndarray):
         pass
 
     @abc.abstractmethod
-    def fit_transform(self, x: Union[np.ndarray, Data]):
+    def fit_transform(self, x: np.ndaray):
         pass
 
 
@@ -45,13 +32,21 @@ class Model(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def fit(self, x: Union[np.ndarray, Data], y: np.ndarray = None):
+    def fit(self, x: np.ndarray, y: np.ndarray = None):
         pass
 
     @abc.abstractmethod
-    def predict(self, x: Union[np.ndarray, Data]):
+    def predict(self, x: np.ndarray):
         pass
 
     @abc.abstractmethod
-    def score(self, x: Union[np.ndarray, Data]):
+    def score(self, x: np.ndarray):
+        pass
+
+    @abc.abstractmethod
+    def save(self, f: Union[str, IO]):
+        pass
+
+    @abc.abstractmethod
+    def load(self, f: Union[str, IO]):
         pass

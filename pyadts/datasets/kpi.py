@@ -3,7 +3,7 @@ from typing import Tuple
 
 import pandas as pd
 
-DATA_NAMES = {
+SPLITS = {
     'first': 'phase2_train.csv',
     'second': 'phase2_ground_truth.hdf'
 }
@@ -39,33 +39,9 @@ KPI_IDS = ['05f10d3a-239c-3bef-9bdc-a2feeb0037aa',
            'ffb82d38-5f00-37db-abc0-5d2e4e4cb6aa']
 
 
-def __check_dataset(root_path: str):
-    if (not os.path.exists(os.path.join(root_path, DATA_NAMES['first']))) or (
-            not os.path.exists(os.path.join(root_path, DATA_NAMES['second']))):
-        raise FileNotFoundError('The dataset is not found in path %s' % root_path)
-
-
-def get_kpi_dataset(root_path: str, kpi_id: int = 0) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """
-
-    Parameters
-    ----------
-    root_path : str
-        The path of downloaded kpi dataset.
-    kpi_id : int
-        The index of selected kpi series (The whole dataset contains multiple series).
-
-    Returns
-    -------
-    pd.DataFrame
-        The data DataFrame
-    pd.DataFrame
-        The meta DataFrame
-    """
-    __check_dataset(root_path)
-
-    first_df = pd.read_csv(os.path.join(root_path, DATA_NAMES['first']))
-    second_df = pd.read_hdf(os.path.join(root_path, DATA_NAMES['second']))
+def get_kpi_dataset(root: str, download: bool, subset: str):
+    first_df = pd.read_csv(os.path.join(root, SPLITS['first']))
+    second_df = pd.read_hdf(os.path.join(root, SPLITS['second']))
     df = pd.concat([first_df, second_df])
 
     selected_df = df[df['KPI ID'].apply(str) == KPI_IDS[kpi_id]]
