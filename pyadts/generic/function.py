@@ -13,6 +13,9 @@ class Function(abc.ABC):
     def __init__(self):
         pass
 
+    def __call__(self, *args, **kwargs):
+        return self.fit_transform(*args, **kwargs)
+
     @abc.abstractmethod
     def fit(self, x: np.ndarray):
         pass
