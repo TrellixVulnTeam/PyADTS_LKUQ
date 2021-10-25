@@ -1,24 +1,57 @@
 import warnings
+from typing import List
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from sklearn.metrics import roc_curve, auc
 
 MAX_PLOT_NUM = 4
 
 
-def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame = None, predictions: pd.DataFrame = None,
-                title: str = None, anomaly_color_depth: float = 0.2):
-    num_plot = data_df.shape[1]
+def plot_series(x: np.ndarray, names: List[str] = None, timestamps: np.ndarray = None, label: np.ndarray = None,
+                predictions: np.ndarray = None, title: str = None, anomaly_color_depth: float = 0.2):
+    # check `x`
+    if x.ndim == 1:
+        x = x.reshape(1, -1)
+    else:
+        assert x.ndim == 2
+
+    # check `names`
+    if names is not None:
+        assert len(names) == x.shape[-2]
+    else:
+        names = [f'series{i}' for i in range(x.shape[-2])]
+
+    # check `timestamps`
+    if timestamps is not None:
+        try:
+            timestamps = timestamps.reshape(x.shape)
+        except ValueError:
+            raise ValueError('The shape of `timestamp` is not consistent  with `x`!')
+    else:
+        timestamps = np.repeat(np.arange(x.shape[-1]).reshape(1, -1), repeats=(x.shape[-2], 1))
+
+    # check `label`
+    if label is not None:
+        try:
+            label = label.reshape(x.shape)
+        except ValueError:
+            raise ValueError('The shape of `label` is not consistent  with `x`!')
+
+    # check `predictions`
+    if predictions is not None:
+        try:
+            predictions = predictions.reshape(x.shape)
+        except ValueError:
+            raise ValueError('The shape of `predictions` is not consistent  with `x`!')
+
+    num_plot = x.shape[-2]  ## x: (channel, timestamps)
+
     if num_plot > MAX_PLOT_NUM:
         warnings.warn(
             'The number of series exceeds the maximum plotting number limit! Only first %d series processed!' % (
                 MAX_PLOT_NUM))
         num_plot = MAX_PLOT_NUM
-
-    if predictions is not None:
-        assert predictions.shape == data_df.shape
 
     with plt.style.context(['seaborn-whitegrid']):
         # fig, axes = plt.subplots(nrows=num_plot, ncols=1, figsize=(12, 4*num_plot), sharex='all')
@@ -29,21 +62,16 @@ def plot_series(data_df: pd.DataFrame, meta_df: pd.DataFrame = None, predictions
             # axes[i].plot(data_df.index, data_df['value'], color='black', linewidth=0.5, label='series')
             ax = fig.add_subplot(num_plot, 1, i + 1, sharex=ax_prev)
             ax_prev = ax
-            ax.plot(data_df.index, data_df.iloc[:, i], color='black', linewidth=0.5, label=data_df.columns[i])
+            ax.plot(timestamps[i], x[i], color='black', linewidth=0.5, label=names[i])
 
             # Plot anomalies
-            if meta_df is not None:
-                date_index = data_df.index
-                label = meta_df['label']
-                value = data_df.iloc[:, i]
-                for xv in date_index[label == 1]:
-                    # axes[i].axvline(xv, color='orange', lw=1, alpha=0.1)
+            if label is not None:
+                for xv in timestamps[label == 1]:
                     ax.axvline(xv, color='orange', lw=1, alpha=anomaly_color_depth)
-                # axes[i].plot(date_index[label == 1], value[label == 1], linewidth=0, color='red', marker='x', markersize=5, label='anomalies')
 
             if predictions is not None:
-                value = data_df.iloc[:, i]
-                ax.plot(date_index[predictions.iloc[:, i] == 1], value[(predictions.iloc[:, i] == 1).values], linewidth=0, color='red', marker='x', markersize=5,
+                ax.plot(timestamps[predictions[i] == 1], x[predictions == 1], linewidth=0, color='red', marker='x',
+                        markersize=5,
                         label='predictions')
 
             # legend = axes[i].legend(loc=0, prop={'size': 16})

@@ -1,7 +1,10 @@
 import os
-from typing import Tuple
+from typing import Union, Iterable, List
 
 import pandas as pd
+from sklearn.model_selection import KFold, LeaveOneOut
+
+from pyadts.generic import Transform
 
 SPLITS = {
     'first': 'phase2_train.csv',
@@ -39,19 +42,39 @@ KPI_IDS = ['05f10d3a-239c-3bef-9bdc-a2feeb0037aa',
            'ffb82d38-5f00-37db-abc0-5d2e4e4cb6aa']
 
 
-def get_kpi_dataset(root: str, download: bool, subset: str):
+def get_kpi_dataset(root: str, subset: Iterable[int] = None, transform: Transform = None, download: bool = False,
+                    impute: bool = True, normalize: bool = True,
+                    rearrange: bool = True, split_method: str = 'constant', splits: List[Union[int, float]] = None,
+                    kfolds: int = None):
+    if download:
+        raise ValueError('The KPI dataset should be downloaded manually. '
+                         'Please download the dataset at `http://iops.ai/dataset_detail/?id=7`!')
+
+    assert split_method in ['constant', 'kfold', 'leave_one_out']
+
     first_df = pd.read_csv(os.path.join(root, SPLITS['first']))
     second_df = pd.read_hdf(os.path.join(root, SPLITS['second']))
     df = pd.concat([first_df, second_df])
 
-    selected_df = df[df['KPI ID'].apply(str) == KPI_IDS[kpi_id]]
+    if split_method == 'constant':
+        pass
+    elif split_method == 'kfold':
+        assert kfolds is not None, 'The number of folds must be specified!'
 
-    value = selected_df['value'].values
-    label = selected_df['label'].values
-    timestamp = selected_df['timestamp'].values
-    datetime = pd.to_datetime(selected_df['timestamp'].apply(timestamp_to_datetime))
+        kf = KFold(n_splits=kfolds)
+    elif split_method == 'leave_one_out':
+        loo = LeaveOneOut()
 
-    data_df = pd.DataFrame({'value': value}, index=datetime)
-    meta_df = pd.DataFrame({'label': label, 'timestamp': timestamp}, index=datetime)
 
-    return data_df, meta_df
+    else:
+        raise ValueError
+
+    # selected_df = df[df['KPI ID'].apply(str) == KPI_IDS[kpi_id]]
+    #
+    # value = selected_df['value'].values
+    # label = selected_df['label'].values
+    # timestamp = selected_df['timestamp'].values
+    # datetime = pd.to_datetime(selected_df['timestamp'].apply(timestamp_to_datetime))
+    #
+    # data_df = pd.DataFrame({'value': value}, index=datetime)
+    # meta_df = pd.DataFrame({'label': label, 'timestamp': timestamp}, index=datetime)

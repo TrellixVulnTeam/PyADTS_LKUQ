@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.stats as stats
-from pyadts.models.base import BaseModel
+from pyadts.detectors.base import BaseModel
 from statsmodels.tsa.seasonal import STL
 
 

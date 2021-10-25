@@ -1,9 +1,9 @@
 import numpy as np
 
-from pyadts.models.base import BaseModel
+from pyadts.generic import Model
 
 
-class QuantileDetector(BaseModel):
+class QuantileDetector(Model):
     def __init__(self):
         super(QuantileDetector, self).__init__()
 

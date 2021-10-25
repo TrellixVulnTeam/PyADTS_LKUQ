@@ -1,4 +1,4 @@
-from pyadts.common import Model
+from pyadts.generic import Model
 
 
 class AutoEncoder(Model):

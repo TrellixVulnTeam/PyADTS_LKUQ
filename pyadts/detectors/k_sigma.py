@@ -1,9 +1,9 @@
 import numpy as np
 
-from pyadts.models.base import BaseModel
+from pyadts.generic import Model
 
 
-class KSigmaDetector(BaseModel):
+class KSigmaDetector(Model):
     def __init__(self):
         super(KSigmaDetector, self).__init__()
 
@@ -14,4 +14,4 @@ class KSigmaDetector(BaseModel):
         pass
 
     def predict(self, x: np.ndarray):
-        assert self.check_fitted()
+        pass

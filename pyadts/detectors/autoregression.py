@@ -1,4 +1,4 @@
-from pyadts.models.base import BaseModel
+from pyadts.detectors.base import BaseModel
 
 
 class AutoregressionDetector(BaseModel):

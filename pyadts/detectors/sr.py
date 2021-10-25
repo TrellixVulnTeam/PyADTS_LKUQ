@@ -1,6 +1,6 @@
 import numpy as np
 
-from pyadts.common import Model
+from pyadts.generic import Model
 
 
 class SpectralResidual(Model):

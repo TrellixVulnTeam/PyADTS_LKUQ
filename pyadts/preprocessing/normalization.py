@@ -6,7 +6,7 @@
 """
 import numpy as np
 
-from pyadts.common import Function
+from pyadts.generic import Function
 
 
 def robust_scale(x: np.ndarray):
