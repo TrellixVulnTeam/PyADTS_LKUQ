@@ -8,18 +8,18 @@ from typing import Union
 
 import numpy as np
 
-from pyadts.generic import Detector, TimeSeries
+from pyadts.generic import Detector, TimeSeriesRepository
 
 
 class GeneralizedESD(Detector):
     def __init__(self):
         super(GeneralizedESD, self).__init__()
 
-    def fit(self, x: Union[np.ndarray, TimeSeries], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
         pass
 
-    def predict(self, x: Union[np.ndarray, TimeSeries]):
+    def predict(self, x: Union[np.ndarray, TimeSeriesRepository]):
         pass
 
-    def score(self, x: Union[np.ndarray, TimeSeries]):
+    def score(self, x: Union[np.ndarray, TimeSeriesRepository]):
         pass

@@ -4,3 +4,10 @@
 @Software: PyCharm
 @Desc    : 
 """
+from typing import Tuple
+
+import numpy as np
+
+
+def impute(x: np.ndarray, *arrays: Tuple[np.ndarray]):
+    pass

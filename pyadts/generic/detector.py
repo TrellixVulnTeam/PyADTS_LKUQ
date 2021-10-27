@@ -9,8 +9,8 @@ from typing import Union, IO
 
 import numpy as np
 
-from pyadts.generic import TimeSeries
 from pyadts.utils.io import save_objects, load_objects
+from .data import TimeSeriesRepository
 
 
 class Detector(abc.ABC):
@@ -18,15 +18,15 @@ class Detector(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def fit(self, x: Union[np.ndarray, TimeSeries], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
         pass
 
     @abc.abstractmethod
-    def predict(self, x: Union[np.ndarray, TimeSeries]):
+    def predict(self, x: Union[np.ndarray, TimeSeriesRepository]):
         pass
 
     @abc.abstractmethod
-    def score(self, x: Union[np.ndarray, TimeSeries]):
+    def score(self, x: Union[np.ndarray, TimeSeriesRepository]):
         pass
 
     # @abc.abstractmethod

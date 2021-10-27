@@ -13,12 +13,14 @@
 
 <div align=center><img src="https://i.loli.net/2020/09/16/jlALoQ18vnXDPCU.png" width=45% height=45% /></div >
 
-`PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various utilities for data loading, pre-processing, detector construction, detector ensemble, evaluation and etc. `PyADTS` can help you to write less boilerplate on following parts:
+`PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various
+modules for data loading, pre-processing, anomaly detection, detector ensembling, evaluation and etc. `PyADTS` can help
+you to write less boilerplate on following parts:
 
 - Preparing dataset & pre-processing
-- Feature extraction (Optional)
-- Model training
-- Ensemble (Optional)
+- Anomaly detection
+- Detector ensembling
+- Anomaly score calibration
 - Evaluation
 
 With `PyADTS`, you can run baselines rapidly.
@@ -37,7 +39,8 @@ You can find the complete [documentation](https://pyadts.readthedocs.io/en/lates
 To install the package locally, run:
 
 ```bash
->> cd <pyadts_dir>
+>> git clone https://github.com/larryshaw0079/PyADTS
+>> cd PyADTS
 >> pip install .
 ```
 
@@ -155,41 +158,44 @@ TODO
 
 ## Implemented Algorithms
 
-### Supervised Approaches
+### Simple Detectors
 
-- Random Forest
-- SVM
-- Deep Neural Network
+| Algo             | Title | Year | Ref  |
+| ---------------- | ----- | ---- | ---- |
+| RangeDetector    |       |      |      |
+| QuantileDetector |       |      |      |
+| GradientDetector |       |      |      |
 
-### Unsupervised Approaches
+### Statistical Approaches
 
-#### Non-parametric
+| Algo               | Title | Year | Ref  |
+| ------------------ | ----- | ---- | ---- |
+| KSigma             |       |      |      |
+| InterQuartileRange |       |      |      |
+| Hotelling          |       |      |      |
+| ESD                |       |      |      |
+| SPOT               |       |      |      |
+| DSPOT              |       |      |      |
+| SR                 |       |      |      |
 
-- SR
-- Threshold
-- Quantile
-- K​-Sigma
+### Machine Learning Approaches
 
-#### Statistic-based
+| Algo             | Title | Year | Ref  |
+| ---------------- | ----- | ---- | ---- |
+| Autoregression   |       |      |      |
+| RRCF             |       |      |      |
+| Isolation Forest |       |      |      |
 
-- SPOT
-- DSPOT
-- Autoregression
-- ESD
-- S-ESD
-- S-H-ESD
+### Deep Approaches
 
-#### Machine learning-based
-
-- LOF
-- Isolation Forest
-- OCSVM
-
-#### Deep learning-based
-
-- Autoencoder
-- RNN Autoencoder
-- Donut
+| Algo        | Title | Year | Ref  |
+| ----------- | ----- | ---- | ---- |
+| Autoencoder |       |      |      |
+| VAE         |       |      |      |
+| Donut       |       |      |      |
+| MSCRED      |       |      |      |
+| OmniAnomaly |       |      |      |
+| USAD        |       |      |      |
 
 ### Datasets
 

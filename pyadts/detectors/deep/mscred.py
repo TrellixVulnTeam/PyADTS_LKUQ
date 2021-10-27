@@ -1,6 +1,6 @@
 """
-@Time    : 2021/10/25 15:12
-@File    : usad.py
+@Time    : 2021/10/26 0:13
+@File    : mscred.py
 @Software: PyCharm
 @Desc    : 
 """
@@ -11,9 +11,9 @@ import numpy as np
 from pyadts.generic import Detector, TimeSeriesRepository
 
 
-class USAD(Detector):
+class MSCRED(Detector):
     def __init__(self):
-        super(USAD, self).__init__()
+        super(MSCRED, self).__init__()
 
     def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
         pass
