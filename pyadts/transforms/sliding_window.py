@@ -7,7 +7,7 @@
 import numpy as np
 
 from pyadts.generic import Transform
-from pyadts.utils import sliding_window_with_stride
+from pyadts.utils.data import sliding_window_with_stride
 
 
 class SlidingWindow(Transform):

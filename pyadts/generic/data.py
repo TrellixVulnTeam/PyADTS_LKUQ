@@ -5,8 +5,11 @@
 @Desc    : 
 """
 import abc
+from typing import Union, List
 
 import numpy as np
+
+from pyadts.utils.visualization import plot_series
 
 
 class TimeSeriesRepository(abc.ABC):
@@ -22,13 +25,36 @@ class TimeSeriesRepository(abc.ABC):
         pass
 
     def numpy(self):
-        pass
+        return self.data.transpose(), self.labels
 
     def tensor(self):
         pass
 
-    def plot(self):
-        pass
+    def plot(self, series_id: int = 0, channel_id: int = 0, show: bool = True):
+        assert series_id < self.num_series
+        assert channel_id < self.num_channels
+
+        fig = plot_series(self.get_series(series_id, channel_id))
+        if show:
+            fig.show()
+
+        return fig
+
+    def get_series(self, series_id: int, channel_id: Union[int, List[int]] = None):
+        assert series_id < self.num_series
+        if isinstance(channel_id, int):
+            assert channel_id < self.num_channels
+        if isinstance(channel_id, list):
+            for c in channel_id:
+                assert c < self.num_channels
+
+        if channel_id is None:
+            channel_id = list(range(self.num_channels))
+
+        if series_id == 0:
+            return self.data[channel_id, :self.sep_indicators[series_id]]
+        else:
+            return self.data[channel_id, self.sep_indicators[series_id - 1]: self.sep_indicators[series_id]]
 
     @property
     def num_channels(self):
