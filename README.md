@@ -208,6 +208,8 @@ TODO
 >[1] Hotelling, H. (1947). Multivariate Quality Control-illustrated by the air testing of sample bombsights.
 ></div>
 >
+>
+>
 ><div id="ref2">
 >[2] Rosner, B. (1983). Percentage Points for a Generalized ESD Many-Outlier Procedure. Technometrics, 25(2), 165–172. https://doi.org/10.2307/1268549
 ></div>
