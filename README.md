@@ -191,7 +191,7 @@ TODO
 
 ### Univariate
 
-- [**KPI**]([https://github.com/NetManAIOps/KPI-Anomaly-Detection)
+- [**KPI**](https://github.com/NetManAIOps/KPI-Anomaly-Detection)
 - [**NAB**](https://github.com/numenta/NAB)
 - [**Yahoo**](https://webscope.sandbox.yahoo.com/catalog.php?datatype=s&did=70)
 
@@ -201,14 +201,17 @@ TODO
 - [**MSL**](https://github.com/khundman/telemanom)
 - [**SMD**](https://github.com/NetManAIOps/OmniAnomaly)
 - [**SKAB**](https://github.com/waico/SkAB)
+- [**SWaT**](https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/)
+- [**CIC-IDS**](https://www.unb.ca/cic/datasets/ids-2017.html)
+- [**Credit Card**](https://www.openml.org/d/1597)
+- [**GECCO**](https://zenodo.org/record/3884398#.YX9lOJpBzEY)
+- [**SWANSF**](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EBCFKM)
 
 ## Reference
 
 > <div id="ref1">
 >[1] Hotelling, H. (1947). Multivariate Quality Control-illustrated by the air testing of sample bombsights.
 ></div>
->
->
 >
 ><div id="ref2">
 >[2] Rosner, B. (1983). Percentage Points for a Generalized ESD Many-Outlier Procedure. Technometrics, 25(2), 165–172. https://doi.org/10.2307/1268549
