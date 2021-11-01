@@ -192,20 +192,20 @@ TODO
 ### Univariate
 
 - [**KPI**](https://github.com/NetManAIOps/KPI-Anomaly-Detection)
-- [**NAB**](https://github.com/numenta/NAB)
+- [**NAB**](https://github.com/numenta/NAB) [[13]](#ref13)
 - [**Yahoo**](https://webscope.sandbox.yahoo.com/catalog.php?datatype=s&did=70)
 
 ### Multivariate
 
-- [**SMAP**](https://github.com/khundman/telemanom)
-- [**MSL**](https://github.com/khundman/telemanom)
-- [**SMD**](https://github.com/NetManAIOps/OmniAnomaly)
-- [**SKAB**](https://github.com/waico/SkAB)
-- [**SWaT**](https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/)
-- [**CIC-IDS**](https://www.unb.ca/cic/datasets/ids-2017.html)
-- [**Credit Card**](https://www.openml.org/d/1597)
-- [**GECCO**](https://zenodo.org/record/3884398#.YX9lOJpBzEY)
-- [**SWANSF**](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EBCFKM)
+- [**SMAP**](https://github.com/khundman/telemanom) [[14]](#ref14)
+- [**MSL**](https://github.com/khundman/telemanom) [[14]](#ref14)
+- [**SMD**](https://github.com/NetManAIOps/OmniAnomaly) [[11]](#ref11)
+- [**SKAB**](https://github.com/waico/SkAB) [[15]](#ref15)
+- [**SWaT**](https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/) [[16]](#ref16)
+- [**CIC-IDS**](https://www.unb.ca/cic/datasets/ids-2017.html) [[17]](#ref17)
+- [**Credit Card**](https://www.openml.org/d/1597) [[18]](#ref18)
+- [**GECCO**](https://zenodo.org/record/3884398#.YX9lOJpBzEY) [[19]](#ref19)
+- [**SWANSF**](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EBCFKM) [[20]](#ref20)
 
 ## Reference
 
@@ -255,4 +255,28 @@ TODO
 >
 ><div id="ref12">
 >[12] Julien Audibert, Pietro Michiardi, Frédéric Guyard, Sébastien Marti, and Maria A. Zuluaga. 2020. USAD: UnSupervised Anomaly Detection on Multivariate Time Series. In Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining (KDD '20). Association for Computing Machinery, New York, NY, USA, 3395–3404.
+></div>
+><div id="ref13">
+>[13] Ahmad, S., Lavin, A., Purdy, S., & Agha, Z. (2017). Unsupervised real-time anomaly detection for streaming data. Neurocomputing, Available online 2 June 2017, ISSN 0925-2312, https://doi.org/10.1016/j.neucom.2017.04.070
+></div>
+><div id="ref14">
+>[14] Kyle Hundman, Valentino Constantinou, Christopher Laporte, Ian Colwell, and Tom Soderstrom. 2018. Detecting Spacecraft Anomalies Using LSTMs and Nonparametric Dynamic Thresholding. In Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining (KDD '18). Association for Computing Machinery, New York, NY, USA, 387–395.
+></div>
+><div id="ref15">
+>[15] Iurii D. Katser and Vyacheslav O. Kozitsin. Skoltech Anomaly Benchmark (SKAB). Kaggle, 2020. doi: 10.34740/KAGGLE/DSV/1693952.
+></div>
+><div id="ref16">
+>[16] Adepu S., Junejo K. N., and Mathur A., “A Dataset to Support Research in the Design of Secure Water Treatment Systems,” The 11th International Conference on Critical Information Infrastructures Security.
+></div>
+><div id="ref17">
+>[17] Iman Sharafaldin, Arash Habibi Lashkari, and Ali A Ghorbani. Toward generating a new intrusion detection dataset and intrusion traffic characterization. In ICISSp, pages 108–116, 2018.
+></div>
+><div id="ref18">
+>[18] Andrea Dal Pozzolo, Olivier Caelen, Reid A Johnson, and Gianluca Bontempi. Calibrating probability with undersampling for unbalanced classification. In 2015 IEEE Symposium Series on Computational Intelligence, pages 159–166. IEEE, 2015.
+></div>
+><div id="ref19">
+>[19] Steffen Moritz, Frederik Rehbach, Sowmya Chandrasekaran, Margarita Rebolledo, and Thomas Bartz-Beielstein. Gecco industrial challenge 2018 dataset: A water quality dataset for the ’internet of things: Online anomaly detection for drinking water quality’ competition at the genetic and evolutionary computation conference 2018, kyoto, japan., Feb 2018.
+></div>
+><div id="ref20">
+>[20] Rafal Angryk, Petrus Martens, Berkay Aydin, Dustin Kempton, Sushant Mahajan, Sunitha Basodi, Azim Ahmadzadeh, Xumin Cai, Soukaina Filali Boubrahimi, Shah Muhammad Hamdi, Micheal Schuh, and Manolis Georgoulis. SWAN-SF, 2020.
 ></div>
