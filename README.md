@@ -1,16 +1,5 @@
 # PyADTS: A Python Toolkit for Time-series Anomaly Detection
 
-[![Build Status](https://travis-ci.org/larryshaw0079/PyADTS.svg?branch=master)](https://travis-ci.org/larryshaw0079/PyADTS)
-[![Coverage Status](https://coveralls.io/repos/github/larryshaw0079/PyADTS/badge.svg?branch=master)](https://coveralls.io/github/larryshaw0079/PyADTS?branch=master)
-[![Documentation Status](https://readthedocs.org/projects/pyadts/badge/?version=latest)](https://pyadts.readthedocs.io/en/latest/?badge=latest)
-[![PyPI](https://img.shields.io/pypi/v/pyadts)](https://pypi.org/project/pyadts/)
-[![Anaconda](https://anaconda.org/larryshaw0079/pyadts/badges/version.svg)](https://anaconda.org/larryshaw0079/pyadts)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/larryshaw0079/PyADTS/master?filepath=notebooks%2Fdemo.ipynb)
-
-
-
 <div align=center><img src="https://i.loli.net/2020/09/16/jlALoQ18vnXDPCU.png" width=45% height=45% /></div >
 
 `PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various
@@ -160,52 +149,53 @@ TODO
 
 ### Simple Detectors
 
-| Algo             | Title | Year | Ref  |
-| ---------------- | ----- | ---- | ---- |
-| RangeDetector    |       |      |      |
-| QuantileDetector |       |      |      |
-| GradientDetector |       |      |      |
+| Algo              | Desc | Title | Year | Ref  |
+| ----------------- | ---- | ----- | ---- | ---- |
+| Range Detector    |      | -     | -    | -    |
+| Quantile Detector |      | -     | -    | -    |
+| Gradient Detector |      | -     | -    | -    |
 
 ### Statistical Approaches
 
-| Algo               | Title | Year | Ref  |
-| ------------------ | ----- | ---- | ---- |
-| KSigma             |       |      |      |
-| InterQuartileRange |       |      |      |
-| Hotelling          |       |      |      |
-| ESD                |       |      |      |
-| SPOT               |       |      |      |
-| DSPOT              |       |      |      |
-| SR                 |       |      |      |
+| Algo               | Desc | Title | Year | Ref    |
+| ------------------ | ---- | ----- | ---- | ------ |
+| KSigma             |      | -     | -    | -      |
+| InterQuartileRange |      | -     | -    | -      |
+| Hotelling          |      |       |      | [1][1] |
+| ESD                |      |       |      |        |
+| Matrix Profile     |      |       |      |        |
+| SPOT               |      |       |      |        |
+| DSPOT              |      |       |      |        |
+| SR                 |      |       |      |        |
 
 ### Machine Learning Approaches
 
-| Algo             | Title | Year | Ref  |
-| ---------------- | ----- | ---- | ---- |
-| Autoregression   |       |      |      |
-| RRCF             |       |      |      |
-| Isolation Forest |       |      |      |
+| Algo             | Desc | Title | Year | Ref  |
+| ---------------- | ---- | ----- | ---- | ---- |
+| Autoregression   |      |       |      |      |
+| RRCF             |      |       |      |      |
+| Isolation Forest |      |       |      |      |
 
 ### Deep Approaches
 
-| Algo        | Title | Year | Ref  |
-| ----------- | ----- | ---- | ---- |
-| Autoencoder |       |      |      |
-| VAE         |       |      |      |
-| Donut       |       |      |      |
-| MSCRED      |       |      |      |
-| OmniAnomaly |       |      |      |
-| USAD        |       |      |      |
+| Algo        | Desc | Title | Year | Ref  |
+| ----------- | ---- | ----- | ---- | ---- |
+| Autoencoder |      |       |      |      |
+| VAE         |      |       |      |      |
+| Donut       |      |       |      |      |
+| MSCRED      |      |       |      |      |
+| OmniAnomaly |      |       |      |      |
+| USAD        |      |       |      |      |
 
-### Datasets
+## Datasets
 
-#### Univariate
+### Univariate
 
 - [**KPI**]([https://github.com/NetManAIOps/KPI-Anomaly-Detection)
 - [**NAB**](https://github.com/numenta/NAB)
 - [**Yahoo**](https://webscope.sandbox.yahoo.com/catalog.php?datatype=s&did=70)
 
-#### Multivariate
+### Multivariate
 
 - [**SMAP**](https://github.com/khundman/telemanom)
 - [**MSL**](https://github.com/khundman/telemanom)
@@ -214,3 +204,4 @@ TODO
 
 ## Reference
 
+[1]: Hotelling, H. (1947). Multivariate Quality Control-illustrated by the air testing of sample bombsights.

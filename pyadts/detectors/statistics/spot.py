@@ -12,8 +12,17 @@ from pyadts.generic import Detector, TimeSeriesRepository
 
 
 class SPOT(Detector):
-    def __init__(self):
+    def __init__(self, q: float = 1e-4):
         super(SPOT, self).__init__()
+
+        self.proba = q
+        self.extreme_quantile = None
+        self.data = None
+        self.init_data = None
+        self.init_threshold = None
+        self.peaks = None
+        self.n = 0
+        self.Nt = 0
 
     def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
         pass
