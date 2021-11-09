@@ -2,7 +2,7 @@ from typing import Union
 
 import numpy as np
 
-from pyadts.generic import Detector, TimeSeriesRepository
+from pyadts.generic import Detector, TimeSeriesDataset
 
 
 class RangeDetector(Detector):
@@ -15,11 +15,11 @@ class RangeDetector(Detector):
         if self.low >= self.high:
             raise ValueError('The parameter `high` must be larger than `low`!')
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
         pass
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesRepository]):
-        if isinstance(x, TimeSeriesRepository):
+    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
+        if isinstance(x, TimeSeriesDataset):
             x = x.data
 
         predictions = np.zeros_like(x)
@@ -28,8 +28,8 @@ class RangeDetector(Detector):
 
         return predictions.astype(np.int).reshape(-1)
 
-    def score(self, x: Union[np.ndarray, TimeSeriesRepository]):
-        if isinstance(x, TimeSeriesRepository):
+    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
+        if isinstance(x, TimeSeriesDataset):
             x = x.data
 
         return np.abs(x - (self.low + self.high) / 2).reshape(-1)

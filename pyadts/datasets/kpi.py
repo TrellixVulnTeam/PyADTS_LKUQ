@@ -4,14 +4,16 @@
 @Software: PyCharm
 @Desc    :
 """
-import os
+from pathlib import Path
+from typing import Union
 
 import numpy as np
 import pandas as pd
 from tqdm.std import tqdm
 
-from pyadts.generic import TimeSeriesRepository
+from pyadts.generic import TimeSeriesDataset
 from pyadts.preprocessing import rearrange, impute
+from pyadts.utils.io import check_existence
 
 
 # KPI_IDS = ['05f10d3a-239c-3bef-9bdc-a2feeb0037aa',
@@ -83,21 +85,28 @@ from pyadts.preprocessing import rearrange, impute
 # meta_df = pd.DataFrame({'label': label, 'timestamp': timestamp}, index=datetime)
 
 
-class KPIDataset(TimeSeriesRepository):
+class KPIDataset(TimeSeriesDataset):
     __splits = {
         'first': 'phase2_train.csv',
         'second': 'phase2_ground_truth.hdf'
     }
+    __file_list = {
+        'phase2_train.csv': '787967d365157bc2228f1153ba32334d',
+        'phase2_ground_truth.hdf': '5c4e834ce210eea4e9f755ca045806ec'
+    }
 
     def __init__(self, root: str, download: bool = False):
         super(KPIDataset, self).__init__()
+        root_path = Path(root)
 
         if download:
             raise ValueError('The KPI dataset should be downloaded manually. '
                              'Please download the dataset at `http://iops.ai/dataset_detail/?id=7`!')
+        else:
+            self.__check_integrity(root_path)
 
-        first_df = pd.read_csv(os.path.join(root, self.__splits['first']))
-        second_df = pd.read_hdf(os.path.join(root, self.__splits['second']))
+        first_df = pd.read_csv(root_path / self.__splits['first'])
+        second_df = pd.read_hdf(root_path / self.__splits['second'])
         df = pd.concat([first_df, second_df])
 
         kpi_ids = np.unique(df['KPI ID'].values.astype(str))
@@ -120,3 +129,13 @@ class KPIDataset(TimeSeriesRepository):
         self.sep_indicators = np.cumsum([item.shape[-1] for item in self.data])
         self.data = np.concatenate(self.data, axis=-1)
         self.labels = np.concatenate(self.labels)
+
+    def __check_integrity(self, root: Union[str, Path]):
+        if isinstance(root, str):
+            root = Path(root)
+
+        for key, value in self.__file_list.items():
+            if not check_existence(root / key, value):
+                return False
+
+        return True

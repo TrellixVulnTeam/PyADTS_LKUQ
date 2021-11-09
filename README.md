@@ -6,23 +6,16 @@
 modules for data loading, pre-processing, anomaly detection, detector ensembling, evaluation and etc. `PyADTS` can help
 you to write less boilerplate on following parts:
 
-- Preparing dataset & pre-processing
+- Dataset loading & pre-processing
 - Anomaly detection
 - Detector ensembling
 - Anomaly score calibration
 - Evaluation
+- Related utility functions
 
 With `PyADTS`, you can run baselines rapidly.
 
 You can find the complete [documentation](https://pyadts.readthedocs.io/en/latest/) here.
-
-**Table of Contents**:
-
-- [Anomaly Detection for Time-series (PyADTS)](#anomaly-detection-for-time-series--pyadt-)
-  * [Installation](#installation)
-  * [Quick Start](#quick-start)
-  * [Other Utilities](#other-utilities)
-  * [Implemented Algorithms](#implemented-algorithms)
 
 ## Installation
 To install the package locally, run:
@@ -149,63 +142,91 @@ TODO
 
 ### Simple Detectors
 
-| Algo              | Desc | Title | Year | Ref  |
-| ----------------- | ---- | ----- | ---- | ---- |
-| Range Detector    |      | -     | -    | -    |
-| Quantile Detector |      | -     | -    | -    |
-| Gradient Detector |      | -     | -    | -    |
+| Algo              | Desc | Year | Ref  |
+| ----------------- | ---- | ---- | ---- |
+| Range Detector    |      | -    | -    |
+| Quantile Detector |      | -    | -    |
+| Gradient Detector |      | -    | -    |
 
 ### Statistical Approaches
 
-| Algo               | Desc | Title | Year | Ref          |
-| ------------------ | ---- | ----- | ---- | ------------ |
-| KSigma             |      | -     | -    | -            |
-| InterQuartileRange |      | -     | -    | -            |
-| Hotelling          |      |       |      | [[1]](#ref1) |
-| ESD                |      |       |      | [[2]](#ref2) |
-| Matrix Profile     |      |       |      | [[3]](#ref3) |
-| SPOT               |      |       |      | [[4]](#ref4) |
-| DSPOT              |      |       |      | [[4]](#ref4) |
-| SR                 |      |       |      | [[5]](#ref5) |
+| Algo               | Desc | Year | Ref          |
+| ------------------ | ---- | ---- | ------------ |
+| KSigma             |      | -    | -            |
+| InterQuartileRange |      | -    | -            |
+| Hotelling          |      | 1947 | [[1]](#ref1) |
+| ESD                |      | 1983 | [[2]](#ref2) |
+| Matrix Profile     |      | 2016 | [[3]](#ref3) |
+| SPOT               |      | 2017 | [[4]](#ref4) |
+| DSPOT              |      | 2017 | [[4]](#ref4) |
+| SR                 |      | 2019 | [[5]](#ref5) |
 
 ### Machine Learning Approaches
 
-| Algo             | Desc | Title | Year | Ref          |
-| ---------------- | ---- | ----- | ---- | ------------ |
-| Autoregression   |      | -     | -    | -            |
-| RRCF             |      |       |      | [[6]](#ref6) |
-| Isolation Forest |      |       |      | [[7]](#ref7) |
+| Algo             | Desc | Year | Ref          |
+| ---------------- | ---- | ---- | ------------ |
+| Autoregression   |      | -    | -            |
+| RRCF             |      |      | [[6]](#ref6) |
+| Isolation Forest |      |      | [[7]](#ref7) |
 
 ### Deep Approaches
 
-| Algo        | Desc | Title | Year | Ref            |
-| ----------- | ---- | ----- | ---- | -------------- |
-| Autoencoder |      | -     | -    | -              |
-| VAE         |      |       |      | [[8]](#ref8)   |
-| Donut       |      |       |      | [[9]](#ref9)   |
-| MSCRED      |      |       |      | [[10]](#ref10) |
-| OmniAnomaly |      |       |      | [[11]](#ref11) |
-| USAD        |      |       |      | [[12]](#ref12) |
+| Algo        | Desc | Year | Ref            |
+| ----------- | ---- | ---- | -------------- |
+| Autoencoder |      | -    | -              |
+| VAE         |      |      | [[8]](#ref8)   |
+| Donut       |      |      | [[9]](#ref9)   |
+| MSCRED      |      |      | [[10]](#ref10) |
+| OmniAnomaly |      |      | [[11]](#ref11) |
+| USAD        |      |      | [[12]](#ref12) |
 
 ## Datasets
 
+`PyADTS` provides following built-in datasets:
+
 ### Univariate
 
-- [**KPI**](https://github.com/NetManAIOps/KPI-Anomaly-Detection)
-- [**NAB**](https://github.com/numenta/NAB) [[13]](#ref13)
-- [**Yahoo**](https://webscope.sandbox.yahoo.com/catalog.php?datatype=s&did=70)
+- [**KPI**](https://github.com/NetManAIOps/KPI-Anomaly-Detection) dataset is released by the first session of AIOps
+  competition and consisted of multiple KPI curves collected from various Internet companies with fully labeled
+  anomalies.
+- [**NAB**](https://github.com/numenta/NAB) [[13]](#ref13) (The Numenta Anomaly Benchmark) is composed of over 50 fully
+  labeled real-world and synthetic time-series.
+- [**Yahoo**](https://webscope.sandbox.yahoo.com/catalog.php?datatype=s&did=70) S5 dataset contains real-world and
+  artificial time-series with labeled anomalies. The synthetic data consists of time-series with varying trend, noise
+  and seasonality. The real-world data consists of time-series sampled from the metrics of various Yahoo services.
 
 ### Multivariate
 
-- [**SMAP**](https://github.com/khundman/telemanom) [[14]](#ref14)
-- [**MSL**](https://github.com/khundman/telemanom) [[14]](#ref14)
-- [**SMD**](https://github.com/NetManAIOps/OmniAnomaly) [[11]](#ref11)
-- [**SKAB**](https://github.com/waico/SkAB) [[15]](#ref15)
-- [**SWaT**](https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/) [[16]](#ref16)
-- [**CIC-IDS**](https://www.unb.ca/cic/datasets/ids-2017.html) [[17]](#ref17)
-- [**Credit Card**](https://www.openml.org/d/1597) [[18]](#ref18)
-- [**GECCO**](https://zenodo.org/record/3884398#.YX9lOJpBzEY) [[19]](#ref19)
-- [**SWANSF**](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EBCFKM) [[20]](#ref20)
+- [**SMAP**](https://github.com/khundman/telemanom) [[14]](#ref14) (*Soil Moisture Active Passive*) is released by NASA
+  with annotations collected from real-world. It contains data of 55 entities and 25 metrics.
+- [**MSL**](https://github.com/khundman/telemanom) [[14]](#ref14) (*Mars Science Laboratory*) is released by NASA with
+  annotations collected from real-world. It contains data of 27 entities and 55 metrics.
+- [**SMD**](https://github.com/NetManAIOps/OmniAnomaly) [[11]](#ref11) (*Server Machine Dataset*) is publicly released
+  by a large Internet company and the data is monitored by 38 variables with time spanning of 5 weeks.
+- [**SKAB**](https://github.com/waico/SkAB) [[15]](#ref15) (The Skoltech Anomaly Benchmark) contains 35 individual data
+  files with collective anomalies for evaluating anomaly detection algorithms.
+- [**SWaT**](https://itrust.sutd.edu.sg/itrust-labs_datasets/dataset_info/) [[16]](#ref16) is a scaled down version
+  produced by a real-world industrial water treatment plant to understand the conditions under cyber attacks.
+- [**CIC-IDS**](https://www.unb.ca/cic/datasets/ids-2017.html) [[17]](#ref17) (Canadian Institute for Cybersecurity -
+  Intrusion Detection Systems) contains various web attacks for evaluating anomaly detection algorithms.
+- [**Credit Card**](https://www.openml.org/d/1597) [[18]](#ref18) contains credit card transaction data by european
+  cardholders, where having 492 frauds out of 284,807 transactions.
+- [**GECCO**](https://zenodo.org/record/3884398#.YX9lOJpBzEY) [[19]](#ref19) is released by "GECCO Industrial
+  Challenge: 'Internet of Things: Online Anomaly Detection for Drinking Water Quality". The dataset is consisted by real
+  drinking-water time series, provided for training, testing, and assessing event detection methods.
+- [**SWAN-SF**](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EBCFKM) [[20]](#ref20) is a
+  multivariate time-series dataset for space weather data analytics.
+
+## Citing
+
+```latex
+@misc{qfxiao2021physiossl,
+  author =       {Qinfeng Xiao},
+  title =        {PyADTS: A Python Toolkit for Time-series Anomaly Detection},
+  howpublished = {\url{https://github.com/larryshaw0079/PyADTS}},
+  year =         {2020}
+}
+```
 
 ## Reference
 

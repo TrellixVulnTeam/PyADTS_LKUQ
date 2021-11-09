@@ -4,8 +4,15 @@
 @Software: PyCharm
 @Desc    : 
 """
+import os
+import shutil
+
 from pyadts.datasets import SMAPDataset
 
 
 def test_smapdataset():
-    dataset = SMAPDataset(root='/data/DataHub/AnomalyDetection/SMAP')
+    if os.path.exists('tests/data/SMAP'):
+        shutil.rmtree('tests/data/SMAP')
+    os.makedirs('tests/data/SMAP')
+
+    dataset = SMAPDataset(root='tests/data/SMAP', download=True)

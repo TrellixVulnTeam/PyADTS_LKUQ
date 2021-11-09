@@ -12,13 +12,13 @@ import numpy as np
 from pyadts.utils.visualization import plot_series
 
 
-class TimeSeriesRepository(abc.ABC):
+class TimeSeriesDataset(abc.ABC):
     def __init__(self, data: np.ndarray = None, labels: np.ndarray = None, sep_indicators: np.ndarray = None):
         self.data = data
         self.labels = labels
         self.sep_indicators = sep_indicators
 
-    def window_view(self):
+    def windowed_view(self):
         pass
 
     def flatten_view(self):
@@ -67,15 +67,3 @@ class TimeSeriesRepository(abc.ABC):
     @property
     def num_timestamps(self):
         return self.data.shape[-1]
-
-    # @property
-    # def timestamps(self):
-    #     return self.timestamps
-
-    # @property
-    # def anomalies(self):
-    #     return self.anomalies
-    #
-    # @property
-    # def missing_values(self):
-    #     return self.missing_values

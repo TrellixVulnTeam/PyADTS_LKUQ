@@ -8,9 +8,10 @@ import hashlib
 import os
 import pickle
 import tarfile
-import urllib
 import zipfile
+from pathlib import Path
 from typing import Union, Dict, IO
+from urllib.request import urlopen
 
 from tqdm.std import tqdm
 
@@ -33,35 +34,46 @@ def load_objects(f: Union[str, IO]):
     return objs
 
 
-def download_link(link: str, dest_path: str, make_dir: bool = True, chunk_size: int = 1024):
-    folder = os.path.split(dest_path)[0]
+def download_link(link: str, dest_path: Union[str, Path], make_dir: bool = True, chunk_size: int = 1024,
+                  verbose: bool = True):
+    if isinstance(dest_path, str):
+        dest_path = Path(dest_path)
+    folder = dest_path.parent
 
-    if make_dir and (not os.path.exists(folder)):
-        os.makedirs(folder)
+    if make_dir and (not folder.exists()):
+        folder.mkdir()
 
-    with urllib.request.urlopen(link) as response:
-        with open(dest_path, 'wb') as f:
+    if verbose:
+        print(f'[INFO] downloading from `{link}`...')
+    with urlopen(link) as response:
+        with dest_path.open('wb') as f:
             for chunk in tqdm(iter(lambda: response.read(chunk_size), ""), total=response.length):
                 if not chunk:
                     break
                 f.write(chunk)
 
 
-def calculate_md5(file_path: str, chunk_size: int = 1024 * 1024):
+def calculate_md5(file_path: Union[str, Path], chunk_size: int = 1024 * 1024):
     md5 = hashlib.md5()
-    with open(file_path, 'rb') as f:
+    if isinstance(file_path, str):
+        file_path = Path(file_path)
+
+    with file_path.open('rb') as f:
         for chunk in iter(lambda: f.read(chunk_size), b""):
             md5.update(chunk)
 
     return md5.hexdigest()
 
 
-def check_md5(file_path: str, md5: str):
+def check_md5(file_path: Union[str, Path], md5: str):
     return md5 == calculate_md5(file_path)
 
 
-def check_existence(file_path: str, md5: str = None):
-    if not os.path.isfile(file_path):
+def check_existence(file_path: Union[str, Path], md5: str = None):
+    if isinstance(file_path, str):
+        file_path = Path(file_path)
+
+    if not file_path.is_file():
         return False
     if md5 is None:
         return True
@@ -78,7 +90,12 @@ def __extract_tar(file_path: str, dest_path: str):
         tar.extractall(dest_path)
 
 
-def decompress_file(file_path: str, dest_path: str):
+def decompress_file(file_path: Union[str, Path], dest_path: Union[str, Path]):
+    if isinstance(file_path, Path):
+        file_path = str(file_path)
+    if isinstance(dest_path, Path):
+        dest_path = str(dest_path)
+
     assert os.path.isfile(file_path)
 
     if file_path.endswith('.tar') or file_path.endswith('.tar.gz'):

@@ -8,7 +8,7 @@ from typing import Union
 
 import numpy as np
 
-from pyadts.generic import Detector, TimeSeriesRepository
+from pyadts.generic import Detector, TimeSeriesDataset
 
 
 class GradientDetector(Detector):
@@ -17,13 +17,13 @@ class GradientDetector(Detector):
 
         self.max_gradient = max_gradient
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
         pass
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesRepository]):
-        if isinstance(x, TimeSeriesRepository):
+    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
+        if isinstance(x, TimeSeriesDataset):
             x = x.data
 
-    def score(self, x: Union[np.ndarray, TimeSeriesRepository]):
-        if isinstance(x, TimeSeriesRepository):
+    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
+        if isinstance(x, TimeSeriesDataset):
             x = x.data

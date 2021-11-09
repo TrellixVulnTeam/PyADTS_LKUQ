@@ -8,7 +8,7 @@ from typing import Union
 
 import numpy as np
 
-from pyadts.generic import Detector, TimeSeriesRepository
+from pyadts.generic import Detector, TimeSeriesDataset
 
 
 class QuantileDetector(Detector):
@@ -18,14 +18,14 @@ class QuantileDetector(Detector):
         self.low = low
         self.high = high
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
-        if isinstance(x, TimeSeriesRepository):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+        if isinstance(x, TimeSeriesDataset):
             x = x.data
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesRepository]):
-        if isinstance(x, TimeSeriesRepository):
+    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
+        if isinstance(x, TimeSeriesDataset):
             x = x.data
 
-    def score(self, x: Union[np.ndarray, TimeSeriesRepository]):
-        if isinstance(x, TimeSeriesRepository):
+    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
+        if isinstance(x, TimeSeriesDataset):
             x = x.data

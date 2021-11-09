@@ -8,7 +8,7 @@ from typing import Union
 
 import numpy as np
 
-from pyadts.generic import Detector, TimeSeriesRepository
+from pyadts.generic import Detector, TimeSeriesDataset
 
 
 class SPOT(Detector):
@@ -24,13 +24,13 @@ class SPOT(Detector):
         self.n = 0
         self.Nt = 0
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
         pass
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesRepository]):
+    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
         pass
 
-    def score(self, x: Union[np.ndarray, TimeSeriesRepository]):
+    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
         pass
 
 
@@ -38,11 +38,11 @@ class DSPOT(Detector):
     def __init__(self):
         super(DSPOT, self).__init__()
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesRepository], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
         pass
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesRepository]):
+    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
         pass
 
-    def score(self, x: Union[np.ndarray, TimeSeriesRepository]):
+    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
         pass

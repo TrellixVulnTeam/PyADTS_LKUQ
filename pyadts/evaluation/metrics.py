@@ -1,7 +1,6 @@
 import numpy as np
 
 from sklearn.metrics import auc, roc_auc_score, precision_recall_curve
-from sklearn.utils import deprecated
 
 
 def __adjust_predictions(score: np.ndarray, label: np.ndarray, delay=None, inplace=False) -> np.ndarray:
@@ -34,7 +33,7 @@ def __ignore_missing(*args, missing):
     return tuple(result)
 
 
-@deprecated('Using precision to evaluate anomaly detection algorithms is not recommended.')
+# @deprecated('Using precision to evaluate anomaly detection algorithms is not recommended.')
 def best_precision(score: np.ndarray, label: np.ndarray, delay: int = None):
     if delay is not None:
         score = __adjust_predictions(score, label, delay=delay, inplace=False)
@@ -45,7 +44,7 @@ def best_precision(score: np.ndarray, label: np.ndarray, delay: int = None):
     return ps[np.argmax(fs)]
 
 
-@deprecated('Using recall to evaluate anomaly detection algorithms is not recommended.')
+# @deprecated('Using recall to evaluate anomaly detection algorithms is not recommended.')
 def best_recall(score: np.ndarray, label: np.ndarray, delay: int = None):
     if delay is not None:
         score = __adjust_predictions(score, label, delay=delay, inplace=False)
@@ -56,7 +55,7 @@ def best_recall(score: np.ndarray, label: np.ndarray, delay: int = None):
     return rs[np.argmax(fs)]
 
 
-@deprecated('Using F1-score to evaluate anomaly detection algorithms is not recommended.')
+# @deprecated('Using F1-score to evaluate anomaly detection algorithms is not recommended.')
 def best_f1(prediction: np.ndarray, label: np.ndarray, delay: int = None):
     if delay is not None:
         prediction = __adjust_predictions(prediction, label, delay=delay, inplace=False)
@@ -82,3 +81,4 @@ def pr_auc(score: np.ndarray, label: np.ndarray, delay: int = None):
     ids = np.argsort(rs)
 
     return auc(rs[ids], ps[ids])
+

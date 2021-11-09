@@ -6,11 +6,11 @@
 """
 import os
 
-from pyadts.generic import TimeSeriesRepository
+from pyadts.generic import TimeSeriesDataset
 from pyadts.utils.io import download_link, check_existence
 
 
-class SWANSFDataset(TimeSeriesRepository):
+class SWANSFDataset(TimeSeriesDataset):
     link = 'https://bitbucket.org/gsudmlab/mvtsdata_toolkit/downloads/petdataset_01.zip'
     file_name = 'petdataset_01.zip'
 

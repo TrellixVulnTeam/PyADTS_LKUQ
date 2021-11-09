@@ -10,10 +10,10 @@ import numpy as np
 import pandas as pd
 from tqdm.std import tqdm
 
-from pyadts.generic import TimeSeriesRepository
+from pyadts.generic import TimeSeriesDataset
 
 
-class SKABDataset(TimeSeriesRepository):
+class SKABDataset(TimeSeriesDataset):
     __splits = ['valve1', 'valve2', 'other']
     __feature_columns = ['Accelerometer1RMS', 'Accelerometer2RMS', 'Current', 'Pressure', 'Temperature',
                          'Thermocouple', 'Voltage', 'Volume Flow RateRMS']

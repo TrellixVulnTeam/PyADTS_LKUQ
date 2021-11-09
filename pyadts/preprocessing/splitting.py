@@ -9,10 +9,10 @@ from typing import Tuple, Iterable
 import numpy as np
 from sklearn.model_selection import train_test_split, KFold, LeaveOneOut
 
-from pyadts.generic import TimeSeriesRepository
+from pyadts.generic import TimeSeriesDataset
 
 
-def train_test_splitting(data: TimeSeriesRepository, split_granularity: str, train_ratio: float) -> Tuple[np.ndarray]:
+def train_test_splitting(data: TimeSeriesDataset, split_granularity: str, train_ratio: float) -> Tuple[np.ndarray]:
     if split_granularity == 'series':
         pass
     elif split_granularity == 'window':
@@ -25,7 +25,7 @@ def train_test_splitting(data: TimeSeriesRepository, split_granularity: str, tra
     x_train, x_test, y_train, y_test = train_test_split()
 
 
-def cross_validation(data: TimeSeriesRepository, method: str, split_granularity: str, kfolds: int = 10) -> Iterable[
+def cross_validation(data: TimeSeriesDataset, method: str, split_granularity: str, kfolds: int = 10) -> Iterable[
     Tuple[np.ndarray]]:
     if method == 'kfolds':
         splitter = KFold(n_splits=kfolds)
