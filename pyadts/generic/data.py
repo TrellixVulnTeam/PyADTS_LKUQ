@@ -5,30 +5,34 @@
 @Desc    : 
 """
 import abc
-from typing import Union, List
+from typing import Union, List, Tuple
 
 import numpy as np
+import torch
 
 from pyadts.utils.visualization import plot_series
 
 
 class TimeSeriesDataset(abc.ABC):
-    def __init__(self, data: np.ndarray = None, labels: np.ndarray = None, sep_indicators: np.ndarray = None):
+    def __init__(self, data: List[np.ndarray] = None, labels: np.ndarray = None):
         self.data = data
         self.labels = labels
-        self.sep_indicators = sep_indicators
+        self.sep_indicators = None
 
     def windowed_view(self):
+        pass
+
+    def subsequence_view(self):
         pass
 
     def flatten_view(self):
         pass
 
-    def numpy(self):
+    def numpy(self) -> Tuple[np.ndarray]:
         return self.data.transpose(), self.labels
 
-    def tensor(self):
-        pass
+    def tensor(self) -> Tuple[torch.Tensor]:
+        return torch.from_numpy(self.data.transpose().astype(np.float32)), torch.from_numpy(self.labels.astype(np.long))
 
     def plot(self, series_id: int = 0, channel_id: int = 0, show: bool = True):
         assert series_id < self.num_series

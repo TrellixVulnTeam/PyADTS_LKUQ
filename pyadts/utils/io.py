@@ -90,6 +90,13 @@ def __extract_tar(file_path: str, dest_path: str):
         tar.extractall(dest_path)
 
 
+#
+# def __extract_gz(file_path: str, dest_path: str):
+#     with gzip.open(file_path, 'rb') as gz:
+#         with open(dest_path, 'wb') as f:
+#             f.write(gz.read())
+
+
 def decompress_file(file_path: Union[str, Path], dest_path: Union[str, Path]):
     if isinstance(file_path, Path):
         file_path = str(file_path)
@@ -100,6 +107,8 @@ def decompress_file(file_path: Union[str, Path], dest_path: Union[str, Path]):
 
     if file_path.endswith('.tar') or file_path.endswith('.tar.gz'):
         __extract_tar(file_path, dest_path)
+    # elif file_path.endswith('.gz'):
+    #     __extract_gz(file_path, dest_path)
     elif file_path.endswith('.zip'):
         __extract_zip(file_path, dest_path)
     else:

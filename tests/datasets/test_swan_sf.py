@@ -4,7 +4,8 @@
 @Software: PyCharm
 @Desc    : 
 """
+from pyadts.datasets import SWANSFDataset
 
 
 def test_swan_sfdataset():
-    assert False
+    dataset = SWANSFDataset(root='tests/data/swansf', download=True)

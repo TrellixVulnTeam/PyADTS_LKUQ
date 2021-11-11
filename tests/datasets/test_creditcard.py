@@ -8,4 +8,4 @@ from pyadts.datasets import CreditCardDataset
 
 
 def test_credit_card_dataset():
-    dataset = CreditCardDataset(root='/data/DataHub/AnomalyDetection/creditcard', download=True)
+    dataset = CreditCardDataset(root='tests/data/creditcard', download=True)

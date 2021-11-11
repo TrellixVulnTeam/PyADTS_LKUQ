@@ -8,4 +8,4 @@ from pyadts.datasets import SMDDataset
 
 
 def test_smddataset():
-    dataset = SMDDataset(root='/data/DataHub/AnomalyDetection/SMD')
+    dataset = SMDDataset(root='tests/data/SMD', download=False)

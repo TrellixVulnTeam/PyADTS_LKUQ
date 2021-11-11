@@ -8,4 +8,4 @@ from pyadts.datasets import CICIDSDataset
 
 
 def test_cicidsdataset():
-    dataset = CICIDSDataset(root='/data/DataHub/AnomalyDetection/CICIDS', download=True)
+    dataset = CICIDSDataset(root='tests/data/cicids', download=True)

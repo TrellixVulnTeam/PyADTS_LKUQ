@@ -10,6 +10,7 @@ from datetime import datetime
 from typing import Union
 
 import numpy as np
+import pandas as pd
 from numpy.lib.stride_tricks import as_strided
 from scipy import signal
 from scipy.ndimage import gaussian_filter
@@ -284,3 +285,46 @@ def __anomaly_rate(label):
 def dataset_statics(missing: np.ndarray, label: np.ndarray):
     return {'Missing num': __missing_num(missing), 'Missing rate': __missing_rate(missing),
             'Anomaly num': __anomaly_num(label), 'Anomaly rate': __anomaly_rate(label)}
+
+
+def rearrange_dataframe(df: pd.DataFrame, time_col: str = None, sort_by_time: bool = True, resampling: bool = True,
+                        tackle_missing: str = 'ffill'):
+    if sort_by_time or resampling:
+        assert time_col is not None
+
+    res_df = df.copy(deep=True)
+    print(res_df.shape)
+
+    if resampling:
+        if tackle_missing is None or tackle_missing == 'none':
+            warnings.warn(
+                'Resampling time-series may result in missing values. Setting `tackle_missing` is recommended.')
+        time_series = res_df[time_col]
+        if isinstance(time_series.iloc[0], int):
+            time_series = time_series.apply(timestamp_to_datetime)
+        datetime_series = pd.to_datetime(time_series)
+        res_df.set_index(datetime_series, inplace=True)
+        res_df.drop(columns=[time_col], inplace=True)
+        min_time_interval = datetime_series.diff().min()
+        res_df = res_df.resample(min_time_interval).asfreq()
+        new_datetime_series = res_df.index
+        res_df.reset_index(inplace=True)
+        res_df[time_col] = new_datetime_series
+
+    if sort_by_time:
+        res_df = res_df.sort_values(by=time_col)
+
+    if tackle_missing == 'ffill':
+        res_df = res_df.fillna(method='ffill')
+    elif tackle_missing == 'bfill':
+        res_df = res_df.fillna(method='bfill')
+    elif tackle_missing == 'fzero':
+        res_df = res_df.fillna(0)
+    elif tackle_missing == 'drop':
+        res_df = res_df.dropna(axis=0)
+    elif tackle_missing is None or tackle_missing == 'none':
+        pass
+    else:
+        raise ValueError
+
+    return res_df

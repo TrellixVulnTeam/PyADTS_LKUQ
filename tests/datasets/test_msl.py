@@ -8,4 +8,4 @@ from pyadts.datasets import MSLDataset
 
 
 def test_msldataset():
-    dataset = MSLDataset(root='/data/DataHub/AnomalyDetection/MSL', download=True)
+    dataset = MSLDataset(root='tests/data/msl', download=True)

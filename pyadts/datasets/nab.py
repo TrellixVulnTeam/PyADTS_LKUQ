@@ -3,7 +3,6 @@ import os
 
 import numpy as np
 import pandas as pd
-from pyadts.data.utils import datetime_to_timestamp
 
 DATA_NAMES = {
     'nyc_taxi': 'data/realKnownCause/nyc_taxi.csv'

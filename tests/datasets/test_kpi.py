@@ -8,4 +8,4 @@ from pyadts.datasets import KPIDataset
 
 
 def test_kpidataset():
-    dataset = KPIDataset(root='/data/DataHub/AnomalyDetection/kpi')
+    dataset = KPIDataset(root='tests/data/kpi', download=False)
