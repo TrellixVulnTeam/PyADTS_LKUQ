@@ -4,6 +4,7 @@
 @Software: PyCharm
 @Desc    : 
 """
+import warnings
 from pathlib import Path
 from typing import Union
 
@@ -109,14 +110,19 @@ class SMDDataset(TimeSeriesDataset):
         'machine-3-9.txt': '1de3dfa8f7967bc91fcb3fd862316104',
     }
 
-    def __init__(self, root: str, download: bool = False):
+    def __init__(self, root: str = None, download: bool = False):
         super(SMDDataset, self).__init__()
-        root_path = Path(root)
+
+        if root is None:
+            root_path = Path.home() / 'smd'
+            warnings.warn(
+                f'The `root` path of the dataset is not set, using user home dir {str(root_path)} as default.')
+        else:
+            root_path = Path(root)
 
         if download:
             raise ValueError(f'The SMD dataset should be downloaded manually. '
-                             f'Please download the dataset at `https://github.com/NetManAIOps/OmniAnomaly` and '
-                             f'place the `ServerMachineDataset` folder into `{str(root_path.parent)}`!')
+                             f'Please download the dataset at `https://github.com/NetManAIOps/OmniAnomaly`!')
         else:
             assert self.__check_integrity(root)
 

@@ -8,4 +8,4 @@ from pyadts.datasets import SMDDataset
 
 
 def test_smddataset():
-    dataset = SMDDataset(root='tests/data/SMD', download=False)
+    dataset = SMDDataset(root='tests/data/smd', download=False)

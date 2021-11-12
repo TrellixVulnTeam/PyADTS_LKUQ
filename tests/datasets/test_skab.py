@@ -8,4 +8,4 @@ from pyadts.datasets import SKABDataset
 
 
 def test_skabdataset():
-    dataset = SKABDataset(root='/data/DataHub/AnomalyDetection/SKAB')
+    dataset = SKABDataset(root='tests/data/skab', category='other')
