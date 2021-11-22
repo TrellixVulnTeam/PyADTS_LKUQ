@@ -16,6 +16,7 @@ class MatrixProfile(Detector):
         super(MatrixProfile, self).__init__()
 
     def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+        // TODO: foooo
         pass
 
     def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
