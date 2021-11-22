@@ -48,7 +48,7 @@ All components of the dataset are organized as a dict:
 
 `{'value': value, 'label': label, 'timestamp': timestamp, 'datetime': datetime}`
 
-### Pre-processing
+### Pre-processing (optional)
 
 It's important to pre-process the time series before training. `PyADTS` offered three types of pre-processing methods including:
 
@@ -66,25 +66,13 @@ data_processed['value'] = series_normalize(data_processed['value'], mask=data_pr
 data_processed['value'] = series_impute(data_processed['value'], missing=data_processed['missing'], method='linear')
 ```
 
-### Feature extraction
-
-Extracting manual features is essential for some anomaly detection approaches. `PyADT` offered various options for extracting features including:
-
-- Simple features: logarithm, difference, second-order difference, ...
-- Window-based features: window mean value, window std value, ...
-- Decomposition features: STL decomposition, ...
-- Frequency domain features: wavelet features, spectral residual, ...
-- Regression features: SARIMA regression residual, Exponential Smoothing residual, ...
-
-```python
-from pyadts.data import FeatureExtractor
-
-feature_extractor = FeatureExtractor()
-```
-
 ### Train the model
 
-Different anomaly detection algorithms should be utilized to tackle different scenarios. `PyADT` contains various algorithms including supervised-, unsupervised-, nonparametric-methods (you can refer the full list of [implemented algorithms](#implemented-algorithms)).
+Different anomaly detection algorithms should be utilized to tackle different scenarios. `PyADTS` contains various
+algorithms including supervised-, unsupervised-, nonparametric-methods (you can refer the full list
+of [implemented algorithms](#implemented-algorithms)).
+
+`PyADTS` follows a `scikit-learn` style training scheme.
 
 ```python
 from pyadts import ThresholdDetector
