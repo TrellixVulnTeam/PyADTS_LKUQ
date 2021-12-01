@@ -1,5 +1,8 @@
 # PyADTS: A Python Toolkit for Time-series Anomaly Detection
 
+[![Documentation Status](https://readthedocs.org/projects/pyadts/badge/?version=latest)](https://pyadts.readthedocs.io/en/latest/?badge=latest)
+
+
 <div align=center><img src="https://i.loli.net/2020/09/16/jlALoQ18vnXDPCU.png" width=45% height=45% /></div >
 
 `PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various
@@ -208,7 +211,7 @@ TODO
 ## Citing
 
 ```latex
-@misc{qfxiao2021physiossl,
+@misc{qfxiao2020pyadts,
   author =       {Qinfeng Xiao},
   title =        {PyADTS: A Python Toolkit for Time-series Anomaly Detection},
   howpublished = {\url{https://github.com/larryshaw0079/PyADTS}},
