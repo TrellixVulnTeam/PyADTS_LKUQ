@@ -4,7 +4,19 @@ from sklearn.metrics import auc, roc_auc_score, precision_recall_curve
 
 
 def __adjust_predictions(score: np.ndarray, label: np.ndarray, delay=None, inplace=False) -> np.ndarray:
-    assert np.shape(score) == np.shape(label)
+    """
+    Adjust predictions to adapt a certain delay
+
+    Args:
+        score ():
+        label ():
+        delay ():
+        inplace ():
+
+    Returns:
+
+    """
+    assert score.shape == label.shape
     if delay is None:
         delay = len(score)
     splits = np.where(label[1:] != label[:-1])[0] + 1
@@ -33,7 +45,7 @@ def __ignore_missing(*args, missing):
     return tuple(result)
 
 
-# @deprecated('Using precision to evaluate anomaly detection algorithms is not recommended.')
+# @deprecated('Using precision to evaluate anomaly dete`ction algorithms is not recommended.')
 def best_precision(score: np.ndarray, label: np.ndarray, delay: int = None):
     if delay is not None:
         score = __adjust_predictions(score, label, delay=delay, inplace=False)
@@ -82,3 +94,42 @@ def pr_auc(score: np.ndarray, label: np.ndarray, delay: int = None):
 
     return auc(rs[ids], ps[ids])
 
+
+class PrecisionScore(object):
+    def __init__(self):
+        super(PrecisionScore, self).__init__()
+
+    def __call__(self, *args, **kwargs):
+        pass
+
+
+class RecallScore(object):
+    def __init__(self):
+        super(RecallScore, self).__init__()
+
+    def __call__(self, *args, **kwargs):
+        pass
+
+
+class F1Score(object):
+    def __int__(self):
+        super(F1Score, self).__int__()
+
+    def __call__(self, *args, **kwargs):
+        pass
+
+
+class AUROCScore(object):
+    def __init__(self):
+        super(AUROCScore, self).__init__()
+
+    def __call__(self, *args, **kwargs):
+        pass
+
+
+class AUPRScore(object):
+    def __init__(self):
+        super(AUPRScore, self).__init__()
+
+    def __call__(self, *args, **kwargs):
+        pass

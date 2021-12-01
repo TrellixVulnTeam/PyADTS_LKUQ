@@ -182,6 +182,7 @@ def sliding_window_with_stride(x: np.ndarray, window_size: int, stride: int, cop
         x (np.ndarray): input time-series with shape (num_series, *, channel, timestamps)
         window_size ():
         stride ():
+        copy ():
 
     Returns:
         res (np.ndarray): sliding windows with shape (num_series, *, channel, num_windows, window_size)

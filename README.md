@@ -1,5 +1,8 @@
 # PyADTS: A Python Toolkit for Time-series Anomaly Detection
 
+[![Documentation Status](https://readthedocs.org/projects/pyadts/badge/?version=latest)](https://pyadts.readthedocs.io/en/latest/?badge=latest)
+
+
 <div align=center><img src="https://i.loli.net/2020/09/16/jlALoQ18vnXDPCU.png" width=45% height=45% /></div >
 
 `PyADTS` is aimed at **accelerating the workflow of time series anomaly detection for researchers**. It contains various
@@ -48,7 +51,7 @@ All components of the dataset are organized as a dict:
 
 `{'value': value, 'label': label, 'timestamp': timestamp, 'datetime': datetime}`
 
-### Pre-processing
+### Pre-processing (optional)
 
 It's important to pre-process the time series before training. `PyADTS` offered three types of pre-processing methods including:
 
@@ -66,25 +69,13 @@ data_processed['value'] = series_normalize(data_processed['value'], mask=data_pr
 data_processed['value'] = series_impute(data_processed['value'], missing=data_processed['missing'], method='linear')
 ```
 
-### Feature extraction
-
-Extracting manual features is essential for some anomaly detection approaches. `PyADT` offered various options for extracting features including:
-
-- Simple features: logarithm, difference, second-order difference, ...
-- Window-based features: window mean value, window std value, ...
-- Decomposition features: STL decomposition, ...
-- Frequency domain features: wavelet features, spectral residual, ...
-- Regression features: SARIMA regression residual, Exponential Smoothing residual, ...
-
-```python
-from pyadts.data import FeatureExtractor
-
-feature_extractor = FeatureExtractor()
-```
-
 ### Train the model
 
-Different anomaly detection algorithms should be utilized to tackle different scenarios. `PyADT` contains various algorithms including supervised-, unsupervised-, nonparametric-methods (you can refer the full list of [implemented algorithms](#implemented-algorithms)).
+Different anomaly detection algorithms should be utilized to tackle different scenarios. `PyADTS` contains various
+algorithms including supervised-, unsupervised-, nonparametric-methods (you can refer the full list
+of [implemented algorithms](#implemented-algorithms)).
+
+`PyADTS` follows a `scikit-learn` style training scheme.
 
 ```python
 from pyadts import ThresholdDetector
@@ -220,7 +211,7 @@ TODO
 ## Citing
 
 ```latex
-@misc{qfxiao2021physiossl,
+@misc{qfxiao2020pyadts,
   author =       {Qinfeng Xiao},
   title =        {PyADTS: A Python Toolkit for Time-series Anomaly Detection},
   howpublished = {\url{https://github.com/larryshaw0079/PyADTS}},

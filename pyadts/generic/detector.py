@@ -30,10 +30,10 @@ class Detector(abc.ABC):
         pass
 
     def save(self, f: Union[str, IO]):
-        print(self.__dict__)
+        # print(self.__dict__)
         save_objects(self.__dict__, f)
 
     def load(self, f: Union[str, IO]):
         objs = load_objects(f)
-        print(objs)
+        # print(objs)
         self.__dict__.update(objs)

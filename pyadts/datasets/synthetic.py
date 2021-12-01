@@ -4,8 +4,10 @@
 @Software: PyCharm
 @Desc    : 
 """
-import numpy as np
+
+from pyadts.generic import TimeSeriesDataset
 
 
-def get_synthetic_dataset():
-    pass
+class SyntheticDataset(TimeSeriesDataset):
+    def __init__(self):
+        super(SyntheticDataset, self).__init__()

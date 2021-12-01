@@ -18,7 +18,7 @@ Welcome to PyADTS documentation!
    :maxdepth: 2
    :caption: Documentation
 
-   api
+   generated/modules
 
 
 Indices and tables
