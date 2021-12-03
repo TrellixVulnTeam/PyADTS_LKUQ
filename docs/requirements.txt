@@ -17,11 +17,17 @@ PyWavelets
 statsmodels
 
 # ML/DL
-scikit-learn>=0.19.1
-torch>=1.2
+scikit-learn>=0.22.1
+torch>=1.6
+#torch-scatter
+#torch-sparse
+#torch-cluster
+#torch-spline-conv
+#torch-geometric
 
 # Utilities
 tqdm
-
-# Other third-party libs
-combo
+tables
+pyts>=0.11.0
+prettytable
+seaborn

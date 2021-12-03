@@ -36,11 +36,24 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-    # 'sphinxcontrib.bibtex',
+    'sphinxcontrib.bibtex',
     'sphinx.ext.napoleon',
 ]
 
-autosummary_generate = True   # = ["index"] to skip API
+bibtex_bibfiles = ['ref.bib']
+latex_engine = 'xelatex'
+latex_elements = {
+    'papersize': 'a4paper',
+    'pointsize': '11pt',
+    'preamble': r'''
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\setmainfont{Times}
+\setmonofont{Lucida Sans Typewriter}
+    '''
+}
+
+autosummary_generate = True  # = ["index"] to skip API
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

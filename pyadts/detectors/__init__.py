@@ -1,1 +1,1 @@
-from pyadts.detectors.simple.range import RangeDetector
+from pyadts.detectors.range import RangeDetector

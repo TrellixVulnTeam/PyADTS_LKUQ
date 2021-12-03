@@ -8,7 +8,9 @@ import abc
 from typing import List, Tuple
 
 import numpy as np
+import seaborn as sns
 import torch
+from prettytable import PrettyTable
 
 from pyadts.utils.data import sliding_window_with_stride
 from pyadts.utils.visualization import plot_series
@@ -113,3 +115,10 @@ class TimeSeriesDataset(abc.ABC):
 
     def __getitem__(self, item):
         return self.data[item]
+
+    def __repr__(self):
+        table = PrettyTable()
+        table.align = 'c'
+        table.field_names = ['ID', '# Channels', '# Points', 'Anomaly Ratio', 'Missing Ratio']
+
+        return table.get_string()
