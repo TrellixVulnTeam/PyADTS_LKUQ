@@ -8,4 +8,9 @@ from pyadts.datasets import NABDataset
 
 
 def test_nabdataset():
-    dataset = NABDataset(root='tests/data/nab', category='realTraffic', download=True)
+    for subset in ['artificialNoAnomaly', 'artificialWithAnomaly', 'realAdExchange', 'realAWSCloudwatch',
+                   'realKnownCause', 'realTraffic', 'realTweets']:
+        dataset = NABDataset(root='tests/data/nab', subset=subset, download=True)
+        print(dataset)
+        print(dataset.data().shape, dataset.data().dtype)
+        print(dataset.targets().shape, dataset.targets().dtype)

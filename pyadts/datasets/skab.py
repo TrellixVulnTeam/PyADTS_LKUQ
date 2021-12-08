@@ -16,7 +16,7 @@ from pyadts.utils.io import check_existence
 
 
 class SKABDataset(TimeSeriesDataset):
-    __categories = ['valve1', 'valve2', 'other']
+    __subsets = ['valve1', 'valve2', 'other']
     __file_list = {
         'valve1': {
             '0.csv': 'be2ca3c4e52b5c80167fb82c1a3d78b8', '1.csv': 'ce14ac9dbd5edc67918bbf5746ba0fd8',
@@ -43,9 +43,9 @@ class SKABDataset(TimeSeriesDataset):
         }
     }
 
-    def __init__(self, root: str = None, category: str = None, download: bool = False):
-        super(SKABDataset, self).__init__()
-        assert category in self.__categories
+    def __init__(self, root: str = None, subset: str = None, download: bool = False):
+
+        assert subset in self.__subsets
 
         if root is None:
             root_path = Path.home() / 'skab'
@@ -55,43 +55,25 @@ class SKABDataset(TimeSeriesDataset):
             root_path = Path(root)
 
         if download:
-            raise ValueError('The SMD dataset should be downloaded manually. '
+            raise ValueError('The SKAB dataset should be downloaded manually. '
                              'Please download the dataset at `https://github.com/waico/SKAB`!')
         else:
             self.__check_integrity(root_path)
 
-        self.data = []
-        self.labels = []
+        data = []
+        labels = []
+        timestamps = []
 
-        for csv_file in (root_path / category).glob('*.csv'):
+        for csv_file in (root_path / subset).glob('*.csv'):
             df = pd.read_csv(csv_file, delimiter=';')
             df.sort_values(by='datetime', inplace=True)
             label = np.logical_or(df['anomaly'].values, df['changepoint'].values).astype(np.long)
+            timestamps.append(df['datetime'].values)
             df.drop(columns=['datetime', 'anomaly', 'changepoint'], inplace=True)
-            self.data.append(df.values)
-            self.labels.append(label)
+            data.append(df.values)
+            labels.append(label)
 
-        self.data = np.concatenate(self.data, axis=0)
-        self.labels = np.concatenate(self.labels, axis=0)
-
-        # root_path = Path(root)
-        # for split in self.__splits:
-        #     data_files = list((root_path / split).glob('*.csv'))
-        #     for file_path in tqdm(data_files, desc=f'::LOADING {split.upper()} DATA::'):
-        #         df = pd.read_csv(file_path, delimiter=';')
-        #
-        #         value = df.loc[:, self.__feature_columns].values.transpose()
-        #         timestamp = df['datetime'].values
-        #         anomaly = df['anomaly'].values.astype(int)
-        #         change_point = df['changepoint'].values.astype(int)
-        #         label = np.logical_or(anomaly, change_point).astype(int)
-        #
-        #         self.data.append(value)
-        #         self.labels.append(label)
-        #
-        # self.sep_indicators = np.cumsum([item.shape[-1] for item in self.data])
-        # self.data = np.concatenate(self.data, axis=-1)
-        # self.labels = np.concatenate(self.labels)
+        super(SKABDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

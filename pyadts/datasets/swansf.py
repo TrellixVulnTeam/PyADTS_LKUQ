@@ -9,6 +9,7 @@ import warnings
 from pathlib import Path
 from typing import Union
 
+import numpy as np
 import pandas as pd
 from tqdm.std import tqdm
 
@@ -21,7 +22,6 @@ class SWANSFDataset(TimeSeriesDataset):
     __filename = 'petdataset_01.zip'
 
     def __init__(self, root: str = None, download: bool = False):
-        super(SWANSFDataset, self).__init__()
 
         if root is None:
             root_path = Path.home() / 'swansf'
@@ -60,10 +60,15 @@ class SWANSFDataset(TimeSeriesDataset):
         df['label'] = df['label'].map({'NF': 0, 'C': 1, 'B': 1, 'M': 1, 'X': 1})
         df['IS_TMFI'] = df['IS_TMFI'].map({True: 1, False: 0})
 
-        self.labels = df['label'].values
+        # TODO: filling NaN and None
+
+        labels = df['label'].values
+        timestamps = df['Timestamp'].values
         df.drop(columns=[col for col in df.columns if ('loc' in col or 'label' in col or 'Timestamp' in col)],
                 inplace=True)
-        self.data = df.values
+        data = df.values.astype(np.float)
+
+        super(SWANSFDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

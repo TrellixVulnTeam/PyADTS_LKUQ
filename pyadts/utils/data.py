@@ -4,7 +4,6 @@
 @Software: PyCharm
 @Desc    : 
 """
-import functools
 import warnings
 from datetime import datetime
 from typing import Union
@@ -168,14 +167,13 @@ def __dominant_period(lag, acf, min=None, max=None, fwhm=18, window=56,
     return acf_period
 
 
-@functools.lru_cache()
-def sliding_window_with_stride(x: np.ndarray, window_size: int, stride: int, copy: bool = False) -> np.ndarray:
+def sliding_window(x: np.ndarray, window_size: int, stride: int) -> np.ndarray:
     """
     Fast implementation of the sliding window operation applied on the last dimension of `x`.
 
     >>> x = np.random.randn(16, 10, 2, 1000)  ## shape: (16, 10, 2, 1000)
     >>> window_size, stride = 100, 2
-    >>> x_window = sliding_window_with_stride(x, window_size, stride)
+    >>> x_window = sliding_window(x, window_size, stride)
     >>> print(x_window.shape)  ## shape: (16, 10, 2, 451, 100)
 
     Args:
@@ -187,15 +185,14 @@ def sliding_window_with_stride(x: np.ndarray, window_size: int, stride: int, cop
     Returns:
         res (np.ndarray): sliding windows with shape (num_series, *, channel, num_windows, window_size)
     """
+
     overlap = window_size - stride
     num_windows = (x.shape[-1] - overlap) // stride
     res_shape = (*x.shape[:-1], num_windows, window_size)
     res_strides = (
     *(np.array(x.strides[:-1]) * num_windows * window_size).tolist(), x.strides[-1] * stride, x.strides[-1])
 
-    res = as_strided(x, shape=res_shape, strides=res_strides)
-    if copy:
-        res = np.copy(res)
+    res = as_strided(x, shape=res_shape, strides=res_strides, writeable=False)
 
     return res
 
@@ -267,25 +264,8 @@ def datetime_to_timestamp(dt: datetime) -> int:
     return int(dt.timestamp())
 
 
-def __missing_num(missing):
-    return np.count_nonzero(missing)
-
-
-def __missing_rate(missing):
-    return np.count_nonzero(missing) / missing.shape[0]
-
-
-def __anomaly_num(label):
-    return np.count_nonzero(label)
-
-
-def __anomaly_rate(label):
-    return np.count_nonzero(label) / label.shape[0]
-
-
-def dataset_statics(missing: np.ndarray, label: np.ndarray):
-    return {'Missing num': __missing_num(missing), 'Missing rate': __missing_rate(missing),
-            'Anomaly num': __anomaly_num(label), 'Anomaly rate': __anomaly_rate(label)}
+def validate_timeseries():
+    pass
 
 
 def rearrange_dataframe(df: pd.DataFrame, time_col: str = None, sort_by_time: bool = True, resampling: bool = True,
@@ -294,7 +274,6 @@ def rearrange_dataframe(df: pd.DataFrame, time_col: str = None, sort_by_time: bo
         assert time_col is not None
 
     res_df = df.copy(deep=True)
-    print(res_df.shape)
 
     if resampling:
         if tackle_missing is None or tackle_missing == 'none':

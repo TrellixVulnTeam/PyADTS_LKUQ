@@ -19,7 +19,6 @@ class GECCODataset(TimeSeriesDataset):
     __filename = '1_gecco2018_water_quality.csv'
 
     def __init__(self, root: str = None, download: bool = False):
-        super(GECCODataset, self).__init__()
 
         if root is None:
             root_path = Path.home() / 'gecco'
@@ -41,11 +40,14 @@ class GECCODataset(TimeSeriesDataset):
         df = pd.read_csv(root_path / self.__filename, index_col=0)
         df.sort_values(by='Time', inplace=True)
         df['EVENT'] = df['EVENT'].map({False: 0, True: 1})
-        df.drop(columns=['Time'])
-
-        self.labels = df['EVENT'].values
+        labels = df['EVENT'].values
+        timestamps = df['Time'].values
+        df.drop(columns=['Time'], inplace=True)
         df.drop(columns=['EVENT'], inplace=True)
-        self.data = df.values
+
+        data = df.values
+
+        super(GECCODataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

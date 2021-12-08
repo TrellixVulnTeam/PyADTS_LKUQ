@@ -9,3 +9,6 @@ from pyadts.datasets import SWANSFDataset
 
 def test_swan_sfdataset():
     dataset = SWANSFDataset(root='tests/data/swansf', download=True)
+    print(dataset)
+    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.targets().shape, dataset.targets().dtype)

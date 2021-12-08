@@ -16,7 +16,7 @@ from pyadts.utils.io import check_existence
 
 
 class YahooDataset(TimeSeriesDataset):
-    __categories = ['A1Benchmark', 'A2Benchmark', 'A3Benchmark', 'A4Benchmark']
+    __subsets = ['A1Benchmark', 'A2Benchmark', 'A3Benchmark', 'A4Benchmark']
     __file_list = {
         'A1Benchmark': {
             'real_1.csv': '4b06fc44bb265a0f2465f772553c230c', 'real_10.csv': '5e8091b0197125cd77bd4d9d8cc57c76',
@@ -364,9 +364,9 @@ class YahooDataset(TimeSeriesDataset):
         }
     }
 
-    def __init__(self, root: str = None, category: str = None, download: bool = False):
-        super(YahooDataset, self).__init__()
-        assert category in self.__categories
+    def __init__(self, root: str = None, subset: str = None, download: bool = False):
+
+        assert subset in self.__subsets
 
         if root is None:
             root_path = Path.home() / 'yahoo'
@@ -382,29 +382,31 @@ class YahooDataset(TimeSeriesDataset):
         else:
             assert self.__check_integrity(root)
 
-        self.data = []
-        self.labels = []
+        data = []
+        labels = []
+        timestamps = []
 
-        for csv_file in (root_path / category).glob('*.csv'):
+        for csv_file in (root_path / subset).glob('*.csv'):
             df = pd.read_csv(csv_file, quotechar='"')
-            if category in ['A1Benchmark', 'A2Benchmark']:
+            if subset in ['A1Benchmark', 'A2Benchmark']:
                 df.sort_values(by='timestamp', inplace=True)
                 label = df['is_anomaly'].values.reshape(-1)
+                timestamp = df['timestamp'].values
                 df.drop(columns=['timestamp', 'is_anomaly'], inplace=True)
-                data = df.values.reshape(-1, 1)
+                data_item = df.values.reshape(-1, 1)
             else:
                 if 'A3Benchmark_all' in str(csv_file) or 'A4Benchmark_all' in str(csv_file):
                     continue
                 df.sort_values(by='timestamps', inplace=True)
                 label = np.logical_or(df['anomaly'].values, df['changepoint'].values).astype(np.long).reshape(-1)
-                data = df['value'].values.reshape(-1, 1)
+                data_item = df['value'].values.reshape(-1, 1)
+                timestamp = df['timestamps'].values
 
-            self.labels.append(data)
-            self.data.append(label)
+            data.append(data_item)
+            labels.append(label)
+            timestamps.append(timestamp)
 
-        self.data = np.concatenate(self.data, axis=0)
-        self.labels = np.concatenate(self.labels, axis=0)
-        print(self.data.shape, self.labels.shape)
+        super(YahooDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

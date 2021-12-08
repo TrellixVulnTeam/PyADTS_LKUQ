@@ -30,10 +30,28 @@ class Detector(abc.ABC):
         pass
 
     def save(self, f: Union[str, IO]):
+        """
+        Write model states into a file.
+
+        Args:
+            f (str or IO):
+
+        Returns:
+            none
+        """
         # print(self.__dict__)
         save_objects(self.__dict__, f)
 
     def load(self, f: Union[str, IO]):
+        """
+        Load states from a file.
+
+        Args:
+            f (str or IO):
+
+        Returns:
+            none
+        """
         objs = load_objects(f)
         # print(objs)
         self.__dict__.update(objs)

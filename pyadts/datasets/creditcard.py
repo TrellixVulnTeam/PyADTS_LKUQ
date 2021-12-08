@@ -20,7 +20,6 @@ class CreditCardDataset(TimeSeriesDataset):
     __md5 = '63aa311d4b9b32872b35f073ea9c8c2d'
 
     def __init__(self, root: str = None, download: bool = False):
-        super(CreditCardDataset, self).__init__()
 
         if root is None:
             root_path = Path.home() / 'creditcard'
@@ -42,9 +41,12 @@ class CreditCardDataset(TimeSeriesDataset):
         df = pd.read_csv(root_path / self.__filename)
         df.sort_values(by='Time', inplace=True)
 
-        self.labels = df['Class'].map(lambda x: int(x.strip("'"))).values
+        labels = df['Class'].map(lambda x: int(x.strip("'"))).values
+        timestamps = df['Time'].values
         df.drop(columns=['Class', 'Time'], inplace=True)
-        self.data = df.values
+        data = df.values
+
+        super(CreditCardDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

@@ -138,8 +138,7 @@ class SMAPDataset(TimeSeriesDataset):
     }
     __label_md5 = 'c54f6c09f44410763e33aac7329d769a'
 
-    def __init__(self, root: str = None, download: bool = False):
-        super(SMAPDataset, self).__init__()
+    def __init__(self, root: str = None, train: bool = True, download: bool = False):
 
         if root is None:
             root_path = Path.home() / 'smap'
@@ -170,41 +169,30 @@ class SMAPDataset(TimeSeriesDataset):
         else:
             assert self.__check_integrity(root_path)
 
-        self.data = []
-        self.labels = []
+        data = []
+        labels = []
 
         label_df = pd.read_csv(root_path / self.__label_filename)
 
-        for data_file in self.__train_list:
-            data = np.load(root_path / 'train' / data_file)
-            self.data.append(data)
+        if train:
+            warnings.warn(
+                'This dataset contains no labels for the training set. Thus all data points will be considered as normal by default!')
+            for data_file in self.__train_list:
+                data_item = np.load(root_path / 'train' / data_file)
+                data.append(data_item)
+                labels.append(np.zeros(data_item.shape[0]))
+        else:
+            for data_file in self.__test_list:
+                anomaly_sequences = eval(
+                    label_df[label_df['chan_id'] == data_file.split('.')[0]]['anomaly_sequences'].values[0])
+                data_item = np.load(root_path / 'test' / data_file)
+                label = np.zeros(len(data_item))
+                for seq in anomaly_sequences:
+                    label[seq[0]: seq[1] + 1] = 1
+                data.append(data_item)
+                labels.append(label)
 
-        for data_file in self.__test_list:
-            anomaly_sequences = eval(
-                label_df[label_df['chan_id'] == data_file.split('.')[0]]['anomaly_sequences'].values[0])
-            data = np.load(root_path / 'test' / data_file)
-            labels = np.zeros(len(data))
-            for seq in anomaly_sequences:
-                labels[seq[0]: seq[1] + 1] = 1
-            self.data.append(data)
-
-        # for split in self.__splits:
-        #     data_files = list((root_path / split).glob('*.csv'))
-        #     for file_path in tqdm(data_files, desc=f'::LOADING {split.upper()} DATA::'):
-        #         df = pd.read_csv(file_path)
-        #
-        #         value = df.values.transpose()
-        #         if split == 'test':
-        #             label = pd.read_csv(root_path / self.__label_folder / file_path.name).values[:, -1].astype(int)
-        #         else:
-        #             label = np.zeros(value.shape[-1], dtype=int)
-        #
-        #         self.data.append(value)
-        #         self.labels.append(label)
-        #
-        # self.sep_indicators = np.cumsum([item.shape[-1] for item in self.data])
-        # self.data = np.concatenate(self.data, axis=-1)
-        # self.labels = np.concatenate(self.labels)
+        super(SMAPDataset, self).__init__(data_list=data, label_list=labels)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

@@ -22,8 +22,8 @@ class NABDataset(TimeSeriesDataset):
     __filename = 'v1.1.tar.gz'
     __label_filename = 'combined_windows.json'
     __label_md5 = 'd2ec0ef3652beca9e4847fe4f3815529'
-    __categories = ['artificialNoAnomaly', 'artificialWithAnomaly', 'realAdExchange', 'realAWSCloudwatch',
-                    'realKnownCause', 'realTraffic', 'realTweets']
+    __subsets = ['artificialNoAnomaly', 'artificialWithAnomaly', 'realAdExchange', 'realAWSCloudwatch',
+                 'realKnownCause', 'realTraffic', 'realTweets']
     __file_list = {
         'artificialNoAnomaly': {
             'art_daily_no_noise.csv': '2a972131fc973ce3bf657a7646424122',
@@ -99,9 +99,8 @@ class NABDataset(TimeSeriesDataset):
         }
     }
 
-    def __init__(self, root: str = None, category: str = None, download: bool = True):
-        super(NABDataset, self).__init__()
-        assert category in self.__categories
+    def __init__(self, root: str = None, subset: str = None, download: bool = True):
+        assert subset in self.__subsets, f'Available subsets: {self.__subsets}'
 
         if root is None:
             root_path = Path.home() / 'nab'
@@ -127,22 +126,26 @@ class NABDataset(TimeSeriesDataset):
         else:
             assert self.__check_integrity(root_path)
 
-        self.data = []
-        self.labels = []
+        data = []
+        labels = []
+        timestamps = []
 
         with (root_path / self.__label_filename).open('r') as f:
             label_dict = json.load(f)
-        for csv_file in (root_path / category).glob('*.csv'):
+        for csv_file in (root_path / subset).glob('*.csv'):
             df = pd.read_csv(csv_file)
             df['timestamp'] = pd.to_datetime(df['timestamp'])
-            labels = np.zeros(len(df))
-            for anomaly_window in label_dict[category + '/' + csv_file.name]:
+            label = np.zeros(len(df))
+            for anomaly_window in label_dict[subset + '/' + csv_file.name]:
                 st, ed = pd.to_datetime(anomaly_window)
-                labels[(df['timestamp'] >= st).values & (df['timestamp'] <= ed).values] = 1
-            df['label'] = labels
+                label[(df['timestamp'] >= st).values & (df['timestamp'] <= ed).values] = 1
+            df['label'] = label
 
-            self.data.append(df['value'].values.reshape(1, -1))
-            self.labels.append(df['label'].values.astype(np.long).reshape(-1))
+            data.append(df['value'].values.reshape(-1, 1))
+            labels.append(df['label'].values.astype(np.long).reshape(-1))
+            timestamps.append(df['timestamp'].values.reshape(-1))
+
+        super(NABDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):
@@ -157,32 +160,3 @@ class NABDataset(TimeSeriesDataset):
             return False
 
         return True
-
-#
-# def __check_dataset(root_path, dataset_name):
-#     if not os.path.exists(os.path.join(root_path, DATA_NAMES[dataset_name])):
-#         raise FileNotFoundError('The dataset %s not found in path %s' % (dataset_name, root_path))
-#
-#
-# def get_nab_nyc_taxi(root_path):
-#     __check_dataset(root_path, 'nyc_taxi')
-#
-#     df = pd.read_csv(os.path.join(root_path, DATA_NAMES['nyc_taxi']))
-#     with open(os.path.join(root_path, LABEL_NAME)) as f:
-#         label_windows = json.load(f)['realKnownCause/nyc_taxi.csv']
-#     value = df['value'].values
-#     datetime = pd.to_datetime(df['timestamp'])
-#     timestamp = datetime.apply(datetime_to_timestamp).values
-#     label = np.zeros(len(df))
-#
-#     for window in label_windows:
-#         t1 = pd.to_datetime(window[0])
-#         t2 = pd.to_datetime(window[1])
-#
-#         label[(timestamp >= t1).values & (timestamp <= t2).values] = 1
-#
-#     return {'value': value, 'label': label, 'timestamp': timestamp, 'datetime': datetime}
-#
-#
-# def get_nab_dataset(root: str, download: str, subset: str):
-#     pass

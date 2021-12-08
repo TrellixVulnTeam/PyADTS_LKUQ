@@ -8,4 +8,8 @@ from pyadts.datasets import SKABDataset
 
 
 def test_skabdataset():
-    dataset = SKABDataset(root='tests/data/skab', category='other')
+    for subset in ['valve1', 'valve2', 'other']:
+        dataset = SKABDataset(root='tests/data/skab', subset=subset, download=False)
+        print(dataset)
+        print(dataset.data().shape, dataset.data().dtype)
+        print(dataset.targets().shape, dataset.targets().dtype)

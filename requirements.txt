@@ -26,4 +26,3 @@ tqdm
 tables
 pyts>=0.11.0
 prettytable
-seaborn

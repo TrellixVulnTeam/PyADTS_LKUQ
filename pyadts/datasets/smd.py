@@ -17,7 +17,6 @@ from pyadts.utils.io import check_existence
 
 
 class SMDDataset(TimeSeriesDataset):
-    __splits = ['train', 'test']
     __label_folder = 'test_label'
     __train_list = {
         'machine-1-1.txt': 'aa0c83b521a709279225c9425d77aca5',
@@ -110,8 +109,7 @@ class SMDDataset(TimeSeriesDataset):
         'machine-3-9.txt': '1de3dfa8f7967bc91fcb3fd862316104',
     }
 
-    def __init__(self, root: str = None, download: bool = False):
-        super(SMDDataset, self).__init__()
+    def __init__(self, root: str = None, train: bool = True, download: bool = False):
 
         if root is None:
             root_path = Path.home() / 'smd'
@@ -126,26 +124,30 @@ class SMDDataset(TimeSeriesDataset):
         else:
             assert self.__check_integrity(root)
 
-        self.data = []
-        self.labels = []
+        data = []
+        labels = []
 
-        for split in self.__splits:
-            data_files = list((root_path / split).glob('*.txt'))
-            for file_path in tqdm(data_files, desc=f'::LOADING {split.upper()} DATA::'):
-                df = pd.read_csv(file_path, delimiter=',', header=None)
+        if train:
+            warnings.warn(
+                'This dataset contains no labels for the training set. Thus all data points will be considered as normal by default!')
+            split = 'train'
+        else:
+            split = 'test'
 
-                value = df.values.transpose()
-                if split == 'test':
-                    label = np.loadtxt((root_path / self.__label_folder / file_path.name).as_posix(), dtype=int)
-                else:
-                    label = np.zeros(value.shape[-1], dtype=int)
+        data_files = list((root_path / split).glob('*.txt'))
+        for file_path in tqdm(data_files, desc=f'::LOADING {split.upper()} DATA::'):
+            df = pd.read_csv(file_path, delimiter=',', header=None)
 
-                self.data.append(value)
-                self.labels.append(label)
+            value = df.values
+            if split == 'test':
+                label = np.loadtxt((root_path / self.__label_folder / file_path.name).as_posix(), dtype=int)
+            else:
+                label = np.zeros(len(value), dtype=int)
 
-        self.sep_indicators = np.cumsum([item.shape[-1] for item in self.data])
-        self.data = np.concatenate(self.data, axis=-1)
-        self.labels = np.concatenate(self.labels)
+            data.append(value)
+            labels.append(label)
+
+        super(SMDDataset, self).__init__(data_list=data, label_list=labels)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

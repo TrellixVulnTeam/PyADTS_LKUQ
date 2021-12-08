@@ -28,8 +28,6 @@ class KPIDataset(TimeSeriesDataset):
     }
 
     def __init__(self, root: str = None, download: bool = False):
-        super(KPIDataset, self).__init__()
-
         if root is None:
             root_path = Path.home() / 'kpi'
             warnings.warn(
@@ -50,19 +48,19 @@ class KPIDataset(TimeSeriesDataset):
         kpi_ids = np.unique(df['KPI ID'].values.astype(str))
         df_group_by_id = {kpi: df[df['KPI ID'] == kpi] for kpi in kpi_ids}
 
-        self.data = []
-        self.labels = []
+        data = []
+        labels = []
+        timestamps = []
 
         for key, df in tqdm(df_group_by_id.items(), desc='::LOADING DATA::'):
             df = rearrange_dataframe(df.drop(columns=['KPI ID']), time_col='timestamp', sort_by_time=True,
                                      resampling=True, tackle_missing='fzero')
 
-            self.data.append(df['value'].values.reshape(1, -1))
-            self.labels.append(df['label'].values.reshape(-1))
+            data.append(df['value'].values.reshape(-1, 1))
+            labels.append(df['label'].values.reshape(-1))
+            timestamps.append(df['timestamp'].values.reshape(-1))
 
-        self.sep_indicators = np.cumsum([item.shape[-1] for item in self.data])
-        self.data = np.concatenate(self.data, axis=-1)
-        self.labels = np.concatenate(self.labels)
+        super(KPIDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

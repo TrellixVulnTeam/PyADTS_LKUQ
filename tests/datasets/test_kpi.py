@@ -9,3 +9,6 @@ from pyadts.datasets import KPIDataset
 
 def test_kpidataset():
     dataset = KPIDataset(root='tests/data/kpi', download=False)
+    print(dataset)
+    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.targets().shape, dataset.targets().dtype)

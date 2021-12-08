@@ -21,7 +21,6 @@ class CICIDSDataset(TimeSeriesDataset):
     __md5 = '13e1c70d2b380bf5d90f82e60e7befb1'
 
     def __init__(self, root: str = None, download: bool = False):
-        super(CICIDSDataset, self).__init__()
 
         if root is None:
             root_path = Path.home() / 'cicids'
@@ -50,11 +49,13 @@ class CICIDSDataset(TimeSeriesDataset):
                 inplace=True)  # drop non-numerical columns
 
         df['Label'] = df['Label'].map(
-            {'BENIGN': "0", "Web Attack Brute Force": "1", "Web Attack Sql Injection": "1", "Web Attack XSS": "1"})
+            {'BENIGN': 0, "Web Attack Brute Force": 1, "Web Attack Sql Injection": 1, "Web Attack XSS": 1})
 
-        self.labels = df['Label'].values
+        labels = df['Label'].values
         df.drop(columns=['Label'], inplace=True)
-        self.data = df.values
+        data = df.values
+
+        super(CICIDSDataset, self).__init__(data_list=data, label_list=labels)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

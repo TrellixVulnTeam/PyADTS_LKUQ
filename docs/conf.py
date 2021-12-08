@@ -88,7 +88,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #     "base_url": "",
 # }
 
-html_theme = 'pydata_sphinx_theme'
+html_theme = 'haiku'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
