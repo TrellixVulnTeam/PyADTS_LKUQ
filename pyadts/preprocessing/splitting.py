@@ -4,119 +4,102 @@
 @Software: PyCharm
 @Desc    : 
 """
-from typing import Tuple, Iterable
+from typing import Tuple
 
 import numpy as np
-from sklearn.model_selection import KFold, LeaveOneOut
 
 from pyadts.generic import TimeSeriesDataset
 
 
-def simple_split(data: TimeSeriesDataset, split_on: str, train_ratio: float) -> Tuple[
+def train_test_split(data: TimeSeriesDataset, train_ratio: float, method: str = 'point', shuffle: bool = True) -> Tuple[
     TimeSeriesDataset, TimeSeriesDataset]:
     """
-    Apply a simple train-test splitting on the specified `split_on` dimension.
 
     Args:
         data ():
-        split_on ():
         train_ratio ():
+        method ():
+        shuffle ():
 
     Returns:
 
     """
-    if split_on == 'series':
+
+    if method == 'series':
         counts = data.num_series
         train_size = int(counts * train_ratio)
-        train_idx = np.random.choice(np.arange(counts), train_size, replace=False)
+        if shuffle:
+            train_idx = np.random.choice(np.arange(counts), train_size, replace=False)
+        else:
+            train_idx = np.arange(train_size)
         test_idx = np.setdiff1d(np.arange(counts), train_idx)
-        train_dataset = TimeSeriesDataset([], [] if data.labels is not None else None)
-        test_dataset = TimeSeriesDataset([], [] if data.labels is not None else None)
-    elif split_on == 'sequence':
-        train_dataset = TimeSeriesDataset([], [] if data.labels is not None else None)
-        test_dataset = TimeSeriesDataset([], [] if data.labels is not None else None)
-    elif split_on == 'instance':
-        train_dataset = TimeSeriesDataset([], [] if data.labels is not None else None)
-        test_dataset = TimeSeriesDataset([], [] if data.labels is not None else None)
+
+        train_dfs = []
+        for i in train_idx:
+            train_dfs.append(data.dfs[i])
+        train_dataset = TimeSeriesDataset.from_iterable(train_dfs)
+
+        test_dfs = []
+        for i in test_idx:
+            test_dfs.append(data.dfs[i])
+        test_dataset = TimeSeriesDataset.from_iterable(test_dfs)
+    elif method == 'point':
+        train_dfs = []
+        test_dfs = []
+
+        counts = data.num_points
+        train_size = int(counts * train_ratio)
+        if shuffle:
+            train_idx = np.random.choice(np.arange(counts), train_size, replace=False)
+        else:
+            train_idx = np.arange(train_size)
+        test_idx = np.setdiff1d(np.arange(counts), train_idx)
+
+        sum_size = 0
+        for df in data.dfs:
+            train_df = df.iloc[train_idx[train_idx >= sum_size]]
+            train_df = train_df.reset_index(drop=True)
+            train_dfs.append(train_df)
+
+            test_df = df.iloc[test_idx[test_idx >= sum_size]]
+            test_df = test_df.reset_index(drop=True)
+            test_dfs.append(test_df)
+
+            sum_size += df.shape[0]
+    elif method == 'point_balanced':
+        train_dfs = []
+        test_dfs = []
+
+        for df in data.dfs:
+            counts = df.shape[0]
+            train_size = int(counts * train_ratio)
+            if shuffle:
+                train_idx = np.random.choice(np.arange(counts), train_size, replace=False)
+            else:
+                train_idx = np.arange(train_size)
+            test_idx = np.setdiff1d(np.arange(counts), train_idx)
+            train_df = df.iloc[train_idx]
+            train_df = train_df.reset_index(drop=True)
+            train_dfs.append(train_df)
+            test_df = df.iloc[test_idx]
+            test_df = test_df.reset_index(drop=True)
+            test_dfs.append(test_df)
+
+        train_dataset = TimeSeriesDataset.from_iterable(train_dfs)
+        test_dataset = TimeSeriesDataset.from_iterable(test_dfs)
     else:
         raise ValueError
 
     return train_dataset, test_dataset
 
-
-def cross_validation(data: TimeSeriesDataset, method: str, split_on: str, kfolds: int = 10) -> Iterable[
-    Tuple[TimeSeriesDataset, TimeSeriesDataset]]:
-    """
-
-    Args:
-        data ():
-        method (str): . choices: ['kfold', 'leave_one_out']
-        split_on (str):
-        kfolds (int):
-
-    Returns:
-
-    """
-    if method == 'kfold':
-        splitter = KFold(n_splits=kfolds)
-    elif method == 'leave_one_out':
-        splitter = LeaveOneOut()
-    else:
-        raise ValueError
-
-    if split_on == 'series':
-        pass
-    elif split_on == 'sequence':
-        pass
-    elif split_on == 'instance':
-        pass
-    else:
-        raise ValueError
-
-    for train_idx, test_idx in splitter.split(data.data):
-        pass
-
-
-class SimpleSplit(object):
-    def __init__(self, split_on: str, train_ratio: float):
-        """
-
-        Args:
-            split_on ():
-            train_ratio ():
-        """
-        pass
-
-    def __call__(self, data: TimeSeriesDataset) -> Tuple[TimeSeriesDataset, TimeSeriesDataset]:
-        """
-
-        Args:
-            data ():
-
-        Returns:
-
-        """
-        pass
-
-
-class CrossValidation(object):
-    def __init__(self, method: str, split_on: str, kfolds: int = 10):
-        """
-
-        Args:
-            method ():
-            split_on ():
-            kfolds ():
-        """
-        pass
-
-    def __call__(self, data: TimeSeriesDataset) -> Iterable[Tuple[TimeSeriesDataset, TimeSeriesDataset]]:
-        """
-
-        Args:
-            data ():
-
-        Returns:
-
-        """
-        pass
+# class TrainTestSplitter(object):
+#     def __init__(self, train_ratio: float, split_on: str = 'point', shuffle: bool = True):
+#         assert split_on in ['point', 'series']
+#
+#         self.train_ratio = train_ratio
+#         self.split_on = split_on
+#         self.shuffle = shuffle
+#
+#     def __call__(self, data: TimeSeriesDataset) -> Tuple[TimeSeriesDataset, TimeSeriesDataset]:
+#         return train_test_split(data, self.train_ratio, self.split_on, self.shuffle)
+#

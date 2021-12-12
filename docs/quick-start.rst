@@ -8,11 +8,13 @@ Quick Start
 Loading Datasets
 =================
 
+``PyADTS`` offers various datasets
+
 .. code-block:: python
 
-    from pyadts.datasets import SMD
+    from pyadts.datasets import NABDataset
 
-    data = SMD(root='data/smd', download=True)
+    data = NABDataset(root='data/nab', subset='realAWSCloudwatch', download=True)
 
 
 ==============
@@ -21,6 +23,7 @@ Preprocessing
 
 .. code-block:: python
 
+    from pyadts.preprocessing import train_test_split
 
 
 =================
