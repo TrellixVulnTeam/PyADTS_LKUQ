@@ -11,5 +11,6 @@ from .swansf import SWANSFDataset
 from .synthetic import SyntheticDataset
 from .yahoo import YahooDataset
 
-__all__ = [KPIDataset, SKABDataset, MSLDataset, SMAPDataset, SMDDataset, NABDataset,
-           CreditCardDataset, GECCODataset, CICIDSDataset, SWANSFDataset, YahooDataset, SyntheticDataset]
+__all__ = ['KPIDataset', 'SKABDataset', 'MSLDataset', 'SMAPDataset', 'SMDDataset', 'NABDataset',
+           'CreditCardDataset', 'GECCODataset', 'CICIDSDataset', 'SWANSFDataset', 'YahooDataset',
+           'SyntheticDataset']

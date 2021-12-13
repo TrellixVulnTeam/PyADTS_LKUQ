@@ -11,9 +11,9 @@ import numpy as np
 from pyadts.generic import Detector, TimeSeriesDataset
 
 
-class Autoencoder(Detector):
+class AutoencoderDetector(Detector):
     def __init__(self):
-        super(Autoencoder, self).__init__()
+        super(AutoencoderDetector, self).__init__()
 
     def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
         pass
