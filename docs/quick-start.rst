@@ -2,7 +2,7 @@
 Quick Start
 ***********
 
-``PyADTS`` provides a "full-stack" framework to build time-series anomaly detection workflows.
+``PyADTS`` provides a "full-stack" framework to build time-series anomaly detection workflows, such as .
 
 =================
 Loading Datasets

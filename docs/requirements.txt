@@ -3,7 +3,9 @@ pydata_sphinx_theme
 furo
 haiku
 insegel
+nbsphinx
 sphinxcontrib-bibtex
+pandoc
 
 # Basic
 numpy
@@ -19,6 +21,7 @@ joblib
 # Scientific
 PyWavelets
 statsmodels
+stumpy
 
 # ML/DL
 scikit-learn>=0.22.1

@@ -38,6 +38,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinxcontrib.bibtex',
     'sphinx.ext.napoleon',
+    'nbsphinx'
 ]
 
 bibtex_bibfiles = ['ref.bib']
@@ -88,7 +89,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #     "base_url": "",
 # }
 
-html_theme = 'haiku'
+html_theme = 'furo'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -130,3 +131,7 @@ pygments_style = "sphinx"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+suppress_warnings = [
+    'nbsphinx',
+]

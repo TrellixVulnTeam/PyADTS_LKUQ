@@ -32,6 +32,7 @@ class TimeSeriesDataset(abc.ABC):
             label_list ():
             timestamp_list ():
             anomaly_score_list ():
+            dfs ():
         """
         if dfs is not None:
             self.dfs = dfs
@@ -58,7 +59,7 @@ class TimeSeriesDataset(abc.ABC):
                     assert len(data_item) == len(label_list[idx].reshape(-1))
                     df['__label'] = label_list[idx].reshape(-1)
                 else:
-                    df['__label'] = np.zeros(len(data_item))
+                    df['__label'] = np.full(len(data_item), fill_value=np.nan)
 
                 if timestamp_list is not None:
                     assert idx < len(timestamp_list)
@@ -72,25 +73,29 @@ class TimeSeriesDataset(abc.ABC):
                     assert len(data_item) == len(anomaly_score_list[idx].reshape(-1))
                     df['__anomaly_score'] = anomaly_score_list[idx].reshape(-1)
                 else:
-                    df['__anomaly_score'] = np.arange(len(data_item))
+                    df['__anomaly_score'] = np.full(len(data_item), fill_value=np.nan)
 
                 self.dfs.append(df)
 
     def visualize(self, series_id: Union[int, List, Tuple[int, int]] = None,
                   channel_id: Union[int, List, Tuple[int, int]] = None, show: bool = True):
-        # fig = plot_series(np.transpose(self.dfs[0].loc[:, list(filter(lambda col: not col.startswith('__'), self.dfs[0].columns))].values))
-        # if show:
-        #     fig.show()
+        if isinstance(series_id, int):
+            series_id = [series_id]
 
-        if isinstance(series_id, int) or len(series_id) == 1:
-            fig = plot_series()
+        for i in series_id:
+            if isinstance(channel_id, int) or isinstance(channel_id, list):
+                vis_data = self.values[i][:, channel_id]
+            elif isinstance(channel_id, tuple):
+                assert len(channel_id) == 2
+                vis_data = self.values[i][:, channel_id[0]: channel_id[1]]
+            else:
+                raise ValueError
 
-            return fig
-        else:
-            for i in series_id:
-                fig = plot_series()
+            fig = plot_series(self.values[i], )
 
-                yield fig
+            if show:
+                fig.show()
+            yield fig
 
     def data(self, return_format: str = 'numpy') -> Union[np.ndarray, torch.Tensor]:
         data_list = [df.loc[:, list(filter(lambda col: not col.startswith('__'), df.columns))].values for df in
@@ -188,6 +193,30 @@ class TimeSeriesDataset(abc.ABC):
         return TimeSeriesDataset(dfs=list(dfs))
 
     @property
+    def values(self) -> List[np.ndarray]:
+        return [
+            df.loc[:, [col for col in df.columns if not col.startswith('__')]].values for df in self.dfs
+        ]
+
+    @property
+    def timestamps(self) -> List[np.ndarray]:
+        return [
+            df.loc[:, '__timestamp'].values for df in self.dfs
+        ]
+
+    @property
+    def labels(self) -> List[np.ndarray]:
+        return [
+            df.loc[:, '__label'].values for df in self.dfs
+        ]
+
+    @property
+    def scores(self) -> List[np.ndarray]:
+        return [
+            df.loc[:, '__anomaly_score'].values for df in self.dfs
+        ]
+
+    @property
     def shape(self):
         return self.data().shape
 
@@ -202,40 +231,6 @@ class TimeSeriesDataset(abc.ABC):
     @property
     def num_channels(self):
         return self.dfs[0].shape[-1]
-
-    # def windowed_data(self, window_size: int, stride: int = 1, format: str='numpy') -> Union[np.ndarray, torch.Tensor]:
-    #     data_list = []
-    #     for df in self.dfs:
-    #         data_item = df.loc[:, list(filter(lambda col: not col.startswith('__'), df.columns))].values
-    #         print(data_item.shape)
-    #         data_item_window = sliding_window(data_item.transpose(), window_size=window_size, stride=stride)
-    #         data_item_window = np.swapaxes(data_item_window, 0, 1)
-    #         data_list.append(data_item_window)
-    #
-    #     data_concat = np.concatenate(data_list, axis=0)
-    #
-    #     if format == 'numpy':
-    #         return data_concat
-    #     elif format == 'tensor':
-    #         return torch.from_numpy(data_concat.astype(np.float32))
-    #     else:
-    #         raise ValueError
-    #
-    # def windowed_targets(self, window_size: int, stride: int = 1, format: str='numpy') -> Union[np.ndarray, torch.Tensor]:
-    #     label_list = []
-    #     for df in self.dfs:
-    #         label_item = df.loc[:, '__label'].values
-    #         label_item_window = sliding_window(label_item, window_size=window_size, stride=stride)
-    #         label_list.append(label_item_window)
-    #
-    #     label_concat = np.concatenate(label_list, axis=0)
-    #
-    #     if format == 'numpy':
-    #         return label_concat
-    #     elif format == 'tensor':
-    #         return torch.from_numpy(label_concat.astype(np.float32))
-    #     else:
-    #         raise ValueError
 
     def __repr__(self):
         table = PrettyTable()

@@ -16,6 +16,13 @@ Welcome to PyADTS documentation!
 
 .. toctree::
    :maxdepth: 2
+   :caption: Examples
+
+   quick_example.ipynb
+
+
+.. toctree::
+   :maxdepth: 2
    :caption: Documentation
 
    generated/modules

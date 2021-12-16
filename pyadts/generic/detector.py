@@ -7,8 +7,6 @@
 import abc
 from typing import Union, IO
 
-import numpy as np
-
 from pyadts.utils.io import save_objects, load_objects
 from .data import TimeSeriesDataset
 
@@ -18,15 +16,15 @@ class Detector(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: TimeSeriesDataset):
         pass
 
     @abc.abstractmethod
-    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
+    def predict(self, x: TimeSeriesDataset):
         pass
 
     @abc.abstractmethod
-    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
+    def score(self, x: TimeSeriesDataset):
         pass
 
     def save(self, f: Union[str, IO]):

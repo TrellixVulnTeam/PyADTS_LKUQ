@@ -1,8 +1,8 @@
 """
-@Time    : 2021/10/25 15:13
-@File    : autoencoder.py
+@Time    : 2021/10/26 0:14
+@File    : aae.py
 @Software: PyCharm
-@Desc    : 
+@Desc    :
 """
 from typing import Union
 
@@ -11,9 +11,9 @@ import numpy as np
 from pyadts.generic import Detector, TimeSeriesDataset
 
 
-class AutoencoderDetector(Detector):
+class AAE(Detector):
     def __init__(self):
-        super(AutoencoderDetector, self).__init__()
+        super(AAE, self).__init__()
 
     def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
         pass

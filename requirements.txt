@@ -12,6 +12,7 @@ joblib
 # Scientific
 PyWavelets
 statsmodels
+stumpy
 
 # ML/DL
 scikit-learn>=0.22.1

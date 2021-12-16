@@ -27,5 +27,5 @@ def test_plot_space():
     label = np.zeros(x.shape[0])
     label[ano_idx] = 1
 
-    fig = plot_space(y, label, decomposition_dim=2, decomposition_method='pca')
+    fig = plot_space(y, label, decomposition_dim=3, decomposition_method='pca')
     fig.show()
