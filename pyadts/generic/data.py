@@ -28,11 +28,11 @@ class TimeSeriesDataset(abc.ABC):
             multi-channel time-series
 
         Args:
-            data_list ():
-            label_list ():
-            timestamp_list ():
-            anomaly_score_list ():
-            dfs ():
+            data_list:
+            label_list:
+            timestamp_list:
+            anomaly_score_list:
+            dfs:
         """
         if dfs is not None:
             self.dfs = dfs
@@ -124,19 +124,18 @@ class TimeSeriesDataset(abc.ABC):
     def from_folder(root: Union[str, Path], suffix: str = '.csv', data_attributes: Iterable[str] = None,
                     timestamp_attribute: str = None, label_attribute: str = None):
         """
-        Create a `TimeSeriesDataset` instance from a folder contains data files.
+        Create a ``TimeSeriesDataset`` instance from a folder contains data files.
 
         Args:
-            root (str or Path):
-            suffix (str):
-            data_attributes (list):
-            timestamp_attribute (str):
-            label_attribute (str):
+            root:
+            suffix:
+            data_attributes:
+            timestamp_attribute:
+            label_attribute:
 
         Returns:
 
         """
-
         if isinstance(root, str):
             root = Path(root)
 
@@ -183,9 +182,10 @@ class TimeSeriesDataset(abc.ABC):
     @staticmethod
     def from_iterable(dfs: Iterable[pd.DataFrame]):
         """
+        Create a ``TimeSeriesDataset`` instance from iterable dataframes.
 
         Args:
-            dfs ():
+            dfs:
 
         Returns:
 

@@ -4,43 +4,42 @@ import torch.nn as nn
 
 
 class MLP(nn.Module):
-    def __init__(self, feature_dim: int, num_class: int, hidden_dim: Union[int, List[int]] = None, norm: bool = False,
+    def __init__(self, feature_dim: int, num_class: int, hidden_dims: Union[int, List[int]] = None,
+                 use_batch_norm: bool = False,
                  dropout: float = 0.0):
         """
 
         Args:
             feature_dim ():
             num_class ():
-            hidden_dim ():
-            num_layers ():
-            norm ():
+            hidden_dims ():
+            use_batch_norm ():
             dropout ():
         """
         super(MLP, self).__init__()
 
-        if isinstance(hidden_dim, int):
-            hidden_dim = [hidden_dim]
+        if isinstance(hidden_dims, int):
+            hidden_dims = [hidden_dims]
 
-        if hidden_dim is None:
+        if hidden_dims is None:
             self.layers = nn.Sequential(
                 nn.Linear(feature_dim, num_class)
             )
         else:
-            layers = []
-            layers.append(nn.Linear(feature_dim, hidden_dim[0]))
-            if norm:
-                layers.append(nn.BatchNorm1d(hidden_dim[0]))
+            layers = [nn.Linear(feature_dim, hidden_dims[0])]
+            if use_batch_norm:
+                layers.append(nn.BatchNorm1d(hidden_dims[0]))
             layers.append(nn.ReLU(inplace=True))
             if dropout > 0.0:
                 layers.append(nn.Dropout(dropout))
 
-            for i in range(1, len(hidden_dim)):
-                layers.append(nn.Linear(hidden_dim[i - 1], hidden_dim[i]))
-                if norm:
-                    layers.append(nn.BatchNorm1d(hidden_dim[i]))
+            for i in range(1, len(hidden_dims)):
+                layers.append(nn.Linear(hidden_dims[i - 1], hidden_dims[i]))
+                if use_batch_norm:
+                    layers.append(nn.BatchNorm1d(hidden_dims[i]))
                 layers.append(nn.ReLU(inplace=True))
 
-            layers.append(nn.Linear(hidden_dim[-1], num_class))
+            layers.append(nn.Linear(hidden_dims[-1], num_class))
             self.layers = nn.Sequential(*layers)
 
     def forward(self, x):
