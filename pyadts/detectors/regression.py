@@ -1,6 +1,6 @@
 """
 @Time    : 2021/10/25 11:56
-@File    : autoregression.py
+@File    : regression.py
 @Software: PyCharm
 @Desc    : 
 """
@@ -11,11 +11,11 @@ import numpy as np
 from pyadts.generic import Detector, TimeSeriesDataset
 
 
-class AutoRegressionDetector(Detector):
+class RegressionResidualDetector(Detector):
     def __init__(self):
-        super(AutoRegressionDetector, self).__init__()
+        super(RegressionResidualDetector, self).__init__()
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         pass
 
     def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):

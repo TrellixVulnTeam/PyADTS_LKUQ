@@ -10,5 +10,5 @@ from pyadts.datasets import GECCODataset
 def test_geccodataset():
     dataset = GECCODataset(root='tests/data/gecco', download=True)
     print(dataset)
-    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
     print(dataset.targets().shape, dataset.targets().dtype)

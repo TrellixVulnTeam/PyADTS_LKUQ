@@ -48,6 +48,7 @@ class TimeSeriesDataset(abc.ABC):
             if anomaly_score_list is not None and isinstance(anomaly_score_list, np.ndarray):
                 anomaly_score_list = [anomaly_score_list]
 
+            # TODO: change format to dict?
             # TODO: dealing with various timestamp formats
             # TODO: dealing with various shapes of `data`, `labels` and etc.
 
@@ -77,8 +78,11 @@ class TimeSeriesDataset(abc.ABC):
 
                 self.dfs.append(df)
 
-    def visualize(self, series_id: Union[int, List, Tuple[int, int]] = None,
-                  channel_id: Union[int, List, Tuple[int, int]] = None, show: bool = True):
+    def detect(self, method: str):
+        pass  # TODO
+
+    def plot(self, series_id: Union[int, List, Tuple[int, int]] = None,
+             channel_id: Union[int, List, Tuple[int, int]] = None, show: bool = True):
         if isinstance(series_id, int):
             series_id = [series_id]
 
@@ -97,17 +101,15 @@ class TimeSeriesDataset(abc.ABC):
                 fig.show()
             yield fig
 
-    def data(self, return_format: str = 'numpy') -> Union[np.ndarray, torch.Tensor]:
+    def to_numpy(self) -> np.ndarray:
         data_list = [df.loc[:, list(filter(lambda col: not col.startswith('__'), df.columns))].values for df in
                      self.dfs]
         data_concat = np.concatenate(data_list, axis=0)
 
-        if return_format == 'numpy':
-            return data_concat
-        elif return_format == 'tensor':
-            return torch.from_numpy(data_concat.astype(np.float32))
-        else:
-            raise ValueError
+        return data_concat
+
+    def to_tensor(self) -> torch.Tensor:
+        return torch.from_numpy(self.to_numpy()).float()
 
     def targets(self, return_format: str = 'numpy') -> Union[np.ndarray, torch.Tensor]:
         label_list = [df.loc[:, '__label'].values for df in self.dfs]
@@ -119,6 +121,14 @@ class TimeSeriesDataset(abc.ABC):
             return torch.from_numpy(label_concat.astype(np.long))
         else:
             raise ValueError
+
+    def windowed_data(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
+        np.ndarray, torch.Tensor]:
+        pass
+
+    def windowed_targets(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
+        np.ndarray, torch.Tensor]:
+        pass
 
     @staticmethod
     def from_folder(root: Union[str, Path], suffix: str = '.csv', data_attributes: Iterable[str] = None,
@@ -218,7 +228,7 @@ class TimeSeriesDataset(abc.ABC):
 
     @property
     def shape(self):
-        return self.data().shape
+        return self.to_numpy().shape
 
     @property
     def num_series(self):

@@ -5,8 +5,10 @@
 @Desc    : 
 """
 import abc
+from typing import Union
 
 import numpy as np
+import torch
 
 
 class Transform(abc.ABC):
@@ -14,5 +16,5 @@ class Transform(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def __call__(self, x: np.ndarray):
+    def __call__(self, x: Union[np.ndarray, torch.Tensor]) -> Union[np.ndarray, torch.Tensor]:
         pass

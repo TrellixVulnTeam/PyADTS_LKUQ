@@ -15,7 +15,7 @@ class MSCRED(Detector):
     def __init__(self):
         super(MSCRED, self).__init__()
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         pass
 
     def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):

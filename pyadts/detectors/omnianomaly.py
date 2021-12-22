@@ -15,7 +15,7 @@ class OmniAnomaly(Detector):
     def __init__(self):
         pass
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         pass
 
     def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):

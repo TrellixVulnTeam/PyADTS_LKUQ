@@ -21,7 +21,7 @@ class AutoencoderDetector(Detector):
         else:
             raise ValueError
 
-    def fit(self, x: TimeSeriesDataset):
+    def fit(self, x: TimeSeriesDataset, y=None):
         pass
 
     def predict(self, x: TimeSeriesDataset):

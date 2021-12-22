@@ -16,7 +16,7 @@ y = np.random.randint(low=0, high=2, size=(100,))
 
 
 def test_fit():
-    detector.fit(x, y)
+    detector.fit(x)
     print(detector.__dict__)
     detector.save('./test.pkl')
 

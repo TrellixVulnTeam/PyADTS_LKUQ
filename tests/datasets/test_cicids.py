@@ -10,5 +10,5 @@ from pyadts.datasets import CICIDSDataset
 def test_cicidsdataset():
     dataset = CICIDSDataset(root='tests/data/cicids', download=True)
     print(dataset)
-    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
     print(dataset.targets().shape, dataset.targets().dtype)

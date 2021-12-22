@@ -29,7 +29,7 @@ def test_constructor():
     ts_data = TimeSeriesDataset(data, timestamps)
     print(ts_data)
 
-    print('Numpy data shape:', ts_data.data(return_format='numpy').shape)
-    print('Tensor data shape:', ts_data.data(return_format='tensor').shape)
+    print('Numpy data shape:', ts_data.to_numpy(return_format='numpy').shape)
+    print('Tensor data shape:', ts_data.to_numpy(return_format='tensor').shape)
     print('Numpy targets shape:', ts_data.targets(return_format='numpy').shape)
     print('Tensor targets shape:', ts_data.targets(return_format='tensor').shape)

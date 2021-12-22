@@ -11,10 +11,10 @@ from pyadts.datasets import SMAPDataset
 def test_smapdataset():
     dataset = SMAPDataset(root='tests/data/smap', train=True, download=True)
     print(dataset)
-    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
     print(dataset.targets().shape, dataset.targets().dtype)
 
     dataset = SMAPDataset(root='tests/data/smap', train=False, download=True)
     print(dataset)
-    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
     print(dataset.targets().shape, dataset.targets().dtype)

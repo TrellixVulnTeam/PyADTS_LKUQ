@@ -17,13 +17,13 @@ class GradientDetector(Detector):
 
         self.max_gradient = max_gradient
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         pass
 
     def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
         if isinstance(x, TimeSeriesDataset):
-            x = x.data
+            x = x.to_numpy()
 
     def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
         if isinstance(x, TimeSeriesDataset):
-            x = x.data
+            x = x.to_numpy()

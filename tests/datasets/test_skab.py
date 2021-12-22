@@ -11,5 +11,5 @@ def test_skabdataset():
     for subset in ['valve1', 'valve2', 'other']:
         dataset = SKABDataset(root='tests/data/skab', subset=subset, download=False)
         print(dataset)
-        print(dataset.data().shape, dataset.data().dtype)
+        print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
         print(dataset.targets().shape, dataset.targets().dtype)

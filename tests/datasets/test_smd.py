@@ -10,10 +10,10 @@ from pyadts.datasets import SMDDataset
 def test_smddataset():
     dataset = SMDDataset(root='tests/data/smd', train=True, download=False)
     print(dataset)
-    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
     print(dataset.targets().shape, dataset.targets().dtype)
 
     dataset = SMDDataset(root='tests/data/smd', train=False, download=False)
     print(dataset)
-    print(dataset.data().shape, dataset.data().dtype)
+    print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
     print(dataset.targets().shape, dataset.targets().dtype)

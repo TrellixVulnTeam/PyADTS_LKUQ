@@ -2,12 +2,16 @@
 @Time    : 2021/10/24 11:23
 @File    : detectors.py
 @Software: PyCharm
-@Desc    : 
+@Desc    :
 """
 import abc
-from typing import Union, IO
+from typing import Union, IO, Type
+
+import numpy as np
+import torch
 
 from pyadts.utils.io import save_objects, load_objects
+from .calibrator import Calibrator
 from .data import TimeSeriesDataset
 
 
@@ -16,15 +20,17 @@ class Detector(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def fit(self, x: TimeSeriesDataset):
+    def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y: Union[np.ndarray, torch.Tensor] = None):
         pass
 
-    @abc.abstractmethod
-    def predict(self, x: TimeSeriesDataset):
-        pass
+    def predict(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], calibrator: Type[Calibrator], *args,
+                **kwargs):
+        scores = self.score(x)
+
+        return calibrator(*args, **kwargs).calibrate(scores)
 
     @abc.abstractmethod
-    def score(self, x: TimeSeriesDataset):
+    def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
         pass
 
     def save(self, f: Union[str, IO]):
@@ -32,7 +38,7 @@ class Detector(abc.ABC):
         Write model states into a file.
 
         Args:
-            f (str or IO):
+            f:
 
         Returns:
             none
@@ -45,7 +51,7 @@ class Detector(abc.ABC):
         Load states from a file.
 
         Args:
-            f (str or IO):
+            f:
 
         Returns:
             none

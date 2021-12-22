@@ -6,22 +6,20 @@ import torch.nn as nn
 class PositionalEncoding(nn.Module):
     """
     adapt from https://pytorch.org/tutorials/beginner/transformer_tutorial.html
+
+    Args:
+        input_size ():
+        dropout ():
+        max_len (): determines how far the position can have an effect on a token (window)
     """
 
-    def __init__(self, feature_dim: int, dropout: float = 0.1, max_len: int = 5000):
-        """
-
-        Args:
-            feature_dim ():
-            dropout ():
-            max_len (): determines how far the position can have an effect on a token (window)
-        """
+    def __init__(self, input_size: int, dropout: float = 0.1, max_len: int = 5000):
         super().__init__()
         self.dropout = nn.Dropout(p=dropout)
 
         position = torch.arange(max_len).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, feature_dim, 2) * (-np.log(10000.0) / feature_dim))
-        pe = torch.zeros(max_len, 1, feature_dim)
+        div_term = torch.exp(torch.arange(0, input_size, 2) * (-np.log(10000.0) / input_size))
+        pe = torch.zeros(max_len, 1, input_size)
         pe[:, 0, 0::2] = torch.sin(position * div_term)
         pe[:, 0, 1::2] = torch.cos(position * div_term)
         pe = pe.transpose(0, 1)
@@ -41,8 +39,8 @@ class PositionalEncoding(nn.Module):
 
 
 class TransformerEncoder(nn.Module):
-    def __init__(self, feature_dim: int, num_head: int, dim_feedforward: int = 2048, dropout: float = 0.1,
-                 activation: str = 'relu', num_layers: int = 4, norm: nn.Module = None,
+    def __init__(self, input_size: int, feature_dim: int, hidden_size: int = 2048, num_head: int = 4,
+                 dropout: float = 0.1, activation: str = 'relu', num_layers: int = 4, norm: nn.Module = None,
                  use_pos_enc: bool = True, use_src_mask: bool = True, max_len: int = 5000):
         """
         A transformer encoder with positional encoding and source masking.
@@ -50,7 +48,7 @@ class TransformerEncoder(nn.Module):
         Args:
             feature_dim ():
             num_head ():
-            dim_feedforward ():
+            hidden_size ():
             dropout ():
             activation ():
             num_layers ():
@@ -60,29 +58,33 @@ class TransformerEncoder(nn.Module):
         """
         super(TransformerEncoder, self).__init__()
 
+        self.input_size = input_size
         self.feature_dim = feature_dim
         self.use_pos_enc = use_pos_enc
         self.use_src_mask = use_src_mask
 
         self.encoder = nn.TransformerEncoder(
             nn.TransformerEncoderLayer(
-                d_model=feature_dim,
+                d_model=input_size,
                 nhead=num_head,
-                dim_feedforward=dim_feedforward,
+                dim_feedforward=hidden_size,
                 dropout=dropout,
                 activation=activation,
                 batch_first=True
             ),
             num_layers=num_layers, norm=norm)
+        self.fc = nn.Sequential(
+            nn.Linear(input_size, feature_dim)
+        )
 
         if use_pos_enc:
-            self.pos_encoder = PositionalEncoding(feature_dim=feature_dim, max_len=max_len, dropout=dropout)
+            self.pos_encoder = PositionalEncoding(input_size=input_size, max_len=max_len, dropout=dropout)
 
     def forward(self, src):
-        # src (batch_size, seq_len, feature_dim)
+        # src (batch_size, seq_len, input_size)
 
         if self.use_pos_enc:
-            src = src * np.sqrt(self.feature_dim)
+            src = src * np.sqrt(self.input_size)
             src = self.pos_encoder(src)
 
         if self.use_src_mask:
@@ -93,30 +95,38 @@ class TransformerEncoder(nn.Module):
             #  [0.,   0.,   0.,   0., -inf],
             #  [0.,   0.,   0.,   0.,   0.]]
             mask = torch.triu(torch.ones(src.size(1), src.size(1)) * float('-inf'), diagonal=1)
+            mask = mask.to(src.device)
         else:
             mask = None
 
-        return self.encoder(src, src_mask=mask)
+        out = self.encoder(src, mask=mask)
+        out = self.fc(out)
+
+        return out
 
 
 class TransformerDecoder(nn.Module):
-    def __init__(self, feature_dim: int, num_head: int, dim_feedforward: int = 2048, dropout: float = 0.1,
-                 activation: str = 'relu', num_layers: int = 4, norm: nn.Module = None, use_tgt_mask: bool = True):
+    def __init__(self, input_size: int, feature_dim: int, hidden_size: int = 2048, num_head: int = 4,
+                 dropout: float = 0.1, activation: str = 'relu', num_layers: int = 4, norm: nn.Module = None,
+                 use_tgt_mask: bool = True):
         super(TransformerDecoder, self).__init__()
 
         self.feature_dim = feature_dim
         self.use_tgt_mask = use_tgt_mask
 
-        self.decoder = nn.TransformerDecoder(
-            nn.TransformerDecoderLayer(
+        self.decoder = nn.TransformerEncoder(
+            nn.TransformerEncoderLayer(
                 d_model=feature_dim,
                 nhead=num_head,
-                dim_feedforward=dim_feedforward,
+                dim_feedforward=hidden_size,
                 dropout=dropout,
                 activation=activation,
                 batch_first=True
             ),
             num_layers=num_layers, norm=norm)
+        self.fc = nn.Sequential(
+            nn.Linear(feature_dim, input_size)
+        )
 
     def forward(self, z):
         if self.use_tgt_mask:
@@ -127,7 +137,11 @@ class TransformerDecoder(nn.Module):
             #  [0.,   0.,   0.,   0., -inf],
             #  [0.,   0.,   0.,   0.,   0.]]
             mask = torch.triu(torch.ones(z.size(1), z.size(1)) * float('-inf'), diagonal=1)
+            mask = mask.to(z.device)
         else:
             mask = None
 
-        return self.decoder(z, tgt_mask=mask)
+        out = self.decoder(z, mask=mask)
+        out = self.fc(out)
+
+        return out

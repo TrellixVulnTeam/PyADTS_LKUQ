@@ -18,8 +18,8 @@ class MatrixProfile(Detector):
 
         self.window_size = window_size
 
-    def fit(self, x: TimeSeriesDataset):
-        x = x.data()
+    def fit(self, x: TimeSeriesDataset, y=None):
+        x = x.to_numpy()
 
         mp, mp_idx = stumpy.mstump(x.transpose(), m=self.window_size)
 

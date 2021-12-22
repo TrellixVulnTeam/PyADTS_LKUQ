@@ -11,5 +11,5 @@ def test_yahoo_dataset():
     for subset in ['A1Benchmark', 'A2Benchmark', 'A3Benchmark', 'A4Benchmark']:
         dataset = YahooDataset(root='tests/data/yahoo', subset=subset, download=False)
         print(dataset)
-        print(dataset.data().shape, dataset.data().dtype)
+        print(dataset.to_numpy().shape, dataset.to_numpy().dtype)
         print(dataset.targets().shape, dataset.targets().dtype)

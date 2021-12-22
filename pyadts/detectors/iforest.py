@@ -18,17 +18,14 @@ class IForest(Detector):
 
         self.model = IsolationForest(**kwargs)
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         if isinstance(x, TimeSeriesDataset):
-            x = x.data()
+            x = x.to_numpy()
 
         self.model.fit(x)
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        pass
-
     def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
         if isinstance(x, TimeSeriesDataset):
-            x = x.data()
+            x = x.to_numpy()
 
         return self.model.decision_function(x)

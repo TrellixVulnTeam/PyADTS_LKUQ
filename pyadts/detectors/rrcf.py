@@ -23,9 +23,9 @@ class RRCF(Detector):
 
         self.forest = []
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         if isinstance(x, TimeSeriesDataset):
-            x = x.data()
+            x = x.to_numpy()
 
         num_points = len(x)
         self.train_size = num_points
@@ -39,12 +39,9 @@ class RRCF(Detector):
                     tree.forget_point(i_point - self.max_leaves)
                 tree.insert_point(x[i_point], index=i_point)
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        pass
-
     def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
         if isinstance(x, TimeSeriesDataset):
-            x = x.data()
+            x = x.to_numpy()
 
         num_points = len(x)
         scores = np.zeros(num_points)

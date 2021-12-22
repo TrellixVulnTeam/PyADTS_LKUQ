@@ -24,7 +24,7 @@ class SPOT(Detector):
         self.n = 0
         self.Nt = 0
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         pass
 
     def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
@@ -38,7 +38,7 @@ class DSPOT(Detector):
     def __init__(self):
         super(DSPOT, self).__init__()
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y: np.ndarray = None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         pass
 
     def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):

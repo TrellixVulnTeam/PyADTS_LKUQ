@@ -4,15 +4,16 @@
 @Software: PyCharm
 @Desc    : 
 """
-from typing import Tuple, Iterable
+from typing import Tuple, Iterable, Union
 
 import numpy as np
+import torch
 from sklearn.model_selection import KFold, StratifiedKFold, LeaveOneOut
 
 from pyadts.generic import TimeSeriesDataset
 
 
-def leave_one_out(data: TimeSeriesDataset) -> Iterable[Tuple[TimeSeriesDataset, TimeSeriesDataset]]:
+def leave_one_out_series(data: TimeSeriesDataset) -> Iterable[Tuple[TimeSeriesDataset, TimeSeriesDataset]]:
     """
     **Leave One Out** cross validation for `TimeSeriesDataset`.
 
@@ -39,7 +40,24 @@ def leave_one_out(data: TimeSeriesDataset) -> Iterable[Tuple[TimeSeriesDataset, 
         yield train_dataset, test_dataset
 
 
-def kfold_cross_validation(data: TimeSeriesDataset, method: str = 'point', kfolds: int = 10, shuffle: bool = False):
+def leave_one_out_tensors(x: Union[np.ndarray, torch.Tensor], *vals: Tuple[Union[np.ndarray, torch.Tensor]]):
+    for val in vals:
+        assert len(val) == len(x) and type(x) == type(val)
+
+    indices = np.arange(len(x))
+    splitter = LeaveOneOut()
+
+    for train_indices, test_indices in splitter.split(indices):
+        train_x = x[train_indices]
+        train_vals = (val[train_indices] for val in vals)
+
+        test_x = x[test_indices]
+        test_vals = (val[test_indices] for val in vals)
+
+        yield (train_x, *train_vals), (test_x, *test_vals)
+
+
+def kfold_series(data: TimeSeriesDataset, method: str = 'point', kfolds: int = 10, shuffle: bool = False):
     if method == 'series':
         counts = data.num_series
         assert counts >= kfolds
@@ -112,3 +130,57 @@ def kfold_cross_validation(data: TimeSeriesDataset, method: str = 'point', kfold
             yield train_dataset, test_dataset
     else:
         raise ValueError
+
+
+def kfold_tensors(x: Union[np.ndarray, torch.Tensor], *vals: Tuple[Union[np.ndarray, torch.Tensor]], kfolds: int = 10,
+                  shuffle: bool = False):
+    for val in vals:
+        assert len(val) == len(x) and type(x) == type(val)
+
+    indices = np.arange(len(x))
+    assert len(indices) >= kfolds
+    splitter = KFold(n_splits=kfolds)
+
+    for train_indices, test_indices in splitter.split(indices, shuffle=shuffle):
+        train_x = x[train_indices]
+        train_vals = (val[train_indices] for val in vals)
+
+        test_x = x[test_indices]
+        test_vals = (val[test_indices] for val in vals)
+
+        yield (train_x, *train_vals), (test_x, *test_vals)
+
+
+class LeaveOneOutValidator(object):
+    def __init__(self):
+        pass
+
+    def __call__(self, x: Union[np.ndarray, torch.Tensor, TimeSeriesDataset], *args, **kwargs):
+        if isinstance(x, TimeSeriesDataset):
+            for train_vals, test_vals in leave_one_out_series(x):
+                yield train_vals, test_vals
+        elif isinstance(x, np.ndarray) or isinstance(x, torch.Tensor):
+            vals = tuple(filter(lambda val: type(val) == type(x), args))
+            for train_vals, test_vals in leave_one_out_tensors(x, *vals):
+                yield train_vals, test_vals
+        else:
+            raise ValueError
+
+
+class KFoldValidator(object):
+    def __init__(self):
+        pass
+
+    def __call__(self, x: Union[np.ndarray, torch.Tensor, TimeSeriesDataset], *args, **kwargs):
+        shuffle = kwargs.get('shuffle', False)
+        kfolds = kwargs.get('kfolds', 10)
+
+        if isinstance(x, TimeSeriesDataset):
+            for train_vals, test_vals in kfold_series(x, kfolds=kfolds, shuffle=shuffle):
+                yield train_vals, test_vals
+        elif isinstance(x, np.ndarray) or isinstance(x, torch.Tensor):
+            vals = tuple(filter(lambda val: type(val) == type(x), args))
+            for train_vals, test_vals in kfold_tensors(x, *vals, kfolds=kfolds, shuffle=shuffle):
+                yield train_vals, test_vals
+        else:
+            raise ValueError
