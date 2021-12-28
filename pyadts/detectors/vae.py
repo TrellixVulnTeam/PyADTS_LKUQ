@@ -74,7 +74,7 @@ class VAE(Detector):
         self.criterion = ELBO()
 
     def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y=None):
-        x = any_to_tensor(x)
+        x = any_to_tensor(x, self.device)
         dataset = TensorDataset(x)
         data_loader = DataLoader(dataset, drop_last=True, pin_memory=True, shuffle=True)
 
@@ -101,7 +101,7 @@ class VAE(Detector):
                 data_iter.set_postfix({'loss': np.mean(losses)})
 
     def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
-        x = any_to_tensor(x)
+        x = any_to_tensor(x, self.device)
         dataset = TensorDataset(x)
         data_loader = DataLoader(dataset, drop_last=False, pin_memory=True, shuffle=False)
 

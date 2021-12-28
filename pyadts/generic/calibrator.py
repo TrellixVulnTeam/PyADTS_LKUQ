@@ -8,5 +8,5 @@ class Calibrator(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def calibrate(self, score: np.ndarrray):
+    def calibrate(self, score: np.ndarray):
         pass

@@ -7,6 +7,7 @@
 from typing import Union
 
 import numpy as np
+import torch
 from sklearn.ensemble import IsolationForest
 
 from pyadts.generic import Detector, TimeSeriesDataset

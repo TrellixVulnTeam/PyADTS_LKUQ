@@ -315,7 +315,7 @@ def rearrange_dataframe(df: pd.DataFrame, time_col: str = None, sort_by_time: bo
 
 def any_to_numpy(x: Union[list, TimeSeriesDataset, np.ndarray, torch.Tensor]):
     if isinstance(x, np.ndarray):
-        pass
+        return x
     elif isinstance(x, list):
         return np.asarray(x)
     elif isinstance(x, torch.Tensor):

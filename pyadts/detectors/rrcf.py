@@ -7,6 +7,7 @@
 from typing import Union
 
 import numpy as np
+import torch
 from tqdm.std import tqdm
 
 from pyadts.generic import Detector, TimeSeriesDataset

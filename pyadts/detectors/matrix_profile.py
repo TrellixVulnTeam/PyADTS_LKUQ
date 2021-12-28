@@ -4,12 +4,15 @@
 @Software: PyCharm
 @Desc    : 
 """
+from typing import Union
 
 import numpy as np
 import stumpy
+import torch
 from sklearn.preprocessing import MinMaxScaler
 
 from pyadts.generic import Detector, TimeSeriesDataset
+from pyadts.utils.data import any_to_numpy
 
 
 class MatrixProfile(Detector):
@@ -18,22 +21,18 @@ class MatrixProfile(Detector):
 
         self.window_size = window_size
 
-    def fit(self, x: TimeSeriesDataset, y=None):
-        x = x.to_numpy()
+    def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y=None):
+        pass
+
+    def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
+        x = any_to_numpy(x).astype(np.float64)
 
         mp, mp_idx = stumpy.mstump(x.transpose(), m=self.window_size)
 
-        blank = x.shape[0] - mp.shape[0]
-        for i in range(blank):
-            mp = np.append(mp, [mp[-1]], axis=0)
+        mp = np.concatenate((mp, np.repeat(mp[:, -1:], repeats=self.window_size - 1, axis=-1)), axis=-1)
 
         scaler = MinMaxScaler()
         mp = scaler.fit_transform(mp)
+        mp = np.sum(mp.transpose(), axis=-1)
 
-        mp = np.sum(mp, axis=-1)
-
-    def predict(self, x: TimeSeriesDataset):
-        pass
-
-    def score(self, x: TimeSeriesDataset):
-        pass
+        return mp

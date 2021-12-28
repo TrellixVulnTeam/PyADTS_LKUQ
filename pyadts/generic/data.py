@@ -6,7 +6,7 @@
 """
 import abc
 from pathlib import Path
-from typing import List, Tuple, Union, Iterable
+from typing import List, Tuple, Union, Iterable, Type
 
 import numpy as np
 import pandas as pd
@@ -14,6 +14,7 @@ import scipy.io as sio
 import torch
 from prettytable import PrettyTable
 
+from pyadts.generic import Detector
 from pyadts.utils.visualization import plot_series
 
 
@@ -78,8 +79,10 @@ class TimeSeriesDataset(abc.ABC):
 
                 self.dfs.append(df)
 
-    def detect(self, method: str):
-        pass  # TODO
+    def detect(self, method: Type[Detector], *args, **kwargs):
+        model = method(*args, **kwargs)
+        model.fit(self)
+        return model.score(self)
 
     def plot(self, series_id: Union[int, List, Tuple[int, int]] = None,
              channel_id: Union[int, List, Tuple[int, int]] = None, show: bool = True):
@@ -241,6 +244,9 @@ class TimeSeriesDataset(abc.ABC):
     @property
     def num_channels(self):
         return self.dfs[0].shape[-1]
+
+    def __getitem__(self, item):
+        return self.dfs[item]
 
     def __repr__(self):
         table = PrettyTable()
