@@ -10,6 +10,7 @@ import numpy as np
 from sklearn.ensemble import IsolationForest
 
 from pyadts.generic import Detector, TimeSeriesDataset
+from pyadts.utils.data import any_to_numpy
 
 
 class IForest(Detector):
@@ -18,14 +19,12 @@ class IForest(Detector):
 
         self.model = IsolationForest(**kwargs)
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
+    def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y=None):
+        x = any_to_numpy(x)
 
         self.model.fit(x)
 
-    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
+    def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
+        x = any_to_numpy(x)
 
         return self.model.decision_function(x)

@@ -10,9 +10,12 @@ from typing import Union
 
 import numpy as np
 import pandas as pd
+import torch
 from numpy.lib.stride_tricks import as_strided
 from scipy import signal
 from scipy.ndimage import gaussian_filter
+
+from pyadts.generic import TimeSeriesDataset
 
 
 def __autocorrelation(x):
@@ -308,3 +311,35 @@ def rearrange_dataframe(df: pd.DataFrame, time_col: str = None, sort_by_time: bo
         raise ValueError
 
     return res_df
+
+
+def any_to_numpy(x: Union[list, TimeSeriesDataset, np.ndarray, torch.Tensor]):
+    if isinstance(x, np.ndarray):
+        pass
+    elif isinstance(x, list):
+        return np.asarray(x)
+    elif isinstance(x, torch.Tensor):
+        if x.is_cuda:
+            return x.cpu().numpy()
+        else:
+            return x.numpy()
+    elif isinstance(x, TimeSeriesDataset):
+        return x.to_numpy()
+    else:
+        raise ValueError
+
+
+def any_to_tensor(x: Union[list, TimeSeriesDataset, np.ndarray, torch.Tensor], device='cpu'):
+    if isinstance(x, np.ndarray):
+        out = torch.from_numpy(x)
+    elif isinstance(x, list):
+        out = torch.from_numpy(np.asarray(x))
+    elif isinstance(x, torch.Tensor):
+        out = x
+    elif isinstance(x, TimeSeriesDataset):
+        out = x.to_tensor()
+    else:
+        raise ValueError
+
+    out = out.to(device)
+    return out

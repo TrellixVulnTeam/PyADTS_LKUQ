@@ -7,19 +7,29 @@
 from typing import Union
 
 import numpy as np
+import torch
+from statsmodels.tsa.arima_model import ARIMA
 
 from pyadts.generic import Detector, TimeSeriesDataset
+from pyadts.utils.data import any_to_numpy
 
 
 class RegressionResidualDetector(Detector):
-    def __init__(self):
+    def __init__(self, regressor: str):
         super(RegressionResidualDetector, self).__init__()
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
+        self.regressor = regressor
+
+    def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y=None):
         pass
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        pass
+    def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
+        x = any_to_numpy(x)
 
-    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        pass
+        if self.regressor == 'arima':
+            model = ARIMA()
+        else:
+            raise ValueError
+
+        model_fit = model.fit()
+        return model_fit.resid

@@ -4,6 +4,7 @@ import numpy as np
 import torch
 
 from pyadts.generic import Detector, TimeSeriesDataset, Calibrator
+from pyadts.utils.data import any_to_numpy
 
 
 class RangeDetector(Detector):
@@ -21,10 +22,7 @@ class RangeDetector(Detector):
 
     def predict(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], calibrator: Type[Calibrator], *args,
                 **kwargs):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
-        elif isinstance(x, torch.Tensor):
-            x = x.numpy()
+        x = any_to_numpy(x)
 
         predictions = np.zeros_like(x)
         predictions[x > self.high] = 1
@@ -33,9 +31,6 @@ class RangeDetector(Detector):
         return predictions.astype(np.int).reshape(-1)
 
     def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
-        elif isinstance(x, torch.Tensor):
-            x = x.numpy()
+        x = any_to_numpy(x)
 
         return np.abs(x - (self.low + self.high) / 2).mean(axis=-1)

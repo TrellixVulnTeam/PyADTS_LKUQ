@@ -10,6 +10,7 @@ import numpy as np
 from tqdm.std import tqdm
 
 from pyadts.generic import Detector, TimeSeriesDataset
+from pyadts.utils.data import any_to_numpy
 from .__rrcf_base import RCTree
 
 
@@ -23,10 +24,8 @@ class RRCF(Detector):
 
         self.forest = []
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
-
+    def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y=None):
+        x = any_to_numpy(x)
         num_points = len(x)
         self.train_size = num_points
 
@@ -39,10 +38,8 @@ class RRCF(Detector):
                     tree.forget_point(i_point - self.max_leaves)
                 tree.insert_point(x[i_point], index=i_point)
 
-    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
-
+    def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
+        x = any_to_numpy(x)
         num_points = len(x)
         scores = np.zeros(num_points)
 

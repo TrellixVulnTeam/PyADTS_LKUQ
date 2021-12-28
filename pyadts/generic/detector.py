@@ -21,7 +21,7 @@ class Detector(abc.ABC):
 
     @abc.abstractmethod
     def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y: Union[np.ndarray, torch.Tensor] = None):
-        pass
+        raise NotImplementedError
 
     def predict(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], calibrator: Type[Calibrator], *args,
                 **kwargs):
@@ -31,7 +31,7 @@ class Detector(abc.ABC):
 
     @abc.abstractmethod
     def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
-        pass
+        raise NotImplementedError
 
     def save(self, f: Union[str, IO]):
         """
