@@ -76,8 +76,20 @@ class ELBO(nn.Module):
 
 
 class AdversarialAutoencoder(nn.Module):
-    def __init__(self):
+    def __init__(self, encoder: Type[nn.Module], decoder: Type[nn.Module],dataDiscriminator: Type[nn.Module], input_size: int, feature_dim: int,
+                 hidden_size: int,**kwargs):
         super(AdversarialAutoencoder, self).__init__()
-
+        self.hidden_size = hidden_size
+        self.encoder = encoder(input_size=input_size, feature_dim=feature_dim, hidden_size=hidden_size, **kwargs)
+        self.decoder = decoder(input_size=input_size, feature_dim=feature_dim, hidden_size=hidden_size, **kwargs)
+        self.dataDiscriminator = dataDiscriminator(input_size=input_size, feature_dim=feature_dim, hidden_size=hidden_size, **kwargs)
     def forward(self, x):
-        pass
+        z = self.encoder(x)
+        x_rec = self.decoder(z)
+        rec=self.dataDiscriminator(x_rec)
+        label_real=torch.ones(len(rec[:,0]), len(rec[0]))
+        label_fake=torch.zeros(len(rec[:,0]), len(rec[0]))
+        adv_loss = self.adversarial_criterion(rec,label_fake) + \
+                        self.adversarial_criterion(self.dataDiscriminator(x), label_real)
+        rec_loss = self.reconstruction_criterion(x_rec, x)
+        return x_rec,z,adv_loss,rec_loss

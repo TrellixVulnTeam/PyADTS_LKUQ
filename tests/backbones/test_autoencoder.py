@@ -2,7 +2,8 @@ import torch
 
 from pyadts.backbones import (
     Autoencoder, VariationalAutoencoder, ELBO,
-    DenseEncoder, DenseDecoder
+    DenseEncoder, DenseDecoder,
+AdversarialAutoencoder
 )
 
 
@@ -40,4 +41,11 @@ def test_vae():
 
 
 def test_aae():
-    pass
+    model = AdversarialAutoencoder(encoder=DenseEncoder, decoder=DenseDecoder,dataDiscriminator=DenseEncoder, input_size=200, feature_dim=128, hidden_size=100,
+                        use_batchnorm=True)
+    device = torch.device("cpu")
+    model = model.to(device)
+    x = torch.randn(32, 200).to(device)
+    x_rec, z = model(x)
+    print(x.shape, x_rec.shape)
+    assert x.shape == x_rec.shape

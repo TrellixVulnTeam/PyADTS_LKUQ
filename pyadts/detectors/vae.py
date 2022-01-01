@@ -77,7 +77,6 @@ class VAE(Detector):
         x = any_to_tensor(x, self.device)
         dataset = TensorDataset(x)
         data_loader = DataLoader(dataset, drop_last=True, pin_memory=True, shuffle=True)
-
         self.model.train()
         for epoch in range(self.epochs):
             if self.verbose:
@@ -126,3 +125,4 @@ class VAE(Detector):
 
         scores = np.concatenate(scores)
         return scores
+
