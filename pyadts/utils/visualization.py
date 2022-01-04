@@ -3,6 +3,7 @@ from typing import List, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
+import plotly.express as px
 from matplotlib.gridspec import GridSpec
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
@@ -89,20 +90,31 @@ def plot_roc(scores: np.ndarray, labels: np.ndarray, backend: str = 'matplotlib'
     fpr, tpr, _ = roc_curve(labels, scores)
     roc_auc = auc(fpr, tpr)
 
-    fig = plt.figure(figsize=(12, 4.5))
+    if backend == 'matploblib':
+        fig = plt.figure(figsize=(12, 4.5))
 
-    lw = 2
-    plt.plot(fpr, tpr, color='darkorange',
-             lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)
-    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic example')
-    plt.legend(loc="lower right")
+        lw = 2
+        plt.plot(fpr, tpr, color='darkorange',
+                 lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)
+        plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+        plt.xlim([0.0, 1.0])
+        plt.ylim([0.0, 1.05])
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title('Receiver operating characteristic example')
+        plt.legend(loc="lower right")
 
-    return fig
+        return fig
+    elif backend == 'plotly':
+        fig = px.area(
+            x=fpr, y=tpr,
+            title=f'ROC Curve (AUC={auc(fpr, tpr):.4f})',
+            labels=dict(x='False Positive Rate', y='True Positive Rate'),
+            width=700, height=500
+        )
+        return fig
+    else:
+        raise ValueError
 
 
 def plot_space(x: np.ndarray, label: np.ndarray, decomposition_method: str = 'pca', decomposition_dim: int = 3,
@@ -138,7 +150,12 @@ def plot_space(x: np.ndarray, label: np.ndarray, decomposition_method: str = 'pc
         else:
             raise ValueError
     elif backend == 'plotly':
-        raise NotImplementedError
+        if decomposition_dim == 3:
+            fig = px.scatter_3d(x_decomp[label == 0, 0], x_decomp[label == 0, 1], x_decomp[label == 0, 2], opacity=0.7)
+        elif decomposition_dim == 2:
+            fig = px.scatter(x_decomp[label == 0, 0], x_decomp[label == 0, 1], opacity=0.7)
+        else:
+            raise ValueError
     else:
         raise ValueError
 

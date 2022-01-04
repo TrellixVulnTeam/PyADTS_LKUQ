@@ -20,7 +20,10 @@ With `PyADTS`, you can run baselines rapidly.
 
 You can find the complete [documentation](https://pyadts.readthedocs.io/en/latest/) here.
 
-## Installation
+## Quick Start
+
+### Installation
+
 To install the package locally, run:
 
 ```bash
@@ -34,8 +37,6 @@ To install the package from PyPi, run:
 ```bash
 >> pip install pyadts
 ```
-
-## Quick Start
 
 ### Fetch the dataset
 
@@ -108,9 +109,9 @@ In real-world applications, the delay of anomaly alerts is acceptable. So `PyADT
 
 TODO
 
-## Other Utilities
+### Other Utilities
 
-### Visualization
+#### Visualization
 
 You can visualize your data with a single line of code:
 
@@ -125,13 +126,15 @@ The example visualization:
 
 <img src="https://i.loli.net/2020/08/12/j78NoQsZHtR5lnv.png" style="zoom: 50%;" />
 
-### Generate synthetic data
+#### Generate synthetic data
 
 TODO
 
-## Implemented Algorithms
+## More About `PyADTS`
 
-### Simple Detectors
+### Implemented Algorithms
+
+#### Simple Detectors
 
 | Algo              | Desc | Year | Ref  |
 | ----------------- | ---- | ---- | ---- |
@@ -139,7 +142,7 @@ TODO
 | Quantile Detector |      | -    | -    |
 | Gradient Detector |      | -    | -    |
 
-### Statistical Approaches
+#### Statistical Approaches
 
 | Algo               | Desc | Year | Ref          |
 | ------------------ | ---- | ---- | ------------ |
@@ -152,7 +155,7 @@ TODO
 | DSPOT              |      | 2017 | [[4]](#ref4) |
 | SR                 |      | 2019 | [[5]](#ref5) |
 
-### Machine Learning Approaches
+#### Machine Learning Approaches
 
 | Algo             | Desc | Year | Ref          |
 | ---------------- | ---- | ---- | ------------ |
@@ -160,7 +163,7 @@ TODO
 | RRCF             |      |      | [[6]](#ref6) |
 | Isolation Forest |      |      | [[7]](#ref7) |
 
-### Deep Approaches
+#### Deep Approaches
 
 | Algo        | Desc | Year | Ref            |
 | ----------- | ---- | ---- | -------------- |
@@ -171,11 +174,11 @@ TODO
 | OmniAnomaly |      |      | [[11]](#ref11) |
 | USAD        |      |      | [[12]](#ref12) |
 
-## Datasets
+### Datasets
 
 `PyADTS` provides following built-in datasets:
 
-### Univariate
+#### Univariate
 
 - [**KPI**](https://github.com/NetManAIOps/KPI-Anomaly-Detection) dataset is released by the first session of AIOps
   competition and consisted of multiple KPI curves collected from various Internet companies with fully labeled
@@ -186,7 +189,7 @@ TODO
   artificial time-series with labeled anomalies. The synthetic data consists of time-series with varying trend, noise
   and seasonality. The real-world data consists of time-series sampled from the metrics of various Yahoo services.
 
-### Multivariate
+#### Multivariate
 
 - [**SMAP**](https://github.com/khundman/telemanom) [[14]](#ref14) (*Soil Moisture Active Passive*) is released by NASA
   with annotations collected from real-world. It contains data of 55 entities and 25 metrics.
