@@ -86,10 +86,4 @@ class AdversarialAutoencoder(nn.Module):
     def forward(self, x):
         z = self.encoder(x)
         x_rec = self.decoder(z)
-        rec=self.dataDiscriminator(x_rec)
-        label_real=torch.ones(len(rec[:,0]), len(rec[0]))
-        label_fake=torch.zeros(len(rec[:,0]), len(rec[0]))
-        adv_loss = self.adversarial_criterion(rec,label_fake) + \
-                        self.adversarial_criterion(self.dataDiscriminator(x), label_real)
-        rec_loss = self.reconstruction_criterion(x_rec, x)
-        return x_rec,z,adv_loss,rec_loss
+        return x_rec,z

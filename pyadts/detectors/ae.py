@@ -115,3 +115,4 @@ class AutoencoderDetector(Detector):
                 scores.append(np.mean(loss.item(), axis=0))
             scores = np.concatenate(scores)
         return scores
+

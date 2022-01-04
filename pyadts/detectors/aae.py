@@ -159,3 +159,4 @@ class AAE(Detector):
                 scores.append(np.mean(rec_loss.item(), axis=0))
             scores = np.concatenate(scores)
         return scores
+
