@@ -135,7 +135,7 @@ class SMDDataset(TimeSeriesDataset):
             split = 'test'
 
         data_files = list((root_path / split).glob('*.txt'))
-        for file_path in tqdm(data_files, desc=f'::LOADING {split.upper()} DATA::'):
+        for file_path in tqdm(data_files, desc=f'::LOADING {split.upper()} DATA::', colour='cyan'):
             df = pd.read_csv(file_path, delimiter=',', header=None)
 
             value = df.values

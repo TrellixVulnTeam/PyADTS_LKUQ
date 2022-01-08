@@ -1,4 +1,5 @@
 import warnings
+from datetime import datetime
 from typing import List, Tuple, Union
 
 import matplotlib.pyplot as plt
@@ -13,7 +14,7 @@ MAX_PLOT_NUM = 5
 
 
 def plot_series(x: np.ndarray, names: List[str] = None, timestamps: np.ndarray = None,
-                label: np.ndarray = None, predictions: np.ndarray = None, title: str = None,
+                labels: np.ndarray = None, predictions: np.ndarray = None, title: str = None,
                 backend: str = 'matplotlib', style: Union[str, List[str]] = None, fig_size: Tuple[int, int] = None):
     num_plots = x.shape[-1]
     if num_plots > MAX_PLOT_NUM:
@@ -35,6 +36,13 @@ def plot_series(x: np.ndarray, names: List[str] = None, timestamps: np.ndarray =
     if timestamps is None:
         timestamps = np.arange(x.shape[0])
 
+    datetimes = [datetime.fromtimestamp(ts) for ts in timestamps]
+    for i, dt in enumerate(datetimes):
+        if dt > datetime.now() or dt < datetime(1800, 1, 1, 0, 0, 0, 0):
+            warnings.warn(f'The timestamp {timestamps[i]} is not valid.')
+            datetimes = timestamps
+            break
+
     if backend == 'matplotlib':
         with plt.style.context(style):
 
@@ -44,9 +52,9 @@ def plot_series(x: np.ndarray, names: List[str] = None, timestamps: np.ndarray =
 
             for i in range(x.shape[-1]):
                 ax = plt.subplot(grids[i * 2: (i + 1) * 2, :])
-                ax.plot(timestamps, x[:, i], color='black', linewidth=1.5, label=names[i])
-                if label is not None:
-                    for j, xv in enumerate(timestamps[label == 1]):
+                ax.plot(datetimes, x[:, i], color='black', linewidth=1.5, label=names[i])
+                if labels is not None:
+                    for j, xv in enumerate(datetimes[labels == 1]):
                         ax.axvline(xv, color='red', lw=1, alpha=0.5)
                 ax.set_ylim(np.min(x[:, i]) * 1.1, np.max(x[:, i]) * 1.1)
                 if i != x.shape[-1] - 1:

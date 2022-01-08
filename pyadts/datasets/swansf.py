@@ -46,7 +46,7 @@ class SWANSFDataset(TimeSeriesDataset):
             self.__check_integrity(root_path)
 
         df_list = []
-        for csv_file in tqdm(root_path.glob('*.csv'), desc='::LOADING DATA::'):
+        for csv_file in tqdm(root_path.glob('*.csv'), desc='::LOADING DATA::', colour='cyan'):
             df = pd.read_csv(csv_file, delimiter='\t')
             df.sort_values(by='Timestamp', inplace=True)
             name = csv_file.name

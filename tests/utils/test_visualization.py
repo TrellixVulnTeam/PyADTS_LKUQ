@@ -15,7 +15,7 @@ def test_plot_series():
     predictions[ano_idx] = np.abs(np.random.randn(50))
     predictions = savgol_filter(predictions, window_length=21, polyorder=1)
 
-    fig = plot_series(y, timestamps=x, label=label, predictions=predictions)
+    fig = plot_series(y, timestamps=x, labels=label, predictions=predictions)
     fig.show()
 
 

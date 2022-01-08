@@ -12,6 +12,7 @@ from typing import Union
 
 import numpy as np
 import pandas as pd
+from tqdm.std import tqdm
 
 from pyadts.generic import TimeSeriesDataset
 from pyadts.utils.io import check_existence, download_link, decompress_file
@@ -132,7 +133,7 @@ class NABDataset(TimeSeriesDataset):
 
         with (root_path / self.__label_filename).open('r') as f:
             label_dict = json.load(f)
-        for csv_file in (root_path / subset).glob('*.csv'):
+        for csv_file in tqdm((root_path / subset).glob('*.csv'), desc='::LOADING DATA::', colour='cyan'):
             df = pd.read_csv(csv_file)
             df['timestamp'] = pd.to_datetime(df['timestamp'])
             label = np.zeros(len(df))

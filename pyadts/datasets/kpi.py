@@ -52,7 +52,7 @@ class KPIDataset(TimeSeriesDataset):
         labels = []
         timestamps = []
 
-        for key, df in tqdm(df_group_by_id.items(), desc='::LOADING DATA::'):
+        for key, df in tqdm(df_group_by_id.items(), desc='::LOADING DATA::', colour='cyan'):
             df = rearrange_dataframe(df.drop(columns=['KPI ID']), time_col='timestamp', sort_by_time=True,
                                      resampling=True, tackle_missing='fzero')
 

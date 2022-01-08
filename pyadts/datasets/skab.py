@@ -10,6 +10,7 @@ from typing import Union
 
 import numpy as np
 import pandas as pd
+from tqdm.std import tqdm
 
 from pyadts.generic import TimeSeriesDataset
 from pyadts.utils.io import check_existence
@@ -64,7 +65,7 @@ class SKABDataset(TimeSeriesDataset):
         labels = []
         timestamps = []
 
-        for csv_file in (root_path / subset).glob('*.csv'):
+        for csv_file in tqdm((root_path / subset).glob('*.csv'), desc='::LOADING DATA::', colour='cyan'):
             df = pd.read_csv(csv_file, delimiter=';')
             df.sort_values(by='datetime', inplace=True)
             label = np.logical_or(df['anomaly'].values, df['changepoint'].values).astype(np.long)

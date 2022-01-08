@@ -10,6 +10,7 @@ from typing import Union
 
 import numpy as np
 import pandas as pd
+from tqdm.std import tqdm
 
 from pyadts.generic import TimeSeriesDataset
 from pyadts.utils.io import check_existence
@@ -386,7 +387,7 @@ class YahooDataset(TimeSeriesDataset):
         labels = []
         timestamps = []
 
-        for csv_file in (root_path / subset).glob('*.csv'):
+        for csv_file in tqdm((root_path / subset).glob('*.csv'), desc='::LOADING DATA::', colour='cyan'):
             df = pd.read_csv(csv_file, quotechar='"')
             if subset in ['A1Benchmark', 'A2Benchmark']:
                 df.sort_values(by='timestamp', inplace=True)

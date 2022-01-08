@@ -12,6 +12,7 @@ from typing import Union
 
 import numpy as np
 import pandas as pd
+from tqdm.std import tqdm
 
 from pyadts.generic import TimeSeriesDataset
 from pyadts.utils.io import check_existence, download_link, decompress_file
@@ -123,12 +124,12 @@ class MSLDataset(TimeSeriesDataset):
         if train:
             warnings.warn(
                 'This dataset contains no labels for the training set. Thus all data points will be considered as normal by default!')
-            for data_file in self.__train_list:
+            for data_file in tqdm(self.__train_list, desc='::LOADING DATA::', colour='cyan'):
                 data_item = np.load(root_path / 'train' / data_file)
                 data.append(data_item)
                 labels.append(np.zeros(data_item.shape[0]))
         else:
-            for data_file in self.__test_list:
+            for data_file in tqdm(self.__test_list, desc='::LOADING DATA::', colour='cyan'):
                 anomaly_sequences = eval(
                     label_df[label_df['chan_id'] == data_file.split('.')[0]]['anomaly_sequences'].values[0])
                 data_item = np.load(root_path / 'test' / data_file)

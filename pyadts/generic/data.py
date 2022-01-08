@@ -6,7 +6,7 @@
 """
 import abc
 from pathlib import Path
-from typing import List, Tuple, Union, Iterable, Type
+from typing import List, Tuple, Union, Iterable
 
 import numpy as np
 import pandas as pd
@@ -14,7 +14,6 @@ import scipy.io as sio
 import torch
 from prettytable import PrettyTable
 
-from pyadts.generic import Detector
 from pyadts.utils.visualization import plot_series
 
 
@@ -23,6 +22,7 @@ class TimeSeriesDataset(abc.ABC):
                  label_list: Union[np.ndarray, List[np.ndarray]] = None,
                  timestamp_list: Union[np.ndarray, List[np.ndarray]] = None,
                  anomaly_score_list: Union[np.ndarray, List[np.ndarray]] = None,
+                 prediction_list: Union[np.ndarray, List[np.ndarray]] = None,
                  dfs: List[pd.DataFrame] = None):
         """
         The abstract class of a time-series dataset. The dataset is  assumed to contain multiple
@@ -48,6 +48,8 @@ class TimeSeriesDataset(abc.ABC):
                 timestamp_list = [timestamp_list]
             if anomaly_score_list is not None and isinstance(anomaly_score_list, np.ndarray):
                 anomaly_score_list = [anomaly_score_list]
+            if prediction_list is not None and isinstance(prediction_list, np.ndarray):
+                prediction_list = [prediction_list]
 
             # TODO: change format to dict?
             # TODO: dealing with various timestamp formats
@@ -59,16 +61,16 @@ class TimeSeriesDataset(abc.ABC):
                 if label_list is not None:
                     assert idx < len(label_list)
                     assert len(data_item) == len(label_list[idx].reshape(-1))
-                    df['__label'] = label_list[idx].reshape(-1)
+                    df['__label'] = label_list[idx].reshape(-1).astype(np.long)
                 else:
                     df['__label'] = np.full(len(data_item), fill_value=np.nan)
 
                 if timestamp_list is not None:
                     assert idx < len(timestamp_list)
                     assert len(data_item) == len(timestamp_list[idx].reshape(-1))
-                    df['__timestamp'] = timestamp_list[idx].reshape(-1)
+                    df['__timestamp'] = timestamp_list[idx].reshape(-1).astype(np.int64)
                 else:
-                    df['__timestamp'] = np.arange(len(data_item))
+                    df['__timestamp'] = np.arange(len(data_item), dtype=np.int64)
 
                 if anomaly_score_list is not None:
                     assert idx < len(anomaly_score_list)
@@ -77,20 +79,36 @@ class TimeSeriesDataset(abc.ABC):
                 else:
                     df['__anomaly_score'] = np.full(len(data_item), fill_value=np.nan)
 
+                if prediction_list is not None:
+                    assert idx < len(prediction_list)
+                    assert len(data_item) == len(prediction_list[idx].reshape(-1))
+                    df['__prediction'] = prediction_list[idx].reshape(-1)
+                else:
+                    df['__prediction'] = np.full(len(data_item), fill_value=np.nan)
+
                 self.dfs.append(df)
 
-    def detect(self, method: Type[Detector], *args, **kwargs):
-        model = method(*args, **kwargs)
-        model.fit(self)
-        return model.score(self)
+    # def detect(self, method, *args, **kwargs):
+    #     model = method(*args, **kwargs)
+    #     model.fit(self)
+    #     return model.score(self)
 
     def plot(self, series_id: Union[int, List, Tuple[int, int]] = None,
-             channel_id: Union[int, List, Tuple[int, int]] = None, show: bool = True):
+             channel_id: Union[int, List, Tuple[int, int]] = None, show_ground_truth: bool = False,
+             show_prediction: bool = False, style: Union[str, List[str]] = None, title: str = None,
+             fig_size: Tuple[int, int] = None):
         if isinstance(series_id, int):
             series_id = [series_id]
+        if isinstance(series_id, tuple):
+            assert len(series_id) == 2
+            series_id = list(range(*series_id))
+
+        figs = []
 
         for i in series_id:
-            if isinstance(channel_id, int) or isinstance(channel_id, list):
+            if isinstance(channel_id, int):
+                vis_data = self.values[i][:, channel_id: channel_id + 1]
+            elif isinstance(channel_id, list):
                 vis_data = self.values[i][:, channel_id]
             elif isinstance(channel_id, tuple):
                 assert len(channel_id) == 2
@@ -98,40 +116,99 @@ class TimeSeriesDataset(abc.ABC):
             else:
                 raise ValueError
 
-            fig = plot_series(self.values[i], )
+            if show_prediction and np.sum(np.isnan(self.predictions[i])) > 0:
+                raise ValueError('Predictions not set or corrupted!')
 
-            if show:
-                fig.show()
-            yield fig
+            fig = plot_series(vis_data, timestamps=self.timestamps[i],
+                              labels=self.labels[i] if show_ground_truth else None,
+                              predictions=self.predictions[i] if show_prediction else None, style=style, title=title,
+                              fig_size=fig_size)
 
-    def to_numpy(self) -> np.ndarray:
-        data_list = [df.loc[:, list(filter(lambda col: not col.startswith('__'), df.columns))].values for df in
-                     self.dfs]
-        data_concat = np.concatenate(data_list, axis=0)
+            figs.append(fig)
 
-        return data_concat
-
-    def to_tensor(self) -> torch.Tensor:
-        return torch.from_numpy(self.to_numpy()).float()
-
-    def targets(self, return_format: str = 'numpy') -> Union[np.ndarray, torch.Tensor]:
-        label_list = [df.loc[:, '__label'].values for df in self.dfs]
-        label_concat = np.concatenate(label_list, axis=0)
-
-        if return_format == 'numpy':
-            return label_concat
-        elif return_format == 'tensor':
-            return torch.from_numpy(label_concat.astype(np.long))
-        else:
+        if len(figs) == 0:
             raise ValueError
+        elif len(figs) == 1:
+            return figs[0]
+        else:
+            return figs
 
-    def windowed_data(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
-        np.ndarray, torch.Tensor]:
-        pass
+    def to_numpy(self, window_size: int = None, stride: int = 1, return_labels: bool = False) -> Union[
+        np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+        data_list = []
+        for df in self.dfs:
+            current_data = df.loc[:, list(filter(lambda col: not col.startswith('__'), df.columns))].values
+            if window_size is None:
+                data_list.append(current_data)
+            else:
+                assert window_size <= len(current_data)
+                tmp_data = []
+                for i in range(0, len(current_data), stride):
+                    if i + window_size > len(current_data):
+                        break
+                    tmp_data.append(current_data[i: i + window_size])
+                tmp_data = np.stack(tmp_data, axis=0)
+                data_list.append(tmp_data)
 
-    def windowed_targets(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
-        np.ndarray, torch.Tensor]:
-        pass
+        data_list = np.concatenate(data_list, axis=0)
+
+        if return_labels:
+            label_list = []
+            for df in self.dfs:
+                current_label = df.loc[:, '__label'].values
+                if window_size is None:
+                    label_list.append(current_label)
+                else:
+                    tmp_label = []
+                    for i in range(0, len(current_label), stride):
+                        if i + window_size > len(current_label):
+                            break
+                        tmp_label.append(current_label[i: i + window_size])
+                    tmp_label = np.stack(tmp_label, axis=0)
+                    label_list.append(tmp_label)
+            label_list = np.concatenate(label_list, axis=0)
+
+            return data_list, label_list
+        else:
+            return data_list
+
+    def to_tensor(self, window_size: int = None, stride: int = None, return_labels: bool = False) -> Union[
+        torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+        if return_labels:
+            data, labels = self.to_numpy(window_size=window_size, stride=stride, return_labels=return_labels)
+            return torch.from_numpy(data.astype(np.float32)), torch.from_numpy(labels.astype(np.long))
+        else:
+            data = self.to_numpy(window_size=window_size, stride=stride, return_labels=return_labels)
+            return torch.from_numpy(data.astype(np.float32))
+
+    # def targets(self, return_format: str = 'numpy') -> Union[np.ndarray, torch.Tensor]:
+    #     label_list = [df.loc[:, '__label'].values for df in self.dfs]
+    #     label_concat = np.concatenate(label_list, axis=0)
+    #
+    #     if return_format == 'numpy':
+    #         return label_concat
+    #     elif return_format == 'tensor':
+    #         return torch.from_numpy(label_concat.astype(np.long))
+    #     else:
+    #         raise ValueError
+    #
+    # def windowed_data(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
+    #     np.ndarray, torch.Tensor]:
+    #     pass
+    #
+    # def windowed_targets(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
+    #     np.ndarray, torch.Tensor]:
+    #     pass
+
+    def set_anomaly_score(self, anomaly_scores: List[np.ndarray]):
+        for i, df in enumerate(self.dfs):
+            assert len(anomaly_scores[i]) == df.shape[0]
+            df['__anomaly_score'] = anomaly_scores[i]
+
+    def set_prediction(self, predictions: List[np.ndarray]):
+        for i, df in enumerate(self.dfs):
+            assert len(predictions[i]) == df.shape[0]
+            df['__prediction'] = predictions[i]
 
     @staticmethod
     def from_folder(root: Union[str, Path], suffix: str = '.csv', data_attributes: Iterable[str] = None,
@@ -230,6 +307,12 @@ class TimeSeriesDataset(abc.ABC):
         ]
 
     @property
+    def predictions(self) -> List[np.ndarray]:
+        return [
+            df.loc[:, '__prediction'].values for df in self.dfs
+        ]
+
+    @property
     def shape(self):
         return self.to_numpy().shape
 
@@ -243,14 +326,18 @@ class TimeSeriesDataset(abc.ABC):
 
     @property
     def num_channels(self):
-        return self.dfs[0].shape[-1]
+        return len(list(filter(lambda col: not col.startswith('__'), self.dfs[0].columns)))
 
     def __getitem__(self, item):
         return self.dfs[item]
 
+    def __len__(self):
+        return len(self.dfs)
+
     def __repr__(self):
         table = PrettyTable()
         table.align = 'c'
+        table.valign = 'm'
         table.field_names = ['ID', '# Channels', '# Points']
 
         for i, df in enumerate(self.dfs):
