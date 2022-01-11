@@ -17,16 +17,9 @@ stumpy
 # ML/DL
 scikit-learn>=0.22.1
 torch>=1.9
-#torch-scatter
-#torch-sparse
-#torch-cluster
-#torch-spline-conv
-#torch-geometric
 rrcf
 
 # Utilities
 tqdm
 tables
-pyts>=0.11.0
 prettytable
-SciencePlots
