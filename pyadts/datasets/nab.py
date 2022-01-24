@@ -146,7 +146,7 @@ class NABDataset(TimeSeriesDataset):
             labels.append(df['label'].values.astype(np.long).reshape(-1))
             timestamps.append(df['timestamp'].values.reshape(-1))
 
-        super(NABDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
+        super(NABDataset, self).__init__(data=data, labels=labels, timestamps=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

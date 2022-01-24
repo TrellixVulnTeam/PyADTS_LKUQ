@@ -37,7 +37,7 @@ class KPIDataset(TimeSeriesDataset):
 
         if download:
             raise ValueError('The KPI dataset should be downloaded manually. '
-                             'Please download the dataset at `http://iops.ai/dataset_detail/?id=7`!')
+                             'Please download the dataset at `https://github.com/NetManAIOps/KPI-Anomaly-Detection/tree/master/Finals_dataset`!')
         else:
             self.__check_integrity(root_path)
 
@@ -60,7 +60,7 @@ class KPIDataset(TimeSeriesDataset):
             labels.append(df['label'].values.reshape(-1))
             timestamps.append(df['timestamp'].values.reshape(-1))
 
-        super(KPIDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
+        super(KPIDataset, self).__init__(data=data, labels=labels, timestamps=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

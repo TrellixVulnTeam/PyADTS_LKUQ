@@ -407,7 +407,7 @@ class YahooDataset(TimeSeriesDataset):
             labels.append(label)
             timestamps.append(timestamp)
 
-        super(YahooDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
+        super(YahooDataset, self).__init__(data=data, labels=labels, timestamps=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

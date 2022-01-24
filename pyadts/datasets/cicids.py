@@ -55,7 +55,7 @@ class CICIDSDataset(TimeSeriesDataset):
         df.drop(columns=['Label'], inplace=True)
         data = df.values
 
-        super(CICIDSDataset, self).__init__(data_list=data, label_list=labels)
+        super(CICIDSDataset, self).__init__(data=data, labels=labels)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

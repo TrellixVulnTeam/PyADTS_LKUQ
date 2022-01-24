@@ -16,20 +16,28 @@ from urllib.request import urlopen
 from tqdm.std import tqdm
 
 
-def save_objects(objs: Dict, f: Union[str, IO]):
+def save_objects(objs: Dict, f: Union[str, Path, IO]):
     if isinstance(f, str):
-        f = open(f, 'wb')
+        file_handler = open(f, 'wb')
+    elif isinstance(f, Path):
+        file_handler = f.open('wb')
+    else:
+        file_handler = f
 
-    pickle.dump(objs, f)
-    f.close()
+    pickle.dump(objs, file_handler)
+    file_handler.close()
 
 
-def load_objects(f: Union[str, IO]):
+def load_objects(f: Union[str, Path, IO]):
     if isinstance(f, str):
-        f = open(f, 'rb')
+        file_handler = open(f, 'rb')
+    elif isinstance(f, Path):
+        file_handler = f.open('rb')
+    else:
+        file_handler = f
 
-    objs = pickle.load(f)
-    f.close()
+    objs = pickle.load(file_handler)
+    file_handler.close()
 
     return objs
 

@@ -147,7 +147,7 @@ class SMDDataset(TimeSeriesDataset):
             data.append(value)
             labels.append(label)
 
-        super(SMDDataset, self).__init__(data_list=data, label_list=labels)
+        super(SMDDataset, self).__init__(data=data, labels=labels)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

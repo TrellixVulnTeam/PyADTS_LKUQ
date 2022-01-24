@@ -18,14 +18,10 @@ class QuantileDetector(Detector):
         self.low = low
         self.high = high
 
-    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
+    def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None) -> None:
         if isinstance(x, TimeSeriesDataset):
             x = x.to_numpy
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy
-
-    def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
+    def score(self, x: Union[np.ndarray, TimeSeriesDataset]) -> np.ndarray:
         if isinstance(x, TimeSeriesDataset):
             x = x.to_numpy

@@ -267,10 +267,6 @@ def datetime_to_timestamp(dt: datetime) -> int:
     return int(dt.timestamp())
 
 
-def validate_timeseries():
-    pass
-
-
 def rearrange_dataframe(df: pd.DataFrame, time_col: str = None, sort_by_time: bool = True, resampling: bool = True,
                         tackle_missing: str = 'ffill'):
     if sort_by_time or resampling:

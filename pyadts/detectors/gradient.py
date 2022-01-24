@@ -9,6 +9,7 @@ from typing import Union
 import numpy as np
 
 from pyadts.generic import Detector, TimeSeriesDataset
+from pyadts.utils.data import any_to_numpy
 
 
 class GradientDetector(Detector):
@@ -20,10 +21,13 @@ class GradientDetector(Detector):
     def fit(self, x: Union[np.ndarray, TimeSeriesDataset], y=None):
         pass
 
-    def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
+    # def predict(self, x: Union[np.ndarray, TimeSeriesDataset]):
+    #     if isinstance(x, TimeSeriesDataset):
+    #         x = x.to_numpy()
 
     def score(self, x: Union[np.ndarray, TimeSeriesDataset]):
-        if isinstance(x, TimeSeriesDataset):
-            x = x.to_numpy()
+        x = any_to_numpy(x)
+
+        x_diff = np.diff(x, prepend=x[0])
+
+        return np.abs(x_diff)

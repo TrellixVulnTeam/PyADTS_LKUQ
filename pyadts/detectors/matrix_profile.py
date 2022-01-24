@@ -21,11 +21,11 @@ class MatrixProfile(Detector):
 
         self.window_size = window_size
 
-    def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y=None):
+    def fit(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor], y=None) -> None:
         pass
 
-    def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]):
-        x = any_to_numpy(x).astype(np.float64)
+    def score(self, x: Union[TimeSeriesDataset, np.ndarray, torch.Tensor]) -> np.ndarray:
+        x = any_to_numpy(x).astype(np.float64)  # (num_points, num_features)
 
         mp, mp_idx = stumpy.mstump(x.transpose(), m=self.window_size)
 

@@ -18,73 +18,68 @@ from pyadts.utils.visualization import plot_series
 
 
 class TimeSeriesDataset(abc.ABC):
-    def __init__(self, data_list: Union[np.ndarray, List[np.ndarray]] = None,
-                 label_list: Union[np.ndarray, List[np.ndarray]] = None,
-                 timestamp_list: Union[np.ndarray, List[np.ndarray]] = None,
-                 anomaly_score_list: Union[np.ndarray, List[np.ndarray]] = None,
-                 prediction_list: Union[np.ndarray, List[np.ndarray]] = None,
+    __data_attributes = None
+
+    def __init__(self, data: Union[np.ndarray, List[np.ndarray]] = None,
+                 labels: Union[np.ndarray, List[np.ndarray]] = None,
+                 timestamps: Union[np.ndarray, List[np.ndarray]] = None,
+                 # anomaly_scores: Union[np.ndarray, List[np.ndarray]] = None,
+                 # predictions: Union[np.ndarray, List[np.ndarray]] = None,
                  dfs: List[pd.DataFrame] = None):
         """
-        The abstract class of a time-series dataset. The dataset is  assumed to contain multiple
+        The abstract class of a time-series dataset. The dataset is assumed to contain multiple
             multi-channel time-series
-
-        Args:
-            data_list:
-            label_list:
-            timestamp_list:
-            anomaly_score_list:
-            dfs:
         """
         if dfs is not None:
             self.dfs = dfs
         else:
-            assert data_list is not None
+            assert data is not None
 
-            if isinstance(data_list, np.ndarray):
-                data_list = [data_list]
-            if label_list is not None and isinstance(label_list, np.ndarray):
-                label_list = [label_list]
-            if timestamp_list is not None and isinstance(timestamp_list, np.ndarray):
-                timestamp_list = [timestamp_list]
-            if anomaly_score_list is not None and isinstance(anomaly_score_list, np.ndarray):
-                anomaly_score_list = [anomaly_score_list]
-            if prediction_list is not None and isinstance(prediction_list, np.ndarray):
-                prediction_list = [prediction_list]
+            if isinstance(data, np.ndarray):
+                data = [data]
+            if labels is not None and isinstance(labels, np.ndarray):
+                labels = [labels]
+            if timestamps is not None and isinstance(timestamps, np.ndarray):
+                timestamps = [timestamps]
+            # if anomaly_scores is not None and isinstance(anomaly_scores, np.ndarray):
+            #     anomaly_scores = [anomaly_scores]
+            # if predictions is not None and isinstance(predictions, np.ndarray):
+            #     predictions = [predictions]
 
             # TODO: change format to dict?
             # TODO: dealing with various timestamp formats
             # TODO: dealing with various shapes of `data`, `labels` and etc.
 
             self.dfs = []
-            for idx, data_item in enumerate(data_list):
+            for idx, data_item in enumerate(data):
                 df = pd.DataFrame(data_item, columns=[f'value-{i}' for i in range(data_item.shape[-1])])
-                if label_list is not None:
-                    assert idx < len(label_list)
-                    assert len(data_item) == len(label_list[idx].reshape(-1))
-                    df['__label'] = label_list[idx].reshape(-1).astype(np.long)
+                if labels is not None:
+                    assert idx < len(labels)
+                    assert len(data_item) == len(labels[idx].reshape(-1))
+                    df['__label'] = labels[idx].reshape(-1).astype(np.long)
                 else:
                     df['__label'] = np.full(len(data_item), fill_value=np.nan)
 
-                if timestamp_list is not None:
-                    assert idx < len(timestamp_list)
-                    assert len(data_item) == len(timestamp_list[idx].reshape(-1))
-                    df['__timestamp'] = timestamp_list[idx].reshape(-1).astype(np.int64)
+                if timestamps is not None:
+                    assert idx < len(timestamps)
+                    assert len(data_item) == len(timestamps[idx].reshape(-1))
+                    df['__timestamp'] = timestamps[idx].reshape(-1).astype(np.int64)
                 else:
                     df['__timestamp'] = np.arange(len(data_item), dtype=np.int64)
 
-                if anomaly_score_list is not None:
-                    assert idx < len(anomaly_score_list)
-                    assert len(data_item) == len(anomaly_score_list[idx].reshape(-1))
-                    df['__anomaly_score'] = anomaly_score_list[idx].reshape(-1)
-                else:
-                    df['__anomaly_score'] = np.full(len(data_item), fill_value=np.nan)
-
-                if prediction_list is not None:
-                    assert idx < len(prediction_list)
-                    assert len(data_item) == len(prediction_list[idx].reshape(-1))
-                    df['__prediction'] = prediction_list[idx].reshape(-1)
-                else:
-                    df['__prediction'] = np.full(len(data_item), fill_value=np.nan)
+                # if anomaly_scores is not None:
+                #     assert idx < len(anomaly_scores)
+                #     assert len(data_item) == len(anomaly_scores[idx].reshape(-1))
+                #     df['__anomaly_score'] = anomaly_scores[idx].reshape(-1)
+                # else:
+                #     df['__anomaly_score'] = np.full(len(data_item), fill_value=np.nan)
+                #
+                # if predictions is not None:
+                #     assert idx < len(predictions)
+                #     assert len(data_item) == len(predictions[idx].reshape(-1))
+                #     df['__prediction'] = predictions[idx].reshape(-1)
+                # else:
+                #     df['__prediction'] = np.full(len(data_item), fill_value=np.nan)
 
                 self.dfs.append(df)
 
@@ -95,7 +90,8 @@ class TimeSeriesDataset(abc.ABC):
 
     def plot(self, series_id: Union[int, List, Tuple[int, int]] = None,
              channel_id: Union[int, List, Tuple[int, int]] = None, show_ground_truth: bool = False,
-             show_prediction: bool = False, style: Union[str, List[str]] = None, title: str = None,
+             # show_prediction: bool = False,
+             style: Union[str, List[str]] = None, title: str = None,
              fig_size: Tuple[int, int] = None):
         if isinstance(series_id, int):
             series_id = [series_id]
@@ -116,12 +112,12 @@ class TimeSeriesDataset(abc.ABC):
             else:
                 raise ValueError
 
-            if show_prediction and np.sum(np.isnan(self.predictions[i])) > 0:
-                raise ValueError('Predictions not set or corrupted!')
+            # if show_prediction and np.sum(np.isnan(self.predictions[i])) > 0:
+            #     raise ValueError('Predictions not set or corrupted!')
 
             fig = plot_series(vis_data, timestamps=self.timestamps[i],
                               labels=self.labels[i] if show_ground_truth else None,
-                              predictions=self.predictions[i] if show_prediction else None, style=style, title=title,
+                              predictions=None, style=style, title=title,
                               fig_size=fig_size)
 
             figs.append(fig)
@@ -135,6 +131,28 @@ class TimeSeriesDataset(abc.ABC):
 
     def to_numpy(self, window_size: int = None, stride: int = 1, return_labels: bool = False) -> Union[
         np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+        """
+        series 1 - [1, 2, 3, 4, 5, 6]
+        series 2 - [8, 6, 5, 3]
+        series 3 - [3, 2, 7, 8, 0]
+
+        [series 1 : 1000x50,
+         series 2 : 998x50,
+         series 3: 1001x50] (2999x50)
+
+        [series 1 : 1000x50, -> (981, 20, 50)
+         series 2 : 998x50, -> (979, 20, 50)
+         series 3: 1001x50 -> (982, 20, 50)
+         ] (981+979+982, 20, 50)
+
+        Args:
+            window_size:
+            stride:
+            return_labels:
+
+        Returns:
+
+        """
         data_list = []
         for df in self.dfs:
             current_data = df.loc[:, list(filter(lambda col: not col.startswith('__'), df.columns))].values
@@ -181,34 +199,15 @@ class TimeSeriesDataset(abc.ABC):
             data = self.to_numpy(window_size=window_size, stride=stride, return_labels=return_labels)
             return torch.from_numpy(data.astype(np.float32))
 
-    # def targets(self, return_format: str = 'numpy') -> Union[np.ndarray, torch.Tensor]:
-    #     label_list = [df.loc[:, '__label'].values for df in self.dfs]
-    #     label_concat = np.concatenate(label_list, axis=0)
+    # def set_anomaly_score(self, anomaly_scores: List[np.ndarray]):
+    #     for i, df in enumerate(self.dfs):
+    #         assert len(anomaly_scores[i]) == df.shape[0]
+    #         df['__anomaly_score'] = anomaly_scores[i]
     #
-    #     if return_format == 'numpy':
-    #         return label_concat
-    #     elif return_format == 'tensor':
-    #         return torch.from_numpy(label_concat.astype(np.long))
-    #     else:
-    #         raise ValueError
-    #
-    # def windowed_data(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
-    #     np.ndarray, torch.Tensor]:
-    #     pass
-    #
-    # def windowed_targets(self, window_size: int, stride: int = 1, return_format: str = 'numpy') -> Union[
-    #     np.ndarray, torch.Tensor]:
-    #     pass
-
-    def set_anomaly_score(self, anomaly_scores: List[np.ndarray]):
-        for i, df in enumerate(self.dfs):
-            assert len(anomaly_scores[i]) == df.shape[0]
-            df['__anomaly_score'] = anomaly_scores[i]
-
-    def set_prediction(self, predictions: List[np.ndarray]):
-        for i, df in enumerate(self.dfs):
-            assert len(predictions[i]) == df.shape[0]
-            df['__prediction'] = predictions[i]
+    # def set_prediction(self, predictions: List[np.ndarray]):
+    #     for i, df in enumerate(self.dfs):
+    #         assert len(predictions[i]) == df.shape[0]
+    #         df['__prediction'] = predictions[i]
 
     @staticmethod
     def from_folder(root: Union[str, Path], suffix: str = '.csv', data_attributes: Iterable[str] = None,
@@ -266,7 +265,7 @@ class TimeSeriesDataset(abc.ABC):
         if len(timestamp_list) == 0:
             timestamp_list = None
 
-        dataset = TimeSeriesDataset(data_list=data_list, label_list=label_list, timestamp_list=timestamp_list)
+        dataset = TimeSeriesDataset(data=data_list, labels=label_list, timestamps=timestamp_list)
         return dataset
 
     @staticmethod
@@ -281,6 +280,12 @@ class TimeSeriesDataset(abc.ABC):
 
         """
         return TimeSeriesDataset(dfs=list(dfs))
+
+    @property
+    def data_attributes(self) -> List[str]:
+        if self.__data_attributes is None:
+            self.__data_attributes = list(filter(lambda col: not col.startswith('__'), self.dfs[0].columns))
+        return self.__data_attributes
 
     @property
     def values(self) -> List[np.ndarray]:
@@ -300,17 +305,17 @@ class TimeSeriesDataset(abc.ABC):
             df.loc[:, '__label'].values for df in self.dfs
         ]
 
-    @property
-    def scores(self) -> List[np.ndarray]:
-        return [
-            df.loc[:, '__anomaly_score'].values for df in self.dfs
-        ]
-
-    @property
-    def predictions(self) -> List[np.ndarray]:
-        return [
-            df.loc[:, '__prediction'].values for df in self.dfs
-        ]
+    # @property
+    # def scores(self) -> List[np.ndarray]:
+    #     return [
+    #         df.loc[:, '__anomaly_score'].values for df in self.dfs
+    #     ]
+    #
+    # @property
+    # def predictions(self) -> List[np.ndarray]:
+    #     return [
+    #         df.loc[:, '__prediction'].values for df in self.dfs
+    #     ]
 
     @property
     def shape(self):
@@ -338,10 +343,11 @@ class TimeSeriesDataset(abc.ABC):
         table = PrettyTable()
         table.align = 'c'
         table.valign = 'm'
-        table.field_names = ['ID', '# Channels', '# Points']
+        table.field_names = ['ID', '# Channels', '# Points', 'Anomaly Ratio']
 
         for i, df in enumerate(self.dfs):
             table.add_row(
-                [f'series-{i}', len(list(filter(lambda col: not col.startswith('__'), df.columns))), df.shape[0]])
+                [f'series-{i}', len(list(filter(lambda col: not col.startswith('__'), df.columns))), df.shape[0],
+                 '{:.4f}'.format(np.sum(df['__label'].values) / df.shape[0])])
 
         return table.get_string()

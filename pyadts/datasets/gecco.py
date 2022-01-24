@@ -47,7 +47,7 @@ class GECCODataset(TimeSeriesDataset):
 
         data = df.values
 
-        super(GECCODataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
+        super(GECCODataset, self).__init__(data=data, labels=labels, timestamps=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

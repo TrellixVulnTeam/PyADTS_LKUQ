@@ -139,7 +139,7 @@ class MSLDataset(TimeSeriesDataset):
                 data.append(data_item)
                 labels.append(label)
 
-        super(MSLDataset, self).__init__(data_list=data, label_list=labels)
+        super(MSLDataset, self).__init__(data=data, labels=labels)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

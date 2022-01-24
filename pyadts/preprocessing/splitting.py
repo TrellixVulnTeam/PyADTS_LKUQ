@@ -12,10 +12,15 @@ import torch
 from pyadts.generic import TimeSeriesDataset
 
 
-def __train_test_split_series(data: TimeSeriesDataset, train_ratio: float, method: str = 'point',
-                              shuffle: bool = True) -> Tuple[
+def train_test_split_series(data: TimeSeriesDataset, train_ratio: float, method: str = 'point',
+                            shuffle: bool = True) -> Tuple[
     TimeSeriesDataset, TimeSeriesDataset]:
     """
+    dataset:
+
+    series 1 - [1, 2, 3, 4, 5]
+    series 2 - [8, 6, 5, 3, 1]
+    series 3 - [3, 2, 7, 8, 0]
 
     Args:
         data ():
@@ -95,8 +100,8 @@ def __train_test_split_series(data: TimeSeriesDataset, train_ratio: float, metho
     return train_dataset, test_dataset
 
 
-def __train_test_split_tensors(x: Union[np.ndarray, torch.Tensor], *vals: Tuple[Union[np.ndarray, torch.Tensor]],
-                               train_ratio: float = 0.5, shuffle: bool = True):
+def train_test_split_tensors(x: Union[np.ndarray, torch.Tensor], *vals: Tuple[Union[np.ndarray, torch.Tensor]],
+                             train_ratio: float = 0.5, shuffle: bool = True):
     for val in vals:
         assert len(val) == len(x) and type(x) == type(val)
 
@@ -120,7 +125,7 @@ def __train_test_split_tensors(x: Union[np.ndarray, torch.Tensor], *vals: Tuple[
 
 class TrainTestSplitter(object):
     def __init__(self, train_ratio: float, split_on: str = 'point', shuffle: bool = True):
-        assert split_on in ['point', 'series']
+        assert split_on in ['point', 'series', 'point_balanced']
 
         self.train_ratio = train_ratio
         self.split_on = split_on
@@ -128,8 +133,9 @@ class TrainTestSplitter(object):
 
     def __call__(self, x: Union[np.ndarray, torch.Tensor, TimeSeriesDataset], *args, **kwargs):
         if isinstance(x, TimeSeriesDataset):
-            pass
+            return train_test_split_series(x, train_ratio=self.train_ratio, method=self.split_on, shuffle=self.shuffle)
         elif isinstance(x, np.ndarray) or isinstance(x, torch.Tensor):
             vals = tuple(filter(lambda val: type(val) == type(x), args))
+            return train_test_split_tensors(x, *vals, train_ratio=self.train_ratio, shuffle=self.shuffle)
         else:
             raise ValueError

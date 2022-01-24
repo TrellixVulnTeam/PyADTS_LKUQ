@@ -46,7 +46,7 @@ class CreditCardDataset(TimeSeriesDataset):
         df.drop(columns=['Class', 'Time'], inplace=True)
         data = df.values
 
-        super(CreditCardDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
+        super(CreditCardDataset, self).__init__(data=data, labels=labels, timestamps=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

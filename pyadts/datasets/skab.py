@@ -74,7 +74,7 @@ class SKABDataset(TimeSeriesDataset):
             data.append(df.values)
             labels.append(label)
 
-        super(SKABDataset, self).__init__(data_list=data, label_list=labels, timestamp_list=timestamps)
+        super(SKABDataset, self).__init__(data=data, labels=labels, timestamps=timestamps)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):

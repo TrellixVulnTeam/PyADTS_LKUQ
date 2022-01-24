@@ -193,7 +193,7 @@ class SMAPDataset(TimeSeriesDataset):
                 data.append(data_item)
                 labels.append(label)
 
-        super(SMAPDataset, self).__init__(data_list=data, label_list=labels)
+        super(SMAPDataset, self).__init__(data=data, labels=labels)
 
     def __check_integrity(self, root: Union[str, Path]):
         if isinstance(root, str):
